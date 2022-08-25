@@ -8,10 +8,11 @@ module.exports = defineConfig({
     allowedHosts: "all",
     proxy:{
       '/api' : {
-        target : 'http://localhost:3000',
+        target : 'http://localhost:8000',
         changeOrigin: true,
         pathRewrite:{ '^/api':''}
       }
     }
-  }
+  },
+  outputDir: '../back/public'
 })

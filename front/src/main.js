@@ -68,7 +68,7 @@ router.beforeEach(async (to,from, next) => {
     'tmprCookie' : Vue.$cookies.get('tmpr_cookie')
   }
 
-  axios.post('http://localhost:3000/conectLog',conectLog)
+  axios.post('/api/conectLog',conectLog)
   .then(console.log);
 
   next();
