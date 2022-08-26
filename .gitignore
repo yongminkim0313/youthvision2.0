@@ -1,5 +1,6 @@
 
 back/node_modules/*
+back/logs/*
 front/node_modules/*
 back/public/*
 test/*

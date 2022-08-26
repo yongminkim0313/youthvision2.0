@@ -1,5 +1,7 @@
 const mariadb = require('mariadb');
 const mapper = require('./mapperConfig');
+const logger = require('./winstonConfig');
+
 
 const pool = mariadb.createPool({
     host: process.env.HOST,
@@ -8,6 +10,17 @@ const pool = mariadb.createPool({
     password: process.env.PASSWORD,
     database: process.env.DATABASE
 });
+
+async function test() {
+    pool.getConnection()
+    .then(conn=>{
+        logger.info(`success mariaDB connected ${process.env.HOST} ${process.env.PORT}`)
+        conn.end();
+    })
+    .catch(err=>{
+        logger.info(err)
+    })
+}
 
 async function getList(mapperId, sqlId, param) {
     let conn, rows;
@@ -70,5 +83,6 @@ module.exports = {
     getList: getList,
     setData: setData,
     getData: getData,
-    delData: delData
+    delData: delData,
+    test : test
 }

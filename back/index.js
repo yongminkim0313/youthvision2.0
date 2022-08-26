@@ -11,12 +11,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 console.log(process.env.DATABASE_USER);
+db.test();
 
 app.post('/api/conectLog', (req, res) =>{
     db.setData('conectLog', 'insertConectLog', req.body)
     .then(function(row) {
         console.log(row);
         res.status(200).json('success');
+    })
+    .catch(err=>{
+        res.status(400).json(Error(err))
     })
 })
 
