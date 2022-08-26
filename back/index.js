@@ -24,6 +24,6 @@ app.post('/api/conectLog', (req, res) =>{
     })
 })
 
-app.listen(8000,()=>{
-    console.log('server start!')
+app.listen(process.env.SERVER_PORT,()=>{
+    console.log(`server start! port:${process.env.SERVER_PORT}`)
 })
