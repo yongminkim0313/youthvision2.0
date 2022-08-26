@@ -18,7 +18,7 @@ async function test() {
         conn.end();
     })
     .catch(err=>{
-        logger.info(err)
+        logger.error(err)
     })
 }
 
