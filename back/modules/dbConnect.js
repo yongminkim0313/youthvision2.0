@@ -6,17 +6,8 @@ const pool = mariadb.createPool({
     port: process.env.PORT,
     user: process.env.DATABASE_USER,
     password: process.env.PASSWORD,
-    database: process.env.DATABASE,
-    connectionLimit : 5
+    database: process.env.DATABASE
 });
-
-var exe = ()=>{
-    return new Promise((resolve,reject)=>{
-        setTimeout(()=>{},3000);
-        resolve('test');
-    })
-}
-
 
 async function getList(mapperId, sqlId, param) {
     let conn, rows;
@@ -79,6 +70,5 @@ module.exports = {
     getList: getList,
     setData: setData,
     getData: getData,
-    delData: delData,
-    exe: exe
+    delData: delData
 }
