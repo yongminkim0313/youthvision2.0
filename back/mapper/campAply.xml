@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper namespace="campAply">  
+  <select id="selectCampAply">
+    select 
+      seq,
+      aply_tot_amt,
+      aply_prgrs,
+      aply_dt,
+      aply_name,
+      jikbun_se,
+      church_adtr,
+      church_addr,
+      church_dtl_addr,
+      schdl_se,
+      phone,
+      email,
+      checkbox,
+      full_address,
+      detail_address,
+      join_his_se,
+      rgtr_nm,
+      rgtr_dt,
+      updt_nm,
+      updt_dt,
+      kakao_email,
+      pyr_nm,
+      checkbox_use_room,
+      bank_nm,
+      kakao_id,
+      memo
+    from T_CM_APLY_CAMP
+  </select>
+
+  <insert id="insertCampAply">
+  INSERT INTO T_CM_CONECT_LOG (
+    conect_url,
+    conect_dt,
+    menu_nm,
+    os_knd,
+    os_nm,
+    browser_nm,
+    ip_adres,
+    ref_url,
+    prmanent_cookie,
+    tmpr_cookie
+  ) VALUES (
+    #{conectUrl},
+    #{conectDt},
+    #{menuNm},
+    #{osKnd},
+    #{osNm},
+    #{browserNm},
+    #{ipAdres},
+    #{refUrl},
+    #{prmanentCookie},
+    #{tmprCookie}
+  )
+  </insert>
+  
+</mapper>

@@ -6,6 +6,7 @@ import vueCookies from 'vue-cookies'
 import { v4 } from 'uuid'
 import { UAParser } from 'ua-parser-js'
 import axios from 'axios'
+import io from "socket.io-client";
 
 Vue.config.productionTip = false;
 
@@ -27,10 +28,10 @@ function substrBack(str){
 
 // router interceptor
 router.beforeEach(async (to,from, next) => {
-  console.log(navigator.userAgent);
-  console.log(document.referrer);
-  console.log(Vue.$cookies)
-  console.log(to, from);
+  // console.log(navigator.userAgent);
+  // console.log(document.referrer);
+  // console.log(Vue.$cookies)
+  // console.log(to, from);
 
   var today = new Date();
   var todayFm = today.getFullYear() +'-'
@@ -69,13 +70,25 @@ router.beforeEach(async (to,from, next) => {
   }
 
   axios.post('/api/conectLog',conectLog)
-  .then(console.log);
 
   next();
 })
+
+
+if(!Vue.prototype.$socket){
+  Vue.prototype.$socket = io('http://localhost:4000',{
+      autoConnect: false,
+      // query: {
+      //     loginId         : 1,
+      //     name            : '김용민',
+      // },
+  });
+}
 
 new Vue({
   router,
   vuetify,
   render: h => h(App)
 }).$mount('#app')
+
+

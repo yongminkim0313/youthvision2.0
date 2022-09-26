@@ -1,8 +1,7 @@
 <template>
     <v-container class="mx-auto pa-0">
         <v-card v-scroll="handleScroll" elevation="0">
-            <transition-group name="slide-fade">
-                <section ref="body" :key="1">
+            <section ref="body" :key="1">
                 <fst-section :pos="vInt[0]" :secHeight="clientHeight"></fst-section>
             </section>
             <section :key="2">
@@ -11,7 +10,6 @@
             <section :key="3">
                 <trd-section :pos="vInt[2]" :secHeight="clientHeight"></trd-section>
             </section>
-        </transition-group>
         </v-card>
     </v-container>
 </template>

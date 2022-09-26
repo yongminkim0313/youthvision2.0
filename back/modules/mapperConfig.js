@@ -7,7 +7,7 @@ const mapperPath = path.join(__dirname, '../', "./mapper");
 var files = fs.readdirSync(mapperPath);
 
 files.forEach(file => {
-    console.log("createMapper: ", file);
+    //console.log("createMapper: ", file);
     mapper.createMapper([path.join(mapperPath, file)]);
 })
 

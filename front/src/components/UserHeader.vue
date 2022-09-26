@@ -5,7 +5,7 @@
       fixed
     >
       <div class="d-flex align-center">
-        <router-link to="/" class="mr-auto">
+        <router-link to="/connectLog" class="mr-auto">
             <v-img
             alt="주꿈로고"
             class="shrink mr-2"
