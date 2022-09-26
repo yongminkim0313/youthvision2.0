@@ -76,7 +76,7 @@ router.beforeEach(async (to,from, next) => {
 
 
 if(!Vue.prototype.$socket){
-  Vue.prototype.$socket = io('http://localhost:4000',{
+  Vue.prototype.$socket = io(process.env.VUE_APP_SOCKET_URL,{
       autoConnect: false,
       // query: {
       //     loginId         : 1,
