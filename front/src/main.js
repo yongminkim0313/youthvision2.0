@@ -9,7 +9,7 @@ import axios from 'axios'
 import io from "socket.io-client";
 
 Vue.config.productionTip = false;
-
+Vue.prototype.APP_URL = process.env.VUE_APP_API_URL;
 Vue.use(vueCookies);
 Vue.directive('scroll', {
   inserted: function (el, binding) {

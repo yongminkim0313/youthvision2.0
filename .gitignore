@@ -4,3 +4,5 @@ back/logs/*
 front/node_modules/*
 back/public/*
 test/*
+front/.env
+back/.env

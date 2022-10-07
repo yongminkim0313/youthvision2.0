@@ -20,16 +20,31 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn href="#" text >
+      <v-btn text v-if="cookie">
         <span 
         class="mr-2 amber--text text--darken-3 font-weight-bold d-none d-sm-flex"
         style="text-shadow: 5px 5px 5px rgba(133,100,155,0.8);"
+        @click="kakaoLogin"
         >카카오로그인
         </span>
         <v-icon
         class="mr-2 amber--text text--darken-3 font-weight-bold"
         >mdi-account-supervisor</v-icon>
       </v-btn>
+      <v-btn text v-if="!cookie">
+        <span 
+        class="mr-2 amber--text text--darken-3 font-weight-bold d-none d-sm-flex"
+        style="text-shadow: 5px 5px 5px rgba(133,100,155,0.8);"
+        @click="kakaoLogout"
+        >로그아웃
+        </span>
+        <v-icon
+        class="mr-2 amber--text text--darken-3 font-weight-bold"
+        >mdi-account-supervisor</v-icon>
+      </v-btn>
+      <!-- <router-link to="/user" class="mr-auto">
+            user
+      </router-link> -->
     </v-app-bar>
 </template>
 <script>
@@ -52,6 +67,11 @@ export default {
     },
     created() {
     },
+    computed:{
+        cookie(){
+            return this.$cookies.get('isLogin');
+        }
+    },
     methods: {
         kakaoLogin: function() {
             location.href = 'https://kauth.kakao.com/oauth/authorize?'
@@ -59,10 +79,8 @@ export default {
                 +'redirect_uri='+this.APP_URL+'/auth/kakao/callback&'
                 +'response_type=code&'
                 +'scope=profile_nickname, profile_image, account_email, gender, friends';
-            this.loading = !this.loading;
-            setTimeout(() => (this.loading = false), 3000);
         },
-        logout: function (){
+        kakaoLogout: function (){
             location.href=this.APP_URL+"/auth/logout";
         },
         goAdminPage: function(){

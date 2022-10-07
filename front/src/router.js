@@ -4,7 +4,8 @@ import VueRouter from 'vue-router'
 import UserHeader from './components/UserHeader'
 import UserFooter from './components/UserFooter'
 import Home from './views/Home.vue'
-import connectLog from './components/ConnectLog.vue'
+import User from './views/User.vue'
+import ConnectLog from './components/ConnectLog.vue'
 
 Vue.use(VueRouter);
 
@@ -23,7 +24,16 @@ const routes = [
         name: "ConnectLog",
         components: {
             header: null,
-            default: connectLog,
+            default: ConnectLog,
+            footer: null
+        }
+    },
+    {
+        path: "/user",
+        name: "User",
+        components: {
+            header: UserHeader,
+            default: User,
             footer: null
         }
     }
