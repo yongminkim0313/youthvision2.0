@@ -20,22 +20,20 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn text v-if="cookie">
+      <v-btn text v-if="!cookie" @click="kakaoLogin">
         <span 
         class="mr-2 amber--text text--darken-3 font-weight-bold d-none d-sm-flex"
         style="text-shadow: 5px 5px 5px rgba(133,100,155,0.8);"
-        @click="kakaoLogin"
         >카카오로그인
         </span>
         <v-icon
         class="mr-2 amber--text text--darken-3 font-weight-bold"
         >mdi-account-supervisor</v-icon>
       </v-btn>
-      <v-btn text v-if="!cookie">
+      <v-btn text v-if="cookie" @click="kakaoLogout">
         <span 
         class="mr-2 amber--text text--darken-3 font-weight-bold d-none d-sm-flex"
         style="text-shadow: 5px 5px 5px rgba(133,100,155,0.8);"
-        @click="kakaoLogout"
         >로그아웃
         </span>
         <v-icon
@@ -52,24 +50,17 @@ export default {
     name:'UserHeader',
     data(){
         return {
-            loading: false
-            ,userInfo:{auth:'user',name:''}
-            ,isLogin: false
-            ,drawer: null
-            ,items: [
-                        { text: '캠프소개', disabled: false, to: 'about', },
-                        { text: '캠프등록', disabled: false, to: 'user', },
-                        { text: '홈', disabled: false, to: '/', },
-                        { text: '캠프실황', disabled: false, to: 'campLive', },
-                        { text: '언론보도', disabled: false, to: 'newscast', },
-                    ],
         };
     },
     created() {
     },
     computed:{
         cookie(){
-            return this.$cookies.get('isLogin');
+            if(this.$cookies.get('isLogin')==="001"){
+                return true;
+            }else{
+                return false;
+            }
         }
     },
     methods: {

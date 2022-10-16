@@ -1,12 +1,17 @@
 const winston = require('winston');
 const winstonDaily = require('winston-daily-rotate-file');
+const util = require('util')
 
 const logDir = `${process.env.LOG_PATH}`;  // logs 디렉토리 하위에 로그 파일 저장
 const { combine, timestamp, printf } = winston.format;
 
 // Define log format
-const logFormat = printf(info => {
-  return `${info.timestamp} ${info.level}: ${info.message}`;
+const logFormat = printf(({ level, message, label, timestamp }) => {
+  level = level.toUpperCase()
+  const st = `${timestamp} [${level}]: ` + util.format('%o', message).trim().split('\n').map((line) => {
+    return `${line}`
+  }).join('\n');
+  return st;
 });
 
 /*
@@ -47,7 +52,7 @@ if (process.env.NODE_ENV !== 'production') {
   logger.add(new winston.transports.Console({
     format: winston.format.combine(
       winston.format.colorize(),  // 색깔 넣어서 출력
-      winston.format.simple(),  // `${info.level}: ${info.message} JSON.stringify({ ...rest })` 포맷으로 출력
+      //winston.format.simple(),  // `${info.level}: ${info.message} JSON.stringify({ ...rest })` 포맷으로 출력
     )
   }));
 }

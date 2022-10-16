@@ -7,55 +7,33 @@ import { v4 } from 'uuid'
 import { UAParser } from 'ua-parser-js'
 import axios from 'axios'
 import io from "socket.io-client";
+import common from "./common"
 
 Vue.config.productionTip = false;
 Vue.prototype.APP_URL = process.env.VUE_APP_API_URL;
 Vue.use(vueCookies);
+Vue.prototype.$axios = axios;
+Vue.prototype.$common = common;
 Vue.directive('scroll', {
   inserted: function (el, binding) {
       let f = function (evt) {
-      if (binding.value(evt, el)) {
-          window.removeEventListener('scroll', f)
-      }
+        if (binding.value(evt, el)) {
+            window.removeEventListener('scroll', f)
+        }
       }
       window.addEventListener('scroll', f)
   }
 });
 
-function substrBack(str){
-  return str.substring(str.length-2, str.length)
-}
-
-// router interceptor
-router.beforeEach(async (to,from, next) => {
-  // console.log(navigator.userAgent);
-  // console.log(document.referrer);
-  // console.log(Vue.$cookies)
-  // console.log(to, from);
-
+router.beforeEach(async (to,from, next) => { // router interceptor
   var today = new Date();
-  var todayFm = today.getFullYear() +'-'
-    + substrBack('0'+(today.getMonth()+1)) + '-' 
-    + substrBack('0'+today.getDate()) + ' '
-    + today.getHours() + ':'
-    + today.getMinutes() + ':'
-    + today.getSeconds();
-
-    var ua = new UAParser()
-
-  if(!Vue.$cookies.get('tmpr_cookie')){
-    Vue.$cookies.set('tmpr_cookie',v4(),0, null, null, null, 'Strict');
-  }
-
-  if(!Vue.$cookies.get('prmanent_cookie')){
-    Vue.$cookies.set('prmanent_cookie',v4(), 60 * 60 * 24 * 365, null, null, null, 'Strict');
-  }
-
+  var todayFm = common.getDateTime();
+  var ua = new UAParser()
+  if(!Vue.$cookies.get('tmpr_cookie')) Vue.$cookies.set('tmpr_cookie',v4(),0, null, null, null, 'Strict');
+  if(!Vue.$cookies.get('prmanent_cookie')) Vue.$cookies.set('prmanent_cookie',v4(), 60 * 60 * 24 * 365, null, null, null, 'Strict');
   var {data} = await axios.get('https://api.ipify.org?format=json');
   var userIp = data.ip;
-
   var uaOS = ua.getOS();
-
   var conectLog = {
     'conectUrl' : to.path,
     'conectDt': todayFm,
@@ -85,10 +63,6 @@ if(!Vue.prototype.$socket){
   });
 }
 
-new Vue({
-  router,
-  vuetify,
-  render: h => h(App)
-}).$mount('#app')
+new Vue({ router, vuetify, render: h => h(App) }).$mount('#app')
 
 

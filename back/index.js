@@ -6,6 +6,8 @@ const cors = require('cors');
 const axios = require('axios');
 const logger = require('./modules/winstonConfig');
 const db = require('./modules/dbConnect');
+const kakao = require('./services/kakaoService');
+const common = require('./services/commonService');
 
 const { initializeApp } = require('firebase/app');
 const { getDatabase, ref, onChildAdded, set, get } = require('firebase/database');
@@ -37,11 +39,12 @@ app.use(session({
     }
 }));
 app.get('*', (req, res, next) => {
-    if(req.url.indexOf('/auth') >-1 ){
+    if(req.url.indexOf('/auth') >-1 || req.url.indexOf('/api') >-1){
         next();
         return;
+    }else{
+        res.sendFile(path.join(__dirname, '/public/index.html'));
     }
-    res.sendFile(path.join(__dirname, '/public/index.html'));
 });
 
 const options = { maxHttpBufferSize: 1e8, cors: { origin: '*', }, cookie: true }; //1e6: 1MB
@@ -55,25 +58,8 @@ io.on('connection', socket => {
     });
     socket.on('reconnecting', () => { logger.info("@ socket reconnecting @@@@"); });
     socket.on('reconnection', () => { logger.info("@ socket reconnection @@@@"); });
-    
-    function substrBack(str){
-        return str.substring(str.length-2, str.length)
-    }
-    var today = new Date();
-    var todayFm = today.getFullYear() +'-'
-        + substrBack('0'+(today.getMonth()+1)) + '-' 
-        + substrBack('0'+today.getDate());
-
-    // get(ref(fireDB,'posts/common/connectLog/'+todayFm))
-    // .then((snapshot)=>{
-    //     if (snapshot.exists()) {winston
-    //         socket.emit('getConnectLog',snapshot.val());
-    //         console.log('onValue::',snapshot.val());
-    //     } else {
-    //         console.log("No data available");
-    //     }
-    // });
-    onChildAdded(ref(fireDB,'posts/common/connectLog/'+todayFm)
+    var todayFm = common.getDate();
+    onChildAdded(ref(fireDB,'posts/common/connectLog/'+common.getDate())
     ,(snapshot)=>{
         var data = snapshot.val();
           //console.log('onChildAdded::',data);
@@ -82,25 +68,40 @@ io.on('connection', socket => {
     
 });
 
+app.get('/api/conectLog/key', (req, res) =>{
+    get(ref(fireDB,'posts/common/connectLog/'))
+    .then((snapshot)=>{
+        if (snapshot.exists()) {
+            res.status(200).json(Object.keys(snapshot.val()));
+        } else {
+            console.log("No data available");
+            res.status(401).json({msg:"No data available"});
+        }
+    });
+})
+
+app.get('/api/conectLog', (req, res) =>{
+    get(ref(fireDB,'posts/common/connectLog/'+req.query.dt))
+    .then((snapshot)=>{
+        if (snapshot.exists()) {
+            res.status(200).json(snapshot.val());
+        } else {
+            console.log("No data available");
+            res.status(401).json({msg:"No data available"});
+        }
+    });
+})
+
 app.post('/api/conectLog', (req, res) =>{
     db.setData('conectLog', 'insertConectLog', req.body)
     .then(function(row) {
-        //console.log(row);
         res.status(200).json('success');
     })
     .catch(err=>{
         res.status(400).json(Error(err))
     });
 
-    function substrBack(str){
-        return str.substring(str.length-2, str.length)
-    }
-
-    var today = new Date();
-    var todayFm = today.getFullYear() +'-'
-        + substrBack('0'+(today.getMonth()+1)) + '-' 
-        + substrBack('0'+today.getDate());
-    set(ref(fireDB,'posts/common/connectLog/'+todayFm+'/'+req.body.conectDt),req.body);
+    set(ref(fireDB,'posts/common/connectLog/'+common.getDate()+'/'+req.body.conectDt),req.body);
 })
 
 app.get('/api/campAply',(req,res)=>{
@@ -116,87 +117,57 @@ app.get('/api/campAply',(req,res)=>{
 })
 
 app.get('/auth/kakao/callback', async(req, res) => {
-    // onChildAdded(ref(fireDB,'posts/common/connectLog/'+todayFm)
-    // ,(snapshot)=>{
-    //     var data = snapshot.val();
-    //       //console.log('onChildAdded::',data);
-    //       socket.emit('addConnectLog',data);
-    //  });
-    
+    const { headers: { cookie } } = req;
+    if (cookie) {
+        const values = cookie.split(';').reduce((res, item) => {
+            const data = item.trim().split('=');
+            return { ...res, [data[0]]: data[1] };
+        }, {});
+        logger.info(values);
+    }
     try {
-        const response = await axios({
-            method: "post",
-            url: "https://kauth.kakao.com/oauth/token", // 서버
-            headers: { 'Content-type': 'application/x-www-form-urlencoded;charset=utf-8' }, // 요청 헤더 설정
-            params: {
-                grant_type: 'authorization_code',
-                client_id: `${process.env.client_id}`,
-                redirect_uri: `${process.env.redirect_uri}`,
-                code: req.query.code
-            },
-        });
+        const response = await kakao.getToken(req.query.code);
         const access_token = response.data.access_token;
         const refresh_token = response.data.refresh_token;
-        console.log(response.data);
-        const response2 = await axios({
-            method: "post",
-            url: "https://kapi.kakao.com/v2/user/me", // 서버
-            headers: {
-                'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-                'Authorization': `Bearer ${access_token}`
-            }, // 요청 헤더 설정
-            params: {
-                secure_resource: true,
-                property_keys: `${process.env.property_keys}`
-            },
-        });
+        const userInfo = await kakao.getUserInfo(access_token);
         
-        req.session.kakaoId         = response2.data.id
-        req.session.name            = response2.data.kakao_account.profile.nickname
-        req.session.email           = response2.data.kakao_account.email?response2.data.kakao_account.email:response2.data.id
-        req.session.profileImage    = response2.data.kakao_account.profile.profile_image_url
-        req.session.nickname        = response2.data.kakao_account.profile.nickname
+        req.session.kakaoId         = userInfo.data.id
+        req.session.name            = userInfo.data.kakao_account.profile.nickname
         req.session.accessToken     = `${access_token}`;
         req.session.refreshToken    = `${refresh_token}`;
-        req.session.type            = 'kakao';
-        req.session.auth            = 'user';
-        
-    // //     var user = await User.findOne({id: response2.data.id});
+    // //     var user = await User.findOne({id: userInfo.data.id});
     // //     if(user) req.session.auth = user.auth;
     // //     if(req.session.email=='kimyongmin1@kakao.com') req.session.auth = 'admin';
-        
+        userInfo.data.last_connect_dt = common.getDateTime();
+        userInfo.data.prmanent_cookie = common.getPrmanentCookie(req);
+        logger.info(userInfo.data);
+        set(ref(fireDB,`posts/common/kakaologin/${userInfo.data.id}`),userInfo.data);
+
         req.session.save(function() {
-            res.cookie('isLogin',true);
+            res.cookie('isLogin','001');
             res.redirect('/');
         });
 
     } catch (err) {
-        logger.error("Error >>" + err);
+        logger.error("/auth/kakao/callback Error >>" + err);
     }
 });
 
 app.get('/auth/logout', async(req, res) => {
     const accessToken = req.session.accessToken;
     console.log('accessToken::::::::',accessToken);
-    try {
-        const response2 = await axios({
-            method: "post",
-            url: "https://kapi.kakao.com/v1/user/logout", // 서버
-            headers: { 'Authorization': `Bearer ${accessToken}` }, // 요청 헤더 설정
-        });
-        logger.info('logout:::::'+response2.status);
-        req.session.destroy(function(err) {
-            if (err) throw err;
-        });
-    } catch (err) {
-        logger.error("Error >>" + err);
-    }
+    
     req.session.save(function() {
-        res.cookie('isLogin',false);
+        res.cookie('isLogin','002');
         res.redirect('/');
     });
+    
+    if(accessToken)kakao.logout(accessToken);
+    
 });
 
+
+
 app.listen(process.env.SERVER_PORT,()=>{
-    console.log(`server start! port:${process.env.SERVER_PORT}`)
+    logger.info(`server start! port:${process.env.SERVER_PORT}`)
 })
