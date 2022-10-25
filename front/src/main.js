@@ -26,7 +26,6 @@ Vue.directive('scroll', {
 });
 
 router.beforeEach(async (to,from, next) => { // router interceptor
-  var today = new Date();
   var todayFm = common.getDateTime();
   var ua = new UAParser()
   if(!Vue.$cookies.get('tmpr_cookie')) Vue.$cookies.set('tmpr_cookie',v4(),0, null, null, null, 'Strict');
@@ -48,7 +47,10 @@ router.beforeEach(async (to,from, next) => { // router interceptor
   }
 
   axios.post('/api/conectLog',conectLog)
-
+  axios.get('/auth/user/info')
+  .then((res)=>{
+    console.log(res);
+  })
   next();
 })
 

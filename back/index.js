@@ -162,9 +162,24 @@ app.get('/auth/logout', async(req, res) => {
         res.redirect('/');
     });
     
-    if(accessToken)kakao.logout(accessToken);
-    
+    // var result;
+    // if(accessToken){
+    //     result = await kakao.logout(accessToken);
+    // }
+    // res.status(200).json(result);
 });
+
+app.post('/auth/myKakaoMsgAgree', async(req,res) => { //동의항목 가져오기
+    const accessToken = req.session.accessToken;
+    console.log('accessToken::::::::',accessToken);
+
+    var result = await kakao.agree(accessToken);    
+    res.status(200).json({result: result});
+});
+
+app.get('/auth/user/info', (req,res)=>{
+    res.status(200).json({userInfo: req.session.name});
+})
 
 
 
