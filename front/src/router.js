@@ -7,6 +7,7 @@ import Home from './views/Home.vue'
 import User from './views/User.vue'
 import ConnectLog from './components/ConnectLog.vue'
 import CampAply from './components/CampAply.vue'
+import CampLive from './views/CampLive.vue'
 
 Vue.use(VueRouter);
 
@@ -46,7 +47,16 @@ const routes = [
             default: CampAply,
             footer: null
         }
-    }
+    },
+    {
+        path: "/campLive",
+        name: "CampLive",
+        components: {
+            header: UserHeader,
+            default: CampLive,
+            footer: null
+        }
+    },
 ]
 
 export default new VueRouter({

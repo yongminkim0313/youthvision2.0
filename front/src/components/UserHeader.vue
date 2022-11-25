@@ -20,6 +20,14 @@
 
       <v-spacer></v-spacer>
 
+      <v-btn text @click="goCampLivePage">
+        <span 
+        class="mr-2 amber--text text--darken-3 font-weight-bold d-none d-sm-flex"
+        style="text-shadow: 5px 5px 5px rgba(133,100,155,0.8);"
+        >campLive
+        </span>
+      </v-btn>
+
       <v-btn text v-if="!cookie" @click="kakaoLogin">
         <span 
         class="mr-2 amber--text text--darken-3 font-weight-bold d-none d-sm-flex"
@@ -79,6 +87,9 @@ export default {
         },
         goAplyPage: function(){
             this.$router.push('/user').catch(()=>{})
+        },
+        goCampLivePage: function(){
+            this.$router.push('/campLive').catch(()=>{})
         },
         loginGuest: function(){
             this.axios.post('/login/guest')

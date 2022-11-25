@@ -181,7 +181,16 @@ app.get('/auth/user/info', (req,res)=>{
     res.status(200).json({userInfo: req.session.name});
 })
 
-
+app.get('/api/youtube', (req, res) => {
+    const query = req.query;
+    db.getList('campLive','selectCampLive', query)
+    .then(function(row) {
+        res.status(200).json(row);
+    })
+    .catch(err=>{
+        res.status(400).json(Error(err))
+    });
+});
 
 app.listen(process.env.SERVER_PORT,()=>{
     logger.info(`server start! port:${process.env.SERVER_PORT}`)
