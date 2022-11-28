@@ -33,9 +33,10 @@ export default {
         },
         initialize () {
             this.loading = true;
+            debugger;
             this.$axios.get('/api/youtube',{params:{type:'캠프실황'}})
             .then((result)=>{
-                this.youtubeList = result;
+                this.youtubeList = result.data;
             }).catch((err)=>{console.log(err);})
             .then(()=>{
                 this.loading = false;
