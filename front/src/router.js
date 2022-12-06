@@ -6,8 +6,9 @@ import UserFooter from './components/UserFooter'
 import Home from './views/Home.vue'
 import User from './views/User.vue'
 import ConnectLog from './components/ConnectLog.vue'
-import CampAply from './components/CampAply.vue'
 import CampLive from './views/CampLive.vue'
+import AplyCamp from './views/AplyCamp.vue'
+import MyAplyList from './views/MyAplyList.vue'
 
 Vue.use(VueRouter);
 
@@ -40,11 +41,11 @@ const routes = [
         }
     },
     {
-        path: "/campAply",
-        name: "CampAply",
+        path: "/aplyCamp",
+        name: "AplyCamp",
         components: {
             header: UserHeader,
-            default: CampAply,
+            default: AplyCamp,
             footer: null
         }
     },
@@ -54,6 +55,15 @@ const routes = [
         components: {
             header: UserHeader,
             default: CampLive,
+            footer: null
+        }
+    },
+    {
+        path: "/myAplyList",
+        name: "MyAplyList",
+        components: {
+            header: UserHeader,
+            default: MyAplyList,
             footer: null
         }
     },

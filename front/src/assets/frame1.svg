@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Created with Vectornator (http://vectornator.io/) -->
+<svg height="100%" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 3370.82 2384.24" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:vectornator="http://vectornator.io" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs/>
+<style type="text/css">
+path{
+    display: inline-block;
+    position: absolute;
+}
+#path-a {
+    
+    animation: path-a 2s ease forwards;
+    
+}
+#path-b {
+    display: inline-block;
+    animation: path-b 2s ease forwards;
+    position: absolute;
+}
+
+#path-c {
+    display: inline-block;
+    animation: path-c 2s ease forwards;
+    position: absolute;
+}
+
+#path-d {
+    display: inline-block;
+    animation: path-d 2s ease forwards;
+    position: absolute;
+}
+
+#path-e {
+    display: inline-block;
+    animation: path-e 2s ease forwards;
+    position: absolute;
+}
+
+@keyframes path-a {
+    from{
+        transform: translate(-40rem, 40rem) scale(1);
+    }
+    to{
+        transform: translate(0rem, 0rem) scale(1);
+    }
+}
+@keyframes path-b {
+    from{
+        transform: translate(30rem, -30rem) scale(1);
+    }
+    to{
+        transform: translate(0rem, 0rem) scale(1);
+    }
+}
+
+@keyframes path-c {
+    from{
+        transform: translate(30rem, -30rem) scale(1);
+    }
+    to{
+        transform: translate(0rem, 0rem) scale(1);
+    }
+}
+
+@keyframes path-d {
+    from{
+        transform: translate(-20rem, 20rem) scale(1);
+    }
+    to{
+        transform: translate(0rem, 0rem) scale(1);
+    }
+}
+
+@keyframes path-e {
+    from{
+        transform: translate(50rem, -50rem) scale(1);
+    }
+    to{
+        transform: translate(0rem, 0rem) scale(1);
+    }
+}
+</style>
+<g id="레이어-2" vectornator:layerName="레이어 2"/>
+<clipPath id="ArtboardFrame">
+<rect height="2384.24" width="3370.82" x="0" y="0"/>
+</clipPath>
+<g clip-path="url(#ArtboardFrame)" id="레이어-1" vectornator:layerName="레이어 1">
+<path id="path-a" d="M-253.979 1255.9L304.913 696.163C345.241 655.774 410.676 655.724 451.065 696.053L451.065 696.053C491.454 736.381 491.504 801.816 451.175 842.205L-107.717 1401.94C-148.045 1442.33-213.48 1442.38-253.869 1402.05L-253.869 1402.05C-294.258 1361.72-294.307 1296.29-253.979 1255.9Z" fill="#6438b3" fill-rule="nonzero" opacity="1" stroke="none"/>
+<path id="path-b" d="M669.129 323.32L1206.81-215.172C1226.86-235.252 1259.39-235.277 1279.47-215.226L1279.47-215.226C1299.55-195.176 1299.58-162.643 1279.53-142.563L741.848 395.929C721.798 416.01 689.265 416.035 669.184 395.984L669.184 395.984C649.103 375.934 649.079 343.401 669.129 323.32Z" fill="#6438b3" fill-rule="nonzero" opacity="1" stroke="none"/>
+<path id="path-c" d="M1713.57 78.9686L1985.21-193.082C2028.59-236.528 2098.98-236.581 2142.42-193.201L2142.42-193.201C2185.87-149.82 2185.92-79.4334 2142.54-35.9874L1870.9 236.063C1827.52 279.509 1757.14 279.562 1713.69 236.182L1713.69 236.182C1670.24 192.801 1670.19 122.415 1713.57 78.9686Z" fill="#6438b3" fill-rule="nonzero" opacity="1" stroke="none"/>
+<path id="path-d" d="M-24.5287 1538.12L362.011 1151C407.501 1105.44 482.664 1106.73 529.892 1153.89L529.892 1153.89C577.12 1201.05 578.529 1276.21 533.038 1321.77L146.499 1708.89C101.008 1754.45 25.8453 1753.15-21.3827 1706L-21.3827 1706C-68.6106 1658.84-70.0192 1583.68-24.5287 1538.12Z" fill="#6438b3" fill-rule="nonzero" opacity="1" stroke="none"/>
+<path id="path-e" d="M1924.82 440.606L2196.46 168.555C2239.85 125.109 2313.5 128.315 2360.97 175.715L2360.97 175.715C2408.44 223.116 2411.76 296.761 2368.38 340.207L2096.73 612.258C2053.35 655.704 1979.7 652.498 1932.23 605.098L1932.23 605.098C1884.76 557.697 1881.44 484.052 1924.82 440.606Z" fill="#6438b3" fill-rule="nonzero" opacity="1" stroke="none"/>
+</g>
+</svg>

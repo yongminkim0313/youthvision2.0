@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Created with Vectornator (http://vectornator.io/) -->
+<svg height="100%" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 3370.82 2384.24" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:vectornator="http://vectornator.io" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs/>
+<style type="text/css">
+path{
+    display: inline-block;
+    position: absolute;
+
+}
+#path-a {
+    animation: path-a 1.9s ease;
+}
+#path-b {
+    animation: path-b 1.1s ease;
+}
+#path-c {
+    animation: path-c 1.9s ease;
+}
+#path-d {
+    animation: path-d 2.3s ease;
+}
+#path-e {
+    animation: path-e 1.5s ease;
+}
+#path-f {
+    animation: path-f 1.2s ease;
+}
+#path-g {
+    animation: path-g 2.3s ease;
+}
+
+@keyframes path-a {
+    from{
+        transform: translate(-40rem, 40rem) scale(1);
+    }
+    to{
+        transform: translate(0rem, 0rem) scale(1);
+    }
+}
+@keyframes path-b {
+    from{
+        transform: translate(30rem, -30rem) scale(1);
+    }
+    to{
+        transform: translate(0rem, 0rem) scale(1);
+    }
+}
+
+@keyframes path-c {
+    from{
+        transform: translate(30rem, -30rem) scale(1);
+    }
+    to{
+        transform: translate(0rem, 0rem) scale(1);
+    }
+}
+
+@keyframes path-d {
+    from{
+        transform: translate(-20rem, 20rem) scale(1);
+    }
+    to{
+        transform: translate(0rem, 0rem) scale(1);
+    }
+}
+
+@keyframes path-e {
+    from{
+        transform: translate(50rem, -50rem) scale(1);
+    }
+    to{
+        transform: translate(0rem, 0rem) scale(1);
+    }
+}
+@keyframes path-f {
+    from{
+        transform: translate(50rem, -50rem) scale(1);
+    }
+    to{
+        transform: translate(0rem, 0rem) scale(1);
+    }
+}
+@keyframes path-g {
+    from{
+        transform: translate(50rem, -50rem) scale(1);
+    }
+    to{
+        transform: translate(0rem, 0rem) scale(1);
+    }
+}
+</style>
+<g id="레이어-2" vectornator:layerName="레이어 2"/>
+<clipPath id="ArtboardFrame">
+<rect height="2384.24" width="3370.82" x="0" y="0"/>
+</clipPath>
+<g clip-path="url(#ArtboardFrame)" id="레이어-1" vectornator:layerName="레이어 1">
+<path id="path-a" d="M1094.3 649.952L1593.73 141.907C1612.36 122.962 1642.58 122.939 1661.23 141.856L1661.23 141.856C1679.88 160.772 1679.9 191.466 1661.28 210.411L1161.85 718.455C1143.22 737.4 1113 737.424 1094.35 718.507L1094.35 718.507C1075.7 699.59 1075.68 668.897 1094.3 649.952Z" fill="#000000" fill-rule="nonzero" opacity="1" stroke="none"/>
+<path id="path-b" d="M2064.45 419.416L2316.76 162.748C2357.06 121.758 2422.44 121.708 2462.79 162.636L2462.79 162.636C2503.15 203.564 2503.2 269.971 2462.9 310.96L2210.59 567.628C2170.29 608.618 2104.91 608.668 2064.56 567.74L2064.56 567.74C2024.2 526.812 2024.15 460.406 2064.45 419.416Z" fill="#000000" fill-rule="nonzero" opacity="1" stroke="none"/>
+<path id="path-c" d="M2260.67 760.605L2512.99 503.937C2553.28 462.948 2621.69 465.972 2665.79 510.692L2665.79 510.692C2709.88 555.413 2712.97 624.894 2672.67 665.883L2420.35 922.552C2380.06 963.541 2311.65 960.517 2267.55 915.796L2267.55 915.796C2223.46 871.076 2220.38 801.595 2260.67 760.605Z" fill="#000000" fill-rule="nonzero" opacity="1" stroke="none"/>
+<path id="path-d" d="M1981.05 2086.06L2561.66 1489.25C2626.12 1422.99 2731.24 1422.36 2796.47 1487.82L2796.47 1487.82C2861.7 1553.29 2862.33 1660.07 2797.87 1726.32L2217.26 2323.14C2152.8 2389.39 2047.68 2390.03 1982.45 2324.56L1982.45 2324.56C1917.22 2259.09 1916.6 2152.31 1981.05 2086.06Z" fill="#000000" fill-rule="nonzero" opacity="1" stroke="#7d43cb" stroke-linecap="butt" stroke-linejoin="round" stroke-width="1"/>
+<path id="path-e" d="M67.605 785.254L789.094 64.6869C873.209-19.3197 1008.44-18.1613 1091.15 67.2742L1091.15 67.2742C1173.86 152.71 1172.72 290.07 1088.6 374.076L367.114 1094.64C283 1178.65 147.765 1177.49 65.0576 1092.06L65.0576 1092.06C-17.6496 1006.62-16.5091 869.261 67.605 785.254Z" fill="#000000" fill-rule="nonzero" opacity="1" stroke="#7d43cb" stroke-linecap="butt" stroke-linejoin="round" stroke-width="1"/>
+<path id="path-f" d="M134.871 2088.74L788.481 1428.65C834.024 1382.65 908.231 1382.29 954.226 1427.83L954.226 1427.83C1000.22 1473.37 1000.59 1547.58 955.043 1593.58L301.433 2253.66C255.89 2299.66 181.683 2300.02 135.688 2254.48L135.688 2254.48C89.6935 2208.94 89.3275 2134.73 134.871 2088.74Z" fill="#000000" fill-rule="nonzero" opacity="1" stroke="#7d43cb" stroke-linecap="butt" stroke-linejoin="round" stroke-width="1"/>
+<path id="path-g" d="M445.836 1308.14L760.027 990.155C796.296 953.448 855.454 953.093 892.161 989.362L892.161 989.362C928.868 1025.63 929.223 1084.79 892.955 1121.5L578.763 1439.48C542.494 1476.19 483.336 1476.55 446.629 1440.28L446.629 1440.28C409.922 1404.01 409.567 1344.85 445.836 1308.14Z" fill="#000000" fill-rule="nonzero" opacity="1" stroke="#7d43cb" stroke-linecap="butt" stroke-linejoin="round" stroke-width="1"/>
+</g>
+</svg>

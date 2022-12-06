@@ -1,11 +1,11 @@
 <template>
     <v-app-bar
-      style="background:linear-gradient(0deg, rgba(255,255,255,0.72) 0%, rgb(255, 255, 255,0.1) 50%, rgba(255,255,255,0.8) 100%)"
-      dark
+      app
+      style="background:linear-gradient(0deg, rgba(255,255,255,0.5) 0%, rgb(255, 255, 255,0.1) 50%, rgba(255,255,255,0.72) 100%)"
       fixed
     >
       <div class="d-flex align-center">
-        <router-link to="/connectLog" class="mr-auto">
+        <router-link to="/" class="mr-auto">
             <v-img
             alt="주꿈로고"
             class="shrink mr-2"
@@ -22,34 +22,24 @@
 
       <v-btn text @click="goCampLivePage">
         <span 
-        class="mr-2 amber--text text--darken-3 font-weight-bold d-none d-sm-flex"
+        class="amber--text text--darken-3 font-weight-bold d-sm-flex"
         style="text-shadow: 5px 5px 5px rgba(133,100,155,0.8);"
         >campLive
         </span>
       </v-btn>
-
-      <v-btn text v-if="!cookie" @click="kakaoLogin">
-        <span 
-        class="mr-2 amber--text text--darken-3 font-weight-bold d-none d-sm-flex"
+    <span 
+        @click="kakaoLogin"
+        v-if="!cookie"
+        class="amber--text text--darken-3 font-weight-bold d-sm-flex"
         style="text-shadow: 5px 5px 5px rgba(133,100,155,0.8);"
         >카카오로그인
         </span>
-        <v-icon
-        class="mr-2 amber--text text--darken-3 font-weight-bold"
-        >mdi-account-supervisor</v-icon>
-      </v-btn>
-      <v-btn text v-if="cookie" @click="kakaoLogout">
         <span 
-        class="mr-2 amber--text text--darken-3 font-weight-bold d-none d-sm-flex"
+       class="amber--text text--darken-3 font-weight-bold d-none d-sm-flex"
         style="text-shadow: 5px 5px 5px rgba(133,100,155,0.8);"
         >로그아웃
         </span>
-        <v-icon
-        class="mr-2 amber--text text--darken-3 font-weight-bold"
-        >mdi-account-supervisor</v-icon>
-      </v-btn>
-      <!-- <router-link to="/user" class="mr-auto">
-            user
+      <!-- <router-link to="/user" class="mr-auto">            user
       </router-link> -->
     </v-app-bar>
 </template>

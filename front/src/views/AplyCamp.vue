@@ -1,6 +1,9 @@
 <template>
-  <v-card width="800" class="mx-auto" elevation="5" :loading="loading">
-  
+ <v-card
+    :loading="loading"
+    class="mx-auto pa-5 card-camp-aply"
+    max-width="920"
+  >
   <template slot="progress">
       <v-progress-linear
         color="deep-purple"
@@ -14,36 +17,7 @@
       src="https://modo-phinf.pstatic.net/20190417_275/1555469222917i4LfY_JPEG/mosacMoDVY.jpeg"
     ></v-img>
       <!-- src="https://modo-phinf.pstatic.net/20190417_140/15554692250648Rq2Y_JPEG/mosa4Ri4kd.jpeg" -->
-  <v-card-title>YOUTH VISION CAMP</v-card-title>
-  <v-card-subtitle>2022 여름 유스비전캠프 (since 2006)</v-card-subtitle>
-  <v-card-text>
-    
-    <span class="text-subtitle-1">"회복을 넘어 부흥의 새역사를 쓰자!"</span>
-    <br/>
-    <br/>
-    <span class="text-subtitle-2">●강사: 장용성목사(유스비전대표) 김선배총장(한국침례신학대학교) <br/>
-      강은도목사(더푸른교회) 박윤호목사(강화하늘중앙교회) <br/>
-      민호기목사(찬미워십) 손경민목사(은혜, 행복) <br/>
-      김정희사모 듀나미스워십 외<br/>
-    </span>
-    <br/>
-    ●날짜: 8월 4일(목)~6일(토)<br/>
-    ●장소: 한국침례신학대학교 대강당 (대전)<br/>
-    ●대상: 초중고대청장년 선착순500명 조기마감<br/>
-<br/>
-    ●회비: 78,000원 선등록 할인<br/>
-    (5.31까지 73,000원 6.30까지 74,000원 7.30까지 75,000원 8월부터 78,000원)<br/>
-    ●1박 2일 참여시 60,000원 무박 2일 참여시 50,000원<br/>
-<br/>
-    ●등록: 1인 1만원 선입금시 정식등록  
-    ●계좌 : 국민 172601-04-185856 (유스비전)<br/>
-<br/>
-    ●주최: 유스비전미니스트리<br/>
-    <br />070-7796-1009<br/>
-    youthvision.co.kr <br/>
-<br/>
-    ※유스비전캠프는 노는 캠프가 아닙니다. 살아계신 하나님을 만나는 캠프입니다.
-  </v-card-text>
+  <v-card-title>나의 신청 내역</v-card-title>
   <form>
     <v-container>
        <v-row><!--신청자이름, 직분 -->
@@ -77,8 +51,6 @@
             :error-messages="jikbunSeErrors"
             label="직분"
             required
-            solo
-            dense
             @change="$v.jikbunSe.$touch()"
             @blur="$v.jikbunSe.$touch()"
           ></v-select>
@@ -204,6 +176,7 @@
       </v-row>
       <v-row><!--우편물주소-->
         <v-col cols="7" md="9" sm="6">
+          <v-checkbox v-model="sameAddr" label="교회주소와동일"></v-checkbox>
           <v-text-field
             v-model="fullAddress"
             ref="fullAddress"
@@ -212,11 +185,12 @@
             required
             @input="$v.fullAddress.$touch()"
             @blur="$v.fullAddress.$touch()"
+            :disabled="sameAddr"
           ></v-text-field>
 
         </v-col>
         <v-col cols="5" md="3" sm="6">
-          <v-btn @click="openAddrPop();">우편물 주소검색</v-btn>
+          <v-btn @click="openAddrPop();" v-if="!sameAddr">우편물 주소검색</v-btn>
 
         </v-col>
         <v-col cols="12" md="12" class="pa-0">
@@ -234,6 +208,7 @@
             required
             @input="$v.detailAddress.$touch()"
             @blur="$v.detailAddress.$touch()"
+            :disabled="sameAddr"
           ></v-text-field>
 
         </v-col>
@@ -387,7 +362,6 @@
           </v-card-text>
 
         </v-col>
-        <!-- 입급은행 -->
         <v-col cols="12" md="12" sm="12">
           <v-select
             v-model="bankNm"
@@ -429,8 +403,7 @@
       </v-row>
       <v-row>
         <v-col>
-          <v-checkbox label="카카오 메세지 수신 동의(선택)" @click="authorize()" v-model="msgAgree" readonly></v-checkbox>
-          <v-textarea label="기타의견 및 메모사항" no-resize rows="2" :value="memo" ></v-textarea>
+          <v-textarea label="기타의견 및 메모사항" no-resize rows="2" v-model="memo" ></v-textarea>
         </v-col>
       </v-row>
       <v-row><!--신청하기버튼-->
@@ -440,26 +413,11 @@
             @click="submit"
             color="primary"
             elevation="14"
+            block
           >
             신청하기
           </v-btn>
-        </v-col>
-      </v-row>
-      <v-row><!--사진-->
-        <v-col
-          v-for="card in cards"
-          :key="card.title"
-          :cols="card.flex"
-        >
-          <v-card>
-            <v-img
-              :src="card.src"
-              class="white--text align-end"
-              gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-              height="300px"
-            >
-              </v-img>
-          </v-card>
+
         </v-col>
       </v-row>
     </v-container>
@@ -467,9 +425,10 @@
   </form>
   </v-card>
 </template>
+
 <script>
   import { validationMixin } from 'vuelidate'
-  import { required, maxLength, email } from 'vuelidate/lib/validators'
+import { email, maxLength, required } from 'vuelidate/lib/validators'
 
   export default {
     mixins: [validationMixin],
@@ -498,6 +457,7 @@
     },
 
     data: () => ({
+      seq:0,
       loading: false,
       aplyName: '',
       jikbunSe: null,
@@ -510,27 +470,20 @@
       schdlSe:'2박3일',
       phone: '',
       email: '',
-      items: [
-        '학생',
-        '교사',
-        '목사',
-        '성도',
-        '전(강)도사',
-        '기타',
-      ],
+      items: [ '학생', '교사', '목사', '성도', '전(강)도사', '기타', ],
       checkbox: '',
       fullAddress: '',
       detailAddress:'',
       joinHisSe: '처음참석',
       cards: [
-        { title: '1', src: "https://modo-phinf.pstatic.net/20190419_50/15556444931447dN5T_JPEG/mosazECj1j.jpeg?type=a1100", flex: 12 },
+        { title: '1', src: "", flex: 12 },
         { title: '2', src: "", flex: 12 },
         { title: '3', src: "", flex: 12 },
       ],
       joinPathSe: [],
       paths: [
         { text: '인터넷 홍보(youtube, instar, facebook)', icon: 'mdi-nature', },
-        { text: '포스터, 브로셔', icon: 'mdi-glass-wine',},
+        { text: '포스터, 브로셔', icon: 'mdi-glass-wine', },
         { text: '지인소개 및 소문', icon: 'mdi-calendar-range', },
         { text: '지난 캠프 참석', icon: 'mdi-map-marker', },
         { text: '기타', icon: 'mdi-bike', },
@@ -543,7 +496,6 @@
         sayeogja: 0,
       },
       cnt50:[],
-      isKakaoLogin: false,
       pyrNm: '',
       checkboxUseRoom: '',
       bankNm: '',
@@ -555,8 +507,8 @@
         ,'새마을 9002-1937-0057-1'
         ,'우체국 104570-01-002038'
       ],
-      msgAgree: false,
-      memo:''
+      memo:'',
+      sameAddr: false
     }),
 
     computed: {
@@ -671,10 +623,33 @@
       }
     },
     created: function(){
-      for(var i = 0 ; i < 50; i++){
-        this.cnt50.push(i);
+      this.load();
+        for(var i = 0 ; i < 50; i++){
+          this.cnt50.push(i);
+        }
+    },
+    watch:{
+      churchAddr: function(val){
+        if(this.sameAddr){
+          this.fullAddress = val;
+        }
+        console.log(val);
+      },
+      churchDtlAddr: function(val){
+        if(this.sameAddr){
+          this.detailAddress = val;
+        }
+        console.log(val);
+      },
+      sameAddr: function(val){
+        if(!val){
+          this.fullAddress = '';
+          this.detailAddress = '';
+        }else{
+          this.fullAddress = this.churchAddr;
+          this.detailAddress = this.churchDtlAddr;
+        }
       }
-      this.myKakaoMsgAgree();
     },
     methods: {
       submit () {
@@ -704,6 +679,7 @@
         
 
         var aplyContents = {
+          seq: this.seq,
           aplyName: this.aplyName,
           jikbunSe: this.jikbunSe,
           church: this.church,
@@ -722,27 +698,25 @@
           campCnt: this.campCnt,
           pyrNm: this.pyrNm,
           checkboxUseRoom: this.checkboxUseRoom,
-          bankNm: this.bankNm
+          bankNm: this.bankNm,
+          memo: this.memo
         }
         
         console.log(aplyContents);
-        this.axios.post('/user/aply',aplyContents)
-        .then((result)=>{
-          
-          if(result.error_code){
-            console.log(error_code);
-            return;
-          }
 
-          this.$socket.emit('aply', aplyContents, (data)=>{console.log(data)});
-          this.$awn.success('등록신청이 완료되었습니다.');
-          if(this.msgAgree){
-            this.axios.post('/talk/memo/send',aplyContents);
-          }
-          this.$router.push('/myAplyList');
-        }).catch((err)=>{
-          this.$awn.alert('등록신청에 오류가 발생하였습니다.'+err);
-        })
+        this.$router.push({
+          name: "MyAplyList",
+          query: { phone: aplyContents.phone, seq: aplyContents.seq },
+        });
+
+        // this.axios.put('/user/aply',aplyContents)
+        // .then((result)=>{
+        //   this.$socket.emit('aply', aplyContents, (data)=>{console.log(data)});
+        //   this.$router.push({
+        //     name: "MyAplyList",
+        //     query: { phone: aplyContents.phone, seq: aplyContents.seq },
+        //   });
+        // })
       }
 
       },
@@ -815,32 +789,54 @@
         if(addrSe) element_wrap = document.getElementById('churchAddrDiv');
         element_wrap.style.display = 'none';
       },
-      authorize(){
-        console.log(this.msgAgree);
-        if(this.msgAgree) return;
+      load(){
         var _this = this;
-        Kakao.Auth.login({
-            scope: 'talk_message',
-            success: function(response) {
-                console.log(response);
-                _this.msgAgree = true;
-            },
-            fail: function(error) {
-                console.log(error);
-                _this.msgAgree = false;
-            }
-        });
-      },
-      myKakaoMsgAgree(){
-        var _this = this;
-        this.$axios.post('/auth/myKakaoMsgAgree')
-        .then(function(res){
-          _this.msgAgree = res.data.result;
-        })
+        var query = this.$route.query
+        // this.axios.get('/user/aply/one',{params:{seq : query.seq}})
+        // .then((result)=>{
+          
+        //   var aplyData = result.data
+        //   console.log('aplyData:::',aplyData );
+        //   _this.seq = aplyData.seq
+        //   _this.aplyName = aplyData.aplyName;
+        //   _this.jikbunSe=aplyData.jikbunSe;
+        //   _this.church=aplyData.church;
+        //   _this.churchSe=aplyData.churchSe;
+        //   _this.churchAdtr=aplyData.churchAdtr;
+        //   _this.churchAddr=aplyData.churchAddr;
+        //   _this.churchDtlAddr=aplyData.churchDtlAddr;
+        //   _this.schdlSe=aplyData.schdlSe;
+        //   _this.phone=aplyData.phone;
+        //   _this.email=aplyData.email;
+        //   _this.checkbox=aplyData.checkbox;
+        //   _this.fullAddress=aplyData.fullAddress;
+        //   _this.detailAddress=aplyData.detailAddress;
+        //   _this.joinHisSe=aplyData.joinHisSe;
+        //   _this.joinPathSe=aplyData.joinPathSe;
+        //   _this.campCnt=aplyData.campCnt;
+        //   _this.pyrNm = aplyData.pyrNm;
+        //   _this.checkboxUseRoom = aplyData.checkboxUseRoom;
+        //   _this.bankNm = aplyData.bankNm;
+        //   _this.memo = aplyData.memo;
+        // })
+        // .catch(()=>{})
       }
-
     }
   }
 </script>
-
+<style scoped>
+.v-card__title {
+  font-size:3rem !important;
+  line-height: 2rem !important;
+  letter-spacing: 0.02rem !important;
+}
+.v-card__subtitle, .v-card__text{
+  font-size: 3rem !important;
+  line-height: 4rem !important;
+  letter-spacing: 0.02rem !important;
+}
+.v-btn.v-size--default{
+  font-size: 2rem !important;
+}
+</style>
 

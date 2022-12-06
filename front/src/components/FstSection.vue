@@ -4,7 +4,7 @@
         <youthvision-title class="fc t-20" :pos="pos"></youthvision-title>
         <youthvision-text class="fc t-50"></youthvision-text>
         <v-img 
-            src="../assets/camps/summercamp.gif" 
+            src="../assets/camps/2023_winter_camp_short.jpeg" 
             :height="secHeight*0.4"
             contain
             class="fc t-80"
