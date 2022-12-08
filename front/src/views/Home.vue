@@ -1,39 +1,80 @@
 <template>
   <v-container class="mx-auto pa-0">
-    <v-card v-scroll="handleScroll" elevation="0" class="home-card">
-      <!-- <div class="frame-img"> -->
-      <!-- <img src="../assets/frame.svg" class="purple-line"/> -->
-
-      <!-- </div> -->
-      <v-img
-        src="../assets/camps/2023_winter_camp_short.jpeg"
-        contain
-        class="mx-auto"
-        width="920"
-      ></v-img>
-
-      <!-- <svg id="svg-purpleline" height="100%" stroke-miterlimit="" style="" version="1.1" viewBox="0 0 3370.82 2384.24" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:vectornator="http://vectornator.io" xmlns:xlink="http://www.w3.org/1999/xlink">
-                <defs/>
-                <g clip-path="url(#ArtboardFrame)" id="레이어-1" vectornator:layerName="레이어 1">
-                <path id="path-a" d="M1094.3 649.952L1593.73 141.907C1612.36 122.962 1642.58 122.939 1661.23 141.856L1661.23 141.856C1679.88 160.772 1679.9 191.466 1661.28 210.411L1161.85 718.455C1143.22 737.4 1113 737.424 1094.35 718.507L1094.35 718.507C1075.7 699.59 1075.68 668.897 1094.3 649.952Z" fill="#6437b2" fill-rule="nonzero" opacity="1" stroke="none"/>
-                <path id="path-b" d="M2064.45 419.416L2316.76 162.748C2357.06 121.758 2422.44 121.708 2462.79 162.636L2462.79 162.636C2503.15 203.564 2503.2 269.971 2462.9 310.96L2210.59 567.628C2170.29 608.618 2104.91 608.668 2064.56 567.74L2064.56 567.74C2024.2 526.812 2024.15 460.406 2064.45 419.416Z" fill="#6437b2" fill-rule="nonzero" opacity="1" stroke="none"/>
-                <path id="path-c" d="M2260.67 760.605L2512.99 503.937C2553.28 462.948 2621.69 465.972 2665.79 510.692L2665.79 510.692C2709.88 555.413 2712.97 624.894 2672.67 665.883L2420.35 922.552C2380.06 963.541 2311.65 960.517 2267.55 915.796L2267.55 915.796C2223.46 871.076 2220.38 801.595 2260.67 760.605Z" fill="#6437b2" fill-rule="nonzero" opacity="1" stroke="none"/>
-                <path id="path-d" d="M1981.05 2086.06L2561.66 1489.25C2626.12 1422.99 2731.24 1422.36 2796.47 1487.82L2796.47 1487.82C2861.7 1553.29 2862.33 1660.07 2797.87 1726.32L2217.26 2323.14C2152.8 2389.39 2047.68 2390.03 1982.45 2324.56L1982.45 2324.56C1917.22 2259.09 1916.6 2152.31 1981.05 2086.06Z" fill="#6437b2" fill-rule="nonzero" opacity="1" stroke="#6437b2" stroke-linecap="butt" stroke-linejoin="round" stroke-width="1"/>
-                <path id="path-e" d="M67.605 785.254L789.094 64.6869C873.209-19.3197 1008.44-18.1613 1091.15 67.2742L1091.15 67.2742C1173.86 152.71 1172.72 290.07 1088.6 374.076L367.114 1094.64C283 1178.65 147.765 1177.49 65.0576 1092.06L65.0576 1092.06C-17.6496 1006.62-16.5091 869.261 67.605 785.254Z" fill="#6437b2" fill-rule="nonzero" opacity="1" stroke="#6437b2" stroke-linecap="butt" stroke-linejoin="round" stroke-width="1"/>
-                <path id="path-f" d="M134.871 2088.74L788.481 1428.65C834.024 1382.65 908.231 1382.29 954.226 1427.83L954.226 1427.83C1000.22 1473.37 1000.59 1547.58 955.043 1593.58L301.433 2253.66C255.89 2299.66 181.683 2300.02 135.688 2254.48L135.688 2254.48C89.6935 2208.94 89.3275 2134.73 134.871 2088.74Z" fill="#6437b2" fill-rule="nonzero" opacity="1" stroke="#6437b2" stroke-linecap="butt" stroke-linejoin="round" stroke-width="1"/>
-                <path id="path-g" d="M445.836 1308.14L760.027 990.155C796.296 953.448 855.454 953.093 892.161 989.362L892.161 989.362C928.868 1025.63 929.223 1084.79 892.955 1121.5L578.763 1439.48C542.494 1476.19 483.336 1476.55 446.629 1440.28L446.629 1440.28C409.922 1404.01 409.567 1344.85 445.836 1308.14Z" fill="#6437b2" fill-rule="nonzero" opacity="1" stroke="#6437b2" stroke-linecap="butt" stroke-linejoin="round" stroke-width="1"/>
-                </g>
-            </svg> -->
-
-      <span class="lside onlyjesus-o">O</span>
-      <span class="lside onlyjesus-n">N</span>
-      <span class="lside onlyjesus-l">L</span>
-      <span class="lside onlyjesus-y">Y</span>
-      <span class="lside onlyjesus-j">J</span>
-      <span class="lside onlyjesus-e">E</span>
-      <span class="lside onlyjesus-s">S</span>
-      <span class="lside onlyjesus-u">U</span>
-      <span class="lside onlyjesus-s2">S</span>
+    <v-card v-scroll="handleScroll" elevation="0" class="home-card pa-10">
+       
+      <div class="div-main-poster ">
+        <img src="../assets/camps/2023겨울캠프/포스터여학생.jpeg" class="img-mask"/>
+        <svg id="svg-purpleline" viewBox="0 0 2868.45 2353.26" height="53rem" width="52rem" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:vectornator="http://vectornator.io" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <path id="path-a" d="M1086.66 648.767L1572.58 127.787C1590.7 108.359 1620.91 107.543 1640.05 125.963L1640.05 125.963C1659.19 144.384 1660.02 175.066 1641.9 194.494L1155.98 715.473C1137.86 734.901 1107.65 735.717 1088.51 717.297L1088.51 717.297C1069.37 698.876 1068.54 668.194 1086.66 648.767Z" fill="#6437b2" fill-rule="nonzero" opacity="1" stroke="none"/>
+          <path id="path-b" d="M2050.42 392.843L2295.91 129.64C2335.11 87.6066 2400.47 85.8403 2441.89 125.694L2441.89 125.694C2483.3 165.549 2485.09 231.931 2445.89 273.964L2200.4 537.168C2161.19 579.201 2095.84 580.967 2054.42 541.113L2054.42 541.113C2013 501.259 2011.21 434.876 2050.42 392.843Z" fill="#6437b2" fill-rule="nonzero" opacity="1" stroke="none"/>
+          <path id="path-c" d="M2255.53 728.764L2501.02 465.56C2540.23 423.527 2608.7 424.755 2653.95 468.302L2653.95 468.302C2699.2 511.849 2704.11 581.226 2664.9 623.259L2419.41 886.462C2380.2 928.495 2311.74 927.268 2266.48 883.721L2266.48 883.721C2221.23 840.173 2216.33 770.797 2255.53 728.764Z" fill="#6437b2" fill-rule="nonzero" opacity="1" stroke="none"/>
+          <path id="path-d" d="M2010.8 2061.1L2575.55 1449.25C2638.24 1381.33 2743.31 1377.93 2810.24 1441.67L2810.24 1441.67C2877.16 1505.4 2880.59 1612.12 2817.9 1680.04L2253.15 2291.9C2190.46 2359.82 2085.38 2363.21 2018.46 2299.48L2018.46 2299.48C1951.54 2235.75 1948.11 2129.03 2010.8 2061.1Z" fill="#6437b2" fill-rule="nonzero" opacity="1" stroke="#7d43cb" stroke-linecap="butt" stroke-linejoin="round" stroke-width="1"/>
+          <path id="path-e" d="M63.8671 810.974L766.192 71.7156C848.072-14.4701 983.291-16.8622 1068.21 66.3727L1068.21 66.3727C1153.13 149.608 1155.6 286.95 1073.72 373.136L371.395 1112.39C289.515 1198.58 154.296 1200.97 69.3746 1117.74L69.3746 1117.74C-15.547 1034.5-18.0127 897.16 63.8671 810.974Z" fill="#6437b2" fill-rule="nonzero" opacity="1" stroke="#7d43cb" stroke-linecap="butt" stroke-linejoin="round" stroke-width="1"/>
+          <path id="path-f" d="M165.328 2112.24L801.384 1435.22C845.705 1388.05 919.876 1385.74 967.051 1430.06L967.051 1430.06C1014.23 1474.38 1016.54 1548.55 972.219 1595.72L336.162 2272.74C291.842 2319.91 217.67 2322.23 170.496 2277.91L170.496 2277.91C123.321 2233.59 121.007 2159.42 165.328 2112.24Z" fill="#6437b2" fill-rule="nonzero" opacity="1" stroke="#7d43cb" stroke-linecap="butt" stroke-linejoin="round" stroke-width="1"/>
+          <path id="path-g" d="M455.694 1323.76L761.43 997.628C796.722 959.982 855.851 958.074 893.497 993.366L893.497 993.366C931.144 1028.66 933.052 1087.79 897.759 1125.43L592.023 1451.56C556.731 1489.21 497.602 1491.12 459.956 1455.82L459.956 1455.82C422.309 1420.53 420.401 1361.4 455.694 1323.76Z" fill="#6437b2" fill-rule="nonzero" opacity="1" stroke="#7d43cb" stroke-linecap="butt" stroke-linejoin="round" stroke-width="1"/>
+          <path id="path-h" d="M-0.090154 0.700223C0.0535503 1.10195 0.0987751 1.64969 0.476609 1.84788C0.70097 1.96557 0.783845 1.44401 0.917583 1.22883C1.45067 0.371108 2.69705-1.44697 2.89631-2.35267C3.02264-2.9269 2.89631-1.17674 2.89631-0.588775C2.89631 0.0905623 2.17856 1.49924 1.54512 1.85354C-0.330497 2.90261-1.3028-2.68979-0.090154 0.700223Z" fill="#6437b2" fill-rule="nonzero" opacity="1" stroke="#7d43cb" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          <path d="M2868.47 0.217467L2868.47 0.170919L2868.47 0.123595L2868.47 0.115061L2868.47 0.107044L2868.47 0.0987691L2868.47 0.0904939L2868.47 0.0822186L2868.47 0.0589446L2868.47 0.0429114L2868.45 0.0426528L2868.45 0.0351534L2868.45 0.0271368L2868.44 0.0266196L2868.43 0.0266196L2868.43 0.0416184L2868.43 0.0493764L2868.43 0.0641166L2868.44 0.078081L2868.45 0.0866149L2868.45 0.0866149" fill="#6437b2" fill-rule="nonzero" opacity="1" stroke="#7d43cb" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          <path d="M2868.37 2353.63L2868.37 2353.57L2868.37 2353.39L2868.37 2353.37L2868.37 2353.36L2868.37 2353.34L2868.37 2353.33L2868.37 2353.31L2868.37 2353.27L2868.37 2353.24L2868.38 2353.24L2868.4 2353.24L2868.41 2353.24L2868.42 2353.24L2868.42 2353.26L2868.42 2353.27L2868.42 2353.28L2868.42 2353.33L2868.42 2353.36L2868.42 2353.36" fill="#6437b2" fill-rule="nonzero" opacity="1" stroke="#7d43cb" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          <path d="M-0.140107 2353.35L-0.120567 2353.29L-0.101028 2353.23L-0.0619498 2353.23L-0.0424107 2353.23L-0.0228715 2353.19L0.0149043 2353.19L0.054634 2353.19L0.095015 2353.19L0.114554 2353.19L0.15233 2353.19L0.171869 2353.19L0.191408 2353.19L0.210947 2353.19L0.231789 2353.19L0.251328 2353.19L0.270868 2353.19L0.328183 2353.19L0.328183 2353.19" fill="#6539b4" fill-rule="nonzero" opacity="1" stroke="#7d43cb" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+      </svg>
+      <div class="div-title">
+        <span class="span-subtitle">길과 진리와 생명되신</span>
+        <span class="span-title">예수가 답이다</span>
+        <span class="span-title-detail">I AM THE WAY AND THE TRUTH AND THE LIFE. NO ONE COMES TO THE FATHER EXCEPT THROUGH ME. JOHN14:6</span>
+      </div> 
+        <span class="lside onlyjesus-o">O</span>
+        <span class="lside onlyjesus-n">N</span>
+        <span class="lside onlyjesus-l">L</span>
+        <span class="lside onlyjesus-y">Y</span>
+        <span class="lside onlyjesus-j">J</span>
+        <span class="lside onlyjesus-e">E</span>
+        <span class="lside onlyjesus-s">S</span>
+        <span class="lside onlyjesus-u">U</span>
+        <span class="lside onlyjesus-s2">S</span>
+        <div class="text-content">
+          <span class="camp-date">2023.1. 26(목)~28(토) 2박3일</span>
+          <span class="camp-place mb-3">고신대학교천안캠퍼스</span>
+          <span class="camp-detail-contents">
+            <v-row>
+              <v-col cols="3">
+                <v-chip color="#A957F7" small text-color="white">접수기간</v-chip>
+              </v-col>
+              <v-col cols="9">
+                2022..12. 1~ 인원마감시 <br/>
+                (조기마감예상 / 초중고대청장년 선착순 500명)
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="3">
+                <v-chip color="#A957F7" small text-color="white">접수/문의</v-chip>
+              </v-col>
+              <v-col cols="9">
+                유스비전 홈페이지 신청게시판 <br/>
+                카카오톡 오픈채팅(2023겨울유스비전캠프) <br/>
+                TEL 070-7796-1009 <a href="http://www.youthvision.co.kr">WWW.YOUTHVISION.CO.KR</a>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="3">
+                <v-chip color="#A957F7" small text-color="white">회비/계좌</v-chip>
+              </v-col>
+              <v-col cols="9">
+                89,000원 (1.1부터 93,000원, 현장등록 95,000원) <br/>
+                등록시 선입금 1인 1만원 <br/>
+                국민 172607-04-185856(유스비전)
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="3">
+                <v-chip color="#A957F7" small text-color="white">주최단체</v-chip>
+              </v-col>
+              <v-col cols="9">
+                유스비전미니스트리 since 2006
+              </v-col>
+            </v-row>
+          </span>
+        </div>
+      </div>
     </v-card>
     <v-btn
       class="mx-auto btn-linear mb-10"
@@ -81,30 +122,38 @@ export default {
 </script>
 
 <style>
-/* .stick-a {
-    position: absolute;
-    top: 31rem;
-    left: 18rem;
-    width: 0rem;
-    height: 0rem;
-    border-radius: 3.5rem 3.5rem 3.5rem 3.5rem !important;
-    border-bottom: 7rem solid #ffffff;
-    border-left: 19rem solid #ffffff;
-    border-right: 11.7rem solid #ffffff; 
-    transform: rotate(-45deg);
-    opacity: 1;
-    animation: stick-a 2s ease-out forwards;
-} */
-/* @keyframes stick-a {
-    from{
-        top: 36.8rem;
-        left: 0rem;
-    }
-    to{
-        top: 26.8rem;
-        left: 10rem;
-    }
-} */
+.div-title{
+  position: absolute;
+  top: 33rem;
+  left: 18rem;
+}
+.span-title{
+  display: block;
+  font-size: 8rem;
+  color: white;
+  font-weight: 800;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  letter-spacing: 1rem;
+}
+.span-subtitle{
+  display: block;
+  color: white;
+  font-size: 2rem;
+}
+.span-title-detail{
+  display: block;
+  color: white;
+  font-size: 5px !important;
+}
+.text-content{ position: absolute; top: 53rem; left: 23rem; color: white; }
+.camp-date{ font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-size: 4rem !important; display: block; }
+.camp-place{ font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-size: 4rem !important; display: block; }
+.camp-detail-contents{ display: block; font-size: 1.5rem !important; font-weight: 700;}
+.v-chip.v-size--small { font-weight: 800; font-size: 1.5rem !important; }
+.v-chip {padding: 1rem}
+.div-main-poster{ width: 100%; max-width: 480px; height: 108rem; }
+.col{padding: 1rem !important;}
+path { width: 10%; }
 .v-main {
   background-color: #6437b2;
 }
@@ -120,39 +169,33 @@ export default {
   background-image: url("../assets/screen.png");
   background-size: cover;
 }
-.picture {
-  width: 50rem;
-  position: absolute;
-  top: 9.2rem;
-  left: 13.4rem;
-}
-.purple-line {
-  position: absolute;
-  width: 90rem;
-  z-index: 9999;
-  top: 0;
-  left: 0;
-}
 #svg-purpleline {
   position: absolute;
-  top: 0%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 80%;
+  top: -9rem;
+  left: 14rem;
+  width: 69rem;
+  height: 69rem;
 }
-.mask {
-  -webkit-mask-image: url("../assets/frame.svg");
-  mask-image: url("../assets/frame.svg");
-  -webkit-mask-position: 0rem 0rem;
-  mask-position: 5rem 5rem;
-  -webkit-mask-size: 50%;
-  mask-size: 50%;
+.img-mask {
+  position: absolute;
+  top: 0rem;
+  left: 25rem;
+  width: 52rem;
+  height: 53rem;
+  -webkit-mask-image: url("../assets/mask_poster.svg");
+  mask-image: url("../assets/mask_poster.svg");
+  -webkit-mask-position: -10rem 0rem;
+  mask-position: -10rem 0rem;
+  -webkit-mask-size: 68rem;
+  mask-size: 68rem;
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
+  opacity: 0.9;
+  animation: m 3.5s ease-in-out forwards;
 }
-@keyframes move {
-    from { -webkit-mask-position: 50rem 50rem; mask-position: 50rem 50rem; }
-    to { -webkit-mask-position: 100rem 100rem; mask-position: 100rem 100rem; }
+@keyframes m {
+    from { -webkit-mask-position: -14rem 4rem; mask-position: -14rem 4rem; opacity: 0;}
+    to { -webkit-mask-position:  -10rem 0rem; mask-position:  -10rem 0rem; opacity: 0.9;}
 }
 .lside {
   font-family: Arial, Helvetica, sans-serif;
@@ -164,7 +207,7 @@ export default {
   display: inline-block;
   height: 24rem;
   width: 11rem;
-  color: white;
+  color: #a57bed;
   opacity: 0;
 }
 .onlyjesus-o { font-weight: 600; color: aliceblue; animation: onlyjesus-o 2s ease-out forwards; }
@@ -179,39 +222,39 @@ export default {
 
 @keyframes onlyjesus-o {
   from { top: -20rem; opacity: 0; }
-  to { top: -5rem; opacity: 1; }
+  to { top: -5rem; opacity:0.9; }
 }
 @keyframes onlyjesus-n {
   from { top: -9rem; opacity: 0; }
-  to { top: 8rem; opacity: 1; }
+  to { top: 8rem; opacity:0.4; }
 }
 @keyframes onlyjesus-l {
   from { top: 3rem; opacity: 0; }
-  to { top: 20rem; opacity: 1; }
+  to { top: 20rem; opacity:0.4; }
 }
 @keyframes onlyjesus-y {
   from { top: 19.5rem; opacity: 0; }
-  to { top: 29.5rem; opacity: 1; }
+  to { top: 29.5rem; opacity:0.4; }
 }
 @keyframes onlyjesus-j {
   from { top: 33.5rem; opacity: 0; }
-  to { top: 43.5rem; opacity: 1; }
+  to { top: 43.5rem; opacity:0.4; }
 }
 @keyframes onlyjesus-e {
   from { top: 43rem; opacity: 0; }
-  to { top: 53rem; opacity: 1; }
+  to { top: 53rem; opacity:0.4; }
 }
 @keyframes onlyjesus-s {
   from { top: 54.5rem; opacity: 0; }
-  to { top: 64.5rem; opacity: 1; }
+  to { top: 64.5rem; opacity:0.4; }
 }
 @keyframes onlyjesus-u {
   from { top: 66.5rem; opacity: 0; }
-  to { top: 76.5rem; opacity: 1; }
+  to { top: 76.5rem; opacity:0.4; }
 }
 @keyframes onlyjesus-s2 {
   from { top: 79.5rem; opacity: 0; }
-  to { top: 89.5rem; opacity: 1; }
+  to { top: 89.5rem; opacity:0.4; }
 }
 </style>
 <style type="text/css">
