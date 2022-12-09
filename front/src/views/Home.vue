@@ -2,7 +2,7 @@
   <v-container class="mx-auto pa-0">
     <v-card v-scroll="handleScroll" elevation="0" class="home-card pa-10">
       <div class="div-main-poster ">
-        <img src="../assets/camps/2023겨울캠프/포스터여학생.jpeg" class="img-mask"/>
+        <img src="../assets/camps/2023_winter/photo00_main.jpeg" class="img-mask"/>
         <svg id="svg-purpleline" viewBox="0 0 2868.45 2353.26" height="53rem" width="52rem" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:vectornator="http://vectornator.io" xmlns:xlink="http://www.w3.org/1999/xlink">
           <path id="path-a" d="M1086.66 648.767L1572.58 127.787C1590.7 108.359 1620.91 107.543 1640.05 125.963L1640.05 125.963C1659.19 144.384 1660.02 175.066 1641.9 194.494L1155.98 715.473C1137.86 734.901 1107.65 735.717 1088.51 717.297L1088.51 717.297C1069.37 698.876 1068.54 668.194 1086.66 648.767Z" fill="#6437b2" fill-rule="nonzero" opacity="1" stroke="none"/>
           <path id="path-b" d="M2050.42 392.843L2295.91 129.64C2335.11 87.6066 2400.47 85.8403 2441.89 125.694L2441.89 125.694C2483.3 165.549 2485.09 231.931 2445.89 273.964L2200.4 537.168C2161.19 579.201 2095.84 580.967 2054.42 541.113L2054.42 541.113C2013 501.259 2011.21 434.876 2050.42 392.843Z" fill="#6437b2" fill-rule="nonzero" opacity="1" stroke="none"/>
@@ -81,35 +81,35 @@
             <v-row>
               <v-col>
                 <div class="div-photo">
-                  <v-img src="../assets/camps/2023겨울캠프/장용성목사님.jpeg" class="img-photo m1"></v-img>
+                  <v-img src="../assets/camps/2023_winter/photo01.jpeg" class="img-photo m1"></v-img>
                   <v-chip x-small label color="black" class="m1"> <strong>장용성</strong>목사님 </v-chip>
                 </div>
                 <div class="div-photo">
-                  <v-img src="../assets/camps/2023겨울캠프/이삭목사님.jpeg" class="img-photo m2"></v-img>
+                  <v-img src="../assets/camps/2023_winter/photo02.jpeg" class="img-photo m2"></v-img>
                   <v-chip x-small label color="black" class="m2"> <strong>이삭</strong>목사님 </v-chip>
                 </div>
                 <div class="div-photo">
-                  <v-img src="../assets/camps/2023겨울캠프/임우현목사님.jpeg" class="img-photo m3"></v-img>
+                  <v-img src="../assets/camps/2023_winter/photo03.jpeg" class="img-photo m3"></v-img>
                   <v-chip x-small label color="black" class="m3"> <strong>이삭</strong>목사님 </v-chip>
                 </div>
                 <div class="div-photo">
-                  <v-img src="../assets/camps/2023겨울캠프/박윤호목사님.jpeg" class="img-photo m4"></v-img>
+                  <v-img src="../assets/camps/2023_winter/photo04.jpeg" class="img-photo m4"></v-img>
                   <v-chip x-small label color="black" class="m4"> <strong>박윤호</strong>목사님 </v-chip>
                 </div>
                 <div class="div-photo">
-                  <v-img src="../assets/camps/2023겨울캠프/손경민목사님.jpeg" class="img-photo m5"></v-img>
+                  <v-img src="../assets/camps/2023_winter/photo05.jpeg" class="img-photo m5"></v-img>
                   <v-chip x-small label color="black" class="m5"> <strong>손경민</strong>목사님 </v-chip>
                 </div>
                 <div class="div-photo">
-                  <v-img src="../assets/camps/2023겨울캠프/정신호목사님.jpeg" class="img-photo m6"></v-img>
+                  <v-img src="../assets/camps/2023_winter/photo06.jpeg" class="img-photo m6"></v-img>
                   <v-chip x-small label color="black" class="m6"> <strong>정신호</strong>목사님 </v-chip>
                 </div>
                 <div class="div-photo">
-                  <v-img src="../assets/camps/2023겨울캠프/이커브미니스트리.jpeg" class="img-photo m7"></v-img>
+                  <v-img src="../assets/camps/2023_winter/photo07.jpeg" class="img-photo m7"></v-img>
                   <v-chip x-small label color="black" class="m7"> <strong>이커브</strong>미니스트리 </v-chip>
                 </div>
                 <div class="div-photo">
-                  <v-img src="../assets/camps/2023겨울캠프/듀나미스찬양팀.jpeg" class="img-photo m8"></v-img>
+                  <v-img src="../assets/camps/2023_winter/photo08.jpeg" class="img-photo m8"></v-img>
                   <v-chip x-small label color="black" class="m8"> <strong>듀나미스</strong>찬양팀 </v-chip>
                 </div>
               </v-col>
