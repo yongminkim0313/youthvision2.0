@@ -1,7 +1,6 @@
 <template>
   <v-container class="mx-auto pa-0">
     <v-card v-scroll="handleScroll" elevation="0" class="home-card pa-10">
-       
       <div class="div-main-poster ">
         <img src="../assets/camps/2023겨울캠프/포스터여학생.jpeg" class="img-mask"/>
         <svg id="svg-purpleline" viewBox="0 0 2868.45 2353.26" height="53rem" width="52rem" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:vectornator="http://vectornator.io" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -73,16 +72,53 @@
               </v-col>
             </v-row>
           </span>
+            <v-row>
+              <v-col>
+                <v-img src="../assets/airplain.svg" class="airplain ml-10"></v-img>
+                <!-- 필리핀선교 2.13-18 참가비 50만원 (항공권별도) 선착순 25명 | 주최 교회교육선교회 주관 유스비전선교회 -->
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <div class="div-photo">
+                  <v-img src="../assets/camps/2023겨울캠프/장용성목사님.jpeg" class="img-photo m1"></v-img>
+                  <v-chip x-small label color="black" class="m1"> <strong>장용성</strong>목사님 </v-chip>
+                </div>
+                <div class="div-photo">
+                  <v-img src="../assets/camps/2023겨울캠프/이삭목사님.jpeg" class="img-photo m2"></v-img>
+                  <v-chip x-small label color="black" class="m2"> <strong>이삭</strong>목사님 </v-chip>
+                </div>
+                <div class="div-photo">
+                  <v-img src="../assets/camps/2023겨울캠프/임우현목사님.jpeg" class="img-photo m3"></v-img>
+                  <v-chip x-small label color="black" class="m3"> <strong>이삭</strong>목사님 </v-chip>
+                </div>
+                <div class="div-photo">
+                  <v-img src="../assets/camps/2023겨울캠프/박윤호목사님.jpeg" class="img-photo m4"></v-img>
+                  <v-chip x-small label color="black" class="m4"> <strong>박윤호</strong>목사님 </v-chip>
+                </div>
+                <div class="div-photo">
+                  <v-img src="../assets/camps/2023겨울캠프/손경민목사님.jpeg" class="img-photo m5"></v-img>
+                  <v-chip x-small label color="black" class="m5"> <strong>손경민</strong>목사님 </v-chip>
+                </div>
+                <div class="div-photo">
+                  <v-img src="../assets/camps/2023겨울캠프/정신호목사님.jpeg" class="img-photo m6"></v-img>
+                  <v-chip x-small label color="black" class="m6"> <strong>정신호</strong>목사님 </v-chip>
+                </div>
+                <div class="div-photo">
+                  <v-img src="../assets/camps/2023겨울캠프/이커브미니스트리.jpeg" class="img-photo m7"></v-img>
+                  <v-chip x-small label color="black" class="m7"> <strong>이커브</strong>미니스트리 </v-chip>
+                </div>
+                <div class="div-photo">
+                  <v-img src="../assets/camps/2023겨울캠프/듀나미스찬양팀.jpeg" class="img-photo m8"></v-img>
+                  <v-chip x-small label color="black" class="m8"> <strong>듀나미스</strong>찬양팀 </v-chip>
+                </div>
+              </v-col>
+            </v-row>
+          
         </div>
       </div>
     </v-card>
-    <v-btn
-      class="mx-auto btn-linear mb-10"
-      block
-      elevation="2"
-      @click="aplyCamp"
-      >등록하러 가기</v-btn
-    >
+    <v-btn class="mx-auto btn-linear mb-10 mt-12" block elevation="2" @click="aplyCamp" >등록하러 가기</v-btn>
   </v-container>
 </template>
 
@@ -122,6 +158,27 @@ export default {
 </script>
 
 <style>
+.div-photo{ display:inline-flex; position: relative; margin-right:0.5rem; margin-top: 1.5rem;}
+.div-photo > .img-photo{ width: 10rem; opacity:0}
+.div-photo > .v-chip{ position: absolute; top: -1.3rem; color: white; opacity:0;}
+.v-chip__content > strong{ color:burlywood }
+.m1{animation: m1 1s ease-out forwards; animation-delay: 0.3s;}
+@keyframes m1 { from{opacity:0;transform:translate(10rem)} to{opacity:1;transform:translate(0rem)}}
+.m2{animation: m2 1s ease-out forwards; animation-delay: 0.6s;}
+@keyframes m2 { from{opacity:0;transform:translate(10rem)} to{opacity:1;transform:translate(0rem)}}
+.m3{animation: m3 1s ease-out forwards; animation-delay: 0.9s;}
+@keyframes m3 { from{opacity:0;transform:translate(10rem)} to{opacity:1;transform:translate(0rem)}}
+.m4{animation: m4 1s ease-out forwards; animation-delay: 1.2s;}
+@keyframes m4 { from{opacity:0;transform:translate(10rem)} to{opacity:1;transform:translate(0rem)}}
+.m5{animation: m5 1s ease-out forwards; animation-delay: 1.5s;}
+@keyframes m5 { from{opacity:0;transform:translate(10rem)} to{opacity:1;transform:translate(0rem)}}
+.m6{animation: m6 1s ease-out forwards; animation-delay: 1.8s;}
+@keyframes m6 { from{opacity:0;transform:translate(10rem)} to{opacity:1;transform:translate(0rem)}}
+.m7{animation: m7 1s ease-out forwards; animation-delay: 2.1s;}
+@keyframes m7 { from{opacity:0;transform:translate(10rem)} to{opacity:1;transform:translate(0rem)}}
+.m8{animation: m8 1s ease-out forwards; animation-delay: 2.4s;}
+@keyframes m8 { from{opacity:0;transform:translate(10rem)} to{opacity:1;transform:translate(0rem)}}
+.airplain{ width: 40rem; }
 .div-title{
   position: absolute;
   top: 33rem;
@@ -135,11 +192,7 @@ export default {
   font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   letter-spacing: 1rem;
 }
-.span-subtitle{
-  display: block;
-  color: white;
-  font-size: 2rem;
-}
+.span-subtitle{ display: block; color: white; font-size: 2rem; font-style: italic; position: absolute; top: -1rem; }
 .span-title-detail{
   display: block;
   color: white;
@@ -159,6 +212,8 @@ path { width: 10%; }
 }
 .home-card {
   background-color: #6437b2 !important;
+  min-width: 390px;
+  max-width: 700px;
 }
 .frame-img {
   position: absolute;
@@ -172,14 +227,14 @@ path { width: 10%; }
 #svg-purpleline {
   position: absolute;
   top: -9rem;
-  left: 14rem;
+  left: 12rem;
   width: 69rem;
   height: 69rem;
 }
 .img-mask {
   position: absolute;
   top: 0rem;
-  left: 25rem;
+  left: 23rem;
   width: 52rem;
   height: 53rem;
   -webkit-mask-image: url("../assets/mask_poster.svg");
