@@ -9,6 +9,7 @@ import ConnectLog from './components/ConnectLog.vue'
 import CampLive from './views/CampLive.vue'
 import AplyCamp from './views/AplyCamp.vue'
 import MyAplyList from './views/MyAplyList.vue'
+import AplyList from './views/admin/AplyList.vue'
 
 Vue.use(VueRouter);
 
@@ -64,6 +65,15 @@ const routes = [
         components: {
             header: UserHeader,
             default: MyAplyList,
+            footer: null
+        }
+    },
+    {
+        path: "/aplyList",
+        name: "AplyList",
+        components: {
+            header: UserHeader,
+            default: AplyList,
             footer: null
         }
     },

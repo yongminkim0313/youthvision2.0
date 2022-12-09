@@ -21,24 +21,10 @@
       <v-spacer></v-spacer>
 
       <v-btn text @click="goCampLivePage">
-        <span 
-        class="amber--text text--darken-3 font-weight-bold d-sm-flex"
-        style="text-shadow: 5px 5px 5px rgba(133,100,155,0.8);"
-        >campLive
-        </span>
+        <span class="amber--text text--darken-3 font-weight-bold d-sm-flex" style="font-size:2rem;" >campLive </span>
       </v-btn>
-    <span 
-        @click="kakaoLogin"
-        v-if="!cookie"
-        class="amber--text text--darken-3 font-weight-bold d-sm-flex"
-        style="text-shadow: 5px 5px 5px rgba(133,100,155,0.8);"
-        >카카오로그인
-        </span>
-        <span 
-       class="amber--text text--darken-3 font-weight-bold d-none d-sm-flex"
-        style="text-shadow: 5px 5px 5px rgba(133,100,155,0.8);"
-        >로그아웃
-        </span>
+        <span @click="kakaoLogin" v-if="!cookie" class="amber--text text--darken-3 font-weight-bold d-sm-flex" style="font-size:2rem;" >카카오로그인 </span>
+        <span @click="kakaoLogout" v-if="cookie" class="amber--text text--darken-3 font-weight-bold d-none d-sm-flex" style="font-size:2rem;" >로그아웃 </span>
       <!-- <router-link to="/user" class="mr-auto">            user
       </router-link> -->
     </v-app-bar>

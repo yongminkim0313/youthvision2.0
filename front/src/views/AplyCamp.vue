@@ -709,7 +709,7 @@ import { email, maxLength, required } from 'vuelidate/lib/validators'
           query: { phone: aplyContents.phone, seq: aplyContents.seq },
         });
 
-        // this.axios.put('/user/aply',aplyContents)
+        // this.$axios.put('/user/aply',aplyContents)
         // .then((result)=>{
         //   this.$socket.emit('aply', aplyContents, (data)=>{console.log(data)});
         //   this.$router.push({
@@ -792,7 +792,9 @@ import { email, maxLength, required } from 'vuelidate/lib/validators'
       load(){
         var _this = this;
         var query = this.$route.query
-        // this.axios.get('/user/aply/one',{params:{seq : query.seq}})
+        this.$axios.get('/api/campAply',{params:{seq : query.seq}})
+        .then(({data})=>{console.log(data)});
+        // this.$axios.get('/user/aply/one',{params:{seq : query.seq}})
         // .then((result)=>{
           
         //   var aplyData = result.data

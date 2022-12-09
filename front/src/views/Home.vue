@@ -1,6 +1,7 @@
 <template>
   <v-container class="mx-auto pa-0">
     <v-card v-scroll="handleScroll" elevation="0" class="home-card pa-10">
+      
       <div class="div-main-poster ">
         <img src="../assets/camps/2023_winter/photo00_main.jpeg" class="img-mask"/>
         <svg id="svg-purpleline" viewBox="0 0 2868.45 2353.26" height="53rem" width="52rem" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:vectornator="http://vectornator.io" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -15,12 +16,14 @@
           <path d="M2868.47 0.217467L2868.47 0.170919L2868.47 0.123595L2868.47 0.115061L2868.47 0.107044L2868.47 0.0987691L2868.47 0.0904939L2868.47 0.0822186L2868.47 0.0589446L2868.47 0.0429114L2868.45 0.0426528L2868.45 0.0351534L2868.45 0.0271368L2868.44 0.0266196L2868.43 0.0266196L2868.43 0.0416184L2868.43 0.0493764L2868.43 0.0641166L2868.44 0.078081L2868.45 0.0866149L2868.45 0.0866149" fill="#6437b2" fill-rule="nonzero" opacity="1" stroke="#7d43cb" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
           <path d="M2868.37 2353.63L2868.37 2353.57L2868.37 2353.39L2868.37 2353.37L2868.37 2353.36L2868.37 2353.34L2868.37 2353.33L2868.37 2353.31L2868.37 2353.27L2868.37 2353.24L2868.38 2353.24L2868.4 2353.24L2868.41 2353.24L2868.42 2353.24L2868.42 2353.26L2868.42 2353.27L2868.42 2353.28L2868.42 2353.33L2868.42 2353.36L2868.42 2353.36" fill="#6437b2" fill-rule="nonzero" opacity="1" stroke="#7d43cb" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
           <path d="M-0.140107 2353.35L-0.120567 2353.29L-0.101028 2353.23L-0.0619498 2353.23L-0.0424107 2353.23L-0.0228715 2353.19L0.0149043 2353.19L0.054634 2353.19L0.095015 2353.19L0.114554 2353.19L0.15233 2353.19L0.171869 2353.19L0.191408 2353.19L0.210947 2353.19L0.231789 2353.19L0.251328 2353.19L0.270868 2353.19L0.328183 2353.19L0.328183 2353.19" fill="#6539b4" fill-rule="nonzero" opacity="1" stroke="#7d43cb" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-      </svg>
-      <div class="div-title">
-        <span class="span-subtitle">길과 진리와 생명되신</span>
-        <span class="span-title">예수가 답이다</span>
-        <span class="span-title-detail">I AM THE WAY AND THE TRUTH AND THE LIFE. NO ONE COMES TO THE FATHER EXCEPT THROUGH ME. JOHN14:6</span>
-      </div> 
+        </svg>
+        <span class="span-winter-camp">2023 WINTER CAMP</span>
+        <span class="span-youthvision">YOUTHVISION</span>
+        <div class="div-title">
+          <span class="span-subtitle">길과 진리와 생명되신</span>
+          <span class="span-title">예수가 답이다</span>
+          <span class="span-title-detail">I AM THE WAY AND THE TRUTH AND THE LIFE. NO ONE COMES TO THE FATHER EXCEPT THROUGH ME. JOHN14:6</span>
+        </div> 
         <span class="lside onlyjesus-o">O</span>
         <span class="lside onlyjesus-n">N</span>
         <span class="lside onlyjesus-l">L</span>
@@ -90,7 +93,7 @@
                 </div>
                 <div class="div-photo">
                   <v-img src="../assets/camps/2023_winter/photo03.jpeg" class="img-photo m3"></v-img>
-                  <v-chip x-small label color="black" class="m3"> <strong>이삭</strong>목사님 </v-chip>
+                  <v-chip x-small label color="black" class="m3"> <strong>임우현</strong>목사님 </v-chip>
                 </div>
                 <div class="div-photo">
                   <v-img src="../assets/camps/2023_winter/photo04.jpeg" class="img-photo m4"></v-img>
@@ -149,15 +152,17 @@ export default {
       console.log(window.scrollY);
     },
     aplyCamp: function () {
-        alert("준비중입니다.");
-        return;
-        this.$router.push("/aplyCamp").catch(() => {});
+      alert("준비중입니다.");
+      return;  
+      this.$router.push("/aplyCamp").catch(() => {});
     },
   },
 };
 </script>
 
 <style>
+.span-winter-camp{font-size: 4rem; color: #CEC2FC; position: absolute; top: 2rem; left: 17rem; font-weight: 600;}
+.span-youthvision{font-size: 5rem; color: #CEC2FC; position: absolute; top: 6rem; left: 17rem; font-weight: 600; letter-spacing: 0.5rem;}
 .div-photo{ display:inline-flex; position: relative; margin-right:0.5rem; margin-top: 1.5rem;}
 .div-photo > .img-photo{ width: 10rem; opacity:0}
 .div-photo > .v-chip{ position: absolute; top: -1.3rem; color: white; opacity:0;}
