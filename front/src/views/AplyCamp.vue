@@ -615,7 +615,7 @@ import { email, maxLength, required } from 'vuelidate/lib/validators'
       }
     },
     mounted: function(){
-      this.load();
+      // this.load();
     },
     watch:{
       churchAddr: function(val){
