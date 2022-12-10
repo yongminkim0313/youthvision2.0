@@ -28,6 +28,7 @@ async function getList(mapperId, sqlId, param) {
         conn = await pool.getConnection();
         var exeQuery = mapper.get(mapperId, sqlId, param);
         rows = await conn.query(exeQuery);
+        rows = toCamel(rows);
     } catch (err) {
         console.log('@@@@@@@@@@@ error @@@@:', err);
     } finally {
@@ -57,6 +58,7 @@ async function getData(mapperId, sqlId, param) {
         conn = await pool.getConnection();
         var exeQuery = mapper.get(mapperId, sqlId, param);
         rows = await conn.query(exeQuery);
+        rows = toCamel(rows);
     } catch (err) {
         console.log('@@@@@@@@@@@ error @@@@:', err);
     } finally {
@@ -78,6 +80,31 @@ async function delData(mapperId, sqlId, param) {
         return true;
     }
 }
+
+function toCamel(o) {
+    var newO, origKey, newKey, value
+    if (o instanceof Array) {
+      return o.map(function(value) {
+          if (typeof value === "object") {
+            value = toCamel(value)
+          }
+          return value
+      })
+    } else {
+      newO = {}
+      for (origKey in o) {
+        if (o.hasOwnProperty(origKey)) {
+            newKey = origKey.replace(/[-_]([a-z])/g, function (g) { return g[1].toUpperCase(); });
+          value = o[origKey]
+          if (value instanceof Array || (value !== null && value.constructor === Object)) {
+            value = toCamel(value);
+          }
+          newO[newKey] = value
+        }
+      }
+    }
+    return newO
+  }
 
 module.exports = {
     getList: getList,

@@ -25,45 +25,45 @@ Vue.directive('scroll', {
   }
 });
 
-router.beforeEach(async (to,from, next) => { // router interceptor
-  var todayFm = common.getDateTime();
-  var ua = new UAParser()
-  if(!Vue.$cookies.get('tmpr_cookie')) Vue.$cookies.set('tmpr_cookie',v4(),0, null, null, null, 'Strict');
-  if(!Vue.$cookies.get('prmanent_cookie')) Vue.$cookies.set('prmanent_cookie',v4(), 60 * 60 * 24 * 365, null, null, null, 'Strict');
-  var {data} = await axios.get('https://api.ipify.org?format=json');
-  var userIp = data.ip;
-  var uaOS = ua.getOS();
-  var conectLog = {
-    'conectUrl' : to.path,
-    'conectDt': todayFm,
-    'menuNm' : to.name,
-    'osKnd' : uaOS.name,
-    'osNm' : uaOS.name + ' ' + uaOS.version,
-    'browserNm' : ua.getBrowser().name,
-    'ipAdres' : userIp,
-    'refUrl' : document.referrer,
-    'prmanentCookie' : Vue.$cookies.get('prmanent_cookie'),
-    'tmprCookie' : Vue.$cookies.get('tmpr_cookie')
-  }
+// router.beforeEach(async (to,from, next) => { // router interceptor
+//   var todayFm = common.getDateTime();
+//   var ua = new UAParser()
+//   if(!Vue.$cookies.get('tmpr_cookie')) Vue.$cookies.set('tmpr_cookie',v4(),0, null, null, null, 'Strict');
+//   if(!Vue.$cookies.get('prmanent_cookie')) Vue.$cookies.set('prmanent_cookie',v4(), 60 * 60 * 24 * 365, null, null, null, 'Strict');
+//   var {data} = await axios.get('https://api.ipify.org?format=json');
+//   var userIp = data.ip;
+//   var uaOS = ua.getOS();
+//   var conectLog = {
+//     'conectUrl' : to.path,
+//     'conectDt': todayFm,
+//     'menuNm' : to.name,
+//     'osKnd' : uaOS.name,
+//     'osNm' : uaOS.name + ' ' + uaOS.version,
+//     'browserNm' : ua.getBrowser().name,
+//     'ipAdres' : userIp,
+//     'refUrl' : document.referrer,
+//     'prmanentCookie' : Vue.$cookies.get('prmanent_cookie'),
+//     'tmprCookie' : Vue.$cookies.get('tmpr_cookie')
+//   }
 
-  axios.post('/api/conectLog',conectLog)
-  axios.get('/auth/user/info')
-  .then((res)=>{
-    console.log(res);
-  })
-  next();
-})
+//   axios.post('/api/conectLog',conectLog)
+//   axios.get('/auth/user/info')
+//   .then((res)=>{
+//     console.log(res);
+//   })
+//   next();
+// })
 
 
-if(!Vue.prototype.$socket){
-  Vue.prototype.$socket = io(process.env.VUE_APP_SOCKET_URL,{
-      autoConnect: false,
-      // query: {
-      //     loginId         : 1,
-      //     name            : '김용민',
-      // },
-  });
-}
+// if(!Vue.prototype.$socket){
+//   Vue.prototype.$socket = io(process.env.VUE_APP_SOCKET_URL,{
+//       autoConnect: false,
+//       // query: {
+//       //     loginId         : 1,
+//       //     name            : '김용민',
+//       // },
+//   });
+// }
 
 new Vue({ router, vuetify, render: h => h(App) }).$mount('#app')
 

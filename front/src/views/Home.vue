@@ -152,8 +152,8 @@ export default {
       console.log(window.scrollY);
     },
     aplyCamp: function () {
-      alert("준비중입니다.");
-      return;  
+      // alert("준비중입니다.");
+      // return;  
       this.$router.push("/aplyCamp").catch(() => {});
     },
   },

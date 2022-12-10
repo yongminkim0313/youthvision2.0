@@ -11,6 +11,7 @@ const common = require('./services/commonService');
 
 const { initializeApp } = require('firebase/app');
 const { getDatabase, ref, onChildAdded, set, get } = require('firebase/database');
+const { join } = require("path");
 const firebaseConfig = {
     apiKey: "AIzaSyBz9iJl2SDU9NAgzDcMp7vP0OLdWRL9inU",
     authDomain: "youthvisionkr.firebaseapp.com",
@@ -115,6 +116,85 @@ app.get('/api/campAply',(req,res)=>{
     });
 
 })
+// APLY GET start
+app.get('/api/campAply/one',(req,res)=>{
+    console.log('res.query',req.query);
+    db.getData('campAply','selectCampAplyOne', req.query)
+    .then(function(row) { res.status(200).json(row); })
+    .catch(err=>{ res.status(400).json(Error(err)) });
+})
+
+app.get('/api/joinPathSe/one',(req,res)=>{
+    console.log('res.query',req.query);
+    db.getList('campAply','selectJoinPathSe', req.query)
+    .then(function(row) { res.status(200).json(row); })
+    .catch(err=>{ res.status(400).json(Error(err)) });
+})
+
+app.get('/api/campCnt/one',(req,res)=>{
+    console.log('res.query',req.query);
+    db.getData('campAply','selectCampCnt', req.query)
+    .then(function(row) { res.status(200).json(row); })
+    .catch(err=>{ res.status(400).json(Error(err)) }); 
+});
+// APLY GET end
+
+
+app.post('/api/campAply',(req,res)=>{
+    if(!req.session.kakaoId){
+        res.status(200).json({code: -1, msg:'세션이 만료되었습니다. 재 로그인 하시기 바랍니다.'});
+        return;
+    }
+    db.getData('campAply','selectMaxSeq', {})
+    .then(function(row) { 
+        req.body['seq'] = row.seq+1;
+        req.body['aplyTotAmt'] = 0;
+        req.body['aplyPrgrs'] = '접수';
+        req.body['aplyDt'] = common.getDate();
+        req.body['rgtrNm'] = req.session.name;
+        req.body['rgtrDt'] = common.getDateTime();
+        req.body['updtNm'] = req.session.name;
+        req.body['updtDt'] = common.getDateTime();
+        req.body['kakaoId'] = req.session.kakaoId
+        console.log(req.body);
+        
+        db.setData('campAply','insertCampAply', req.body)
+        .then(function(row) {console.log(row)})
+        .catch(err=>{ res.status(400).json(Error(err)) });
+        
+        req.body['campCnt'].seq = row.seq+1;;
+        db.setData('campAply','insertCampCnt', req.body['campCnt'])
+        .then(function(row) {console.log(row)})
+        .catch(err=>{ res.status(400).json(Error(err)) });
+        
+        var joinPathSe = req.body['joinPathSe'];
+        console.log('joinPathSe', joinPathSe);
+        if(joinPathSe[0]){
+            db.setData('campAply','insertJoinPathSe', {seq: req.body['seq'], path: joinPathSe[0]})
+            .then(function(row) {console.log(row)})
+        }
+        if(joinPathSe[1]){
+            db.setData('campAply','insertJoinPathSe', {seq: req.body['seq'], path: joinPathSe[1]})
+            .then(function(row) {console.log(row)})
+        }
+        if(joinPathSe[2]){
+            db.setData('campAply','insertJoinPathSe', {seq: req.body['seq'], path: joinPathSe[2]})
+            .then(function(row) {console.log(row)})
+        }
+        if(joinPathSe[3]){
+            db.setData('campAply','insertJoinPathSe', {seq: req.body['seq'], path: joinPathSe[3]})
+            .then(function(row) {console.log(row)})
+        }
+        if(joinPathSe[4]){
+            db.setData('campAply','insertJoinPathSe', {seq: req.body['seq'], path: joinPathSe[4]})
+            .then(function(row) {console.log(row)})
+        }
+
+        res.status(200).json({code: 0, msg:'success! '});
+        
+    })
+
+})
 
 app.get('/auth/kakao/callback', async(req, res) => {
     const { headers: { cookie } } = req;
@@ -130,7 +210,7 @@ app.get('/auth/kakao/callback', async(req, res) => {
         const access_token = response.data.access_token;
         const refresh_token = response.data.refresh_token;
         const userInfo = await kakao.getUserInfo(access_token);
-        
+        console.log(userInfo);
         req.session.kakaoId         = userInfo.data.id
         req.session.name            = userInfo.data.kakao_account.profile.nickname
         req.session.accessToken     = `${access_token}`;

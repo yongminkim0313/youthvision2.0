@@ -12,12 +12,9 @@
       ></v-progress-linear>
     </template>
 
-    <v-img
-      height="250"
-      src="https://modo-phinf.pstatic.net/20190417_275/1555469222917i4LfY_JPEG/mosacMoDVY.jpeg"
-    ></v-img>
+    <!-- <v-img height="250" src="https://modo-phinf.pstatic.net/20190417_275/1555469222917i4LfY_JPEG/mosacMoDVY.jpeg" ></v-img> -->
       <!-- src="https://modo-phinf.pstatic.net/20190417_140/15554692250648Rq2Y_JPEG/mosa4Ri4kd.jpeg" -->
-  <v-card-title>나의 신청 내역</v-card-title>
+  <!-- <v-card-title>나의 신청 내역</v-card-title> -->
   <form>
     <v-container>
        <v-row><!--신청자이름, 직분 -->
@@ -280,18 +277,8 @@
           <v-card-title>유스비전캠프 알게된 경로</v-card-title>
         </v-col>
         <v-col cols="12" md="12">
-          <v-chip-group
-            v-model="joinPathSe"
-            column
-            multiple
-          >
-            <v-chip
-              filter
-              outlined
-              v-for="path in paths"
-              :key="path.text"
-              :value="path.text"
-            >
+          <v-chip-group v-model="joinPathSe" column multiple >
+            <v-chip filter outlined v-for="path in paths" :key="path.text" :value="path.text" >
             {{path.text}}
             </v-chip>
           </v-chip-group>
@@ -623,23 +610,23 @@ import { email, maxLength, required } from 'vuelidate/lib/validators'
       }
     },
     created: function(){
+      for(var i = 0 ; i < 50; i++){
+        this.cnt50.push(i);
+      }
+    },
+    mounted: function(){
       this.load();
-        for(var i = 0 ; i < 50; i++){
-          this.cnt50.push(i);
-        }
     },
     watch:{
       churchAddr: function(val){
         if(this.sameAddr){
           this.fullAddress = val;
         }
-        console.log(val);
       },
       churchDtlAddr: function(val){
         if(this.sameAddr){
           this.detailAddress = val;
         }
-        console.log(val);
       },
       sameAddr: function(val){
         if(!val){
@@ -701,22 +688,17 @@ import { email, maxLength, required } from 'vuelidate/lib/validators'
           bankNm: this.bankNm,
           memo: this.memo
         }
-        
         console.log(aplyContents);
-
-        this.$router.push({
-          name: "MyAplyList",
-          query: { phone: aplyContents.phone, seq: aplyContents.seq },
-        });
-
-        // this.$axios.put('/user/aply',aplyContents)
-        // .then((result)=>{
-        //   this.$socket.emit('aply', aplyContents, (data)=>{console.log(data)});
-        //   this.$router.push({
-        //     name: "MyAplyList",
-        //     query: { phone: aplyContents.phone, seq: aplyContents.seq },
-        //   });
-        // })
+        this.$axios.post('/api/campAply',aplyContents)
+        .then(({data})=>{
+          console.log(data);
+          if(data.code == -1) {alert(data.msg);return;}
+          if(data.code == 0) alert('신청되었습니다.');
+          this.$router.push({
+            name: "Home",
+            query: { },
+          });
+        })
       }
 
       },
@@ -791,38 +773,45 @@ import { email, maxLength, required } from 'vuelidate/lib/validators'
       },
       load(){
         var _this = this;
-        var query = this.$route.query
-        this.$axios.get('/api/campAply',{params:{seq : query.seq}})
-        .then(({data})=>{console.log(data)});
-        // this.$axios.get('/user/aply/one',{params:{seq : query.seq}})
-        // .then((result)=>{
-          
-        //   var aplyData = result.data
-        //   console.log('aplyData:::',aplyData );
-        //   _this.seq = aplyData.seq
-        //   _this.aplyName = aplyData.aplyName;
-        //   _this.jikbunSe=aplyData.jikbunSe;
-        //   _this.church=aplyData.church;
-        //   _this.churchSe=aplyData.churchSe;
-        //   _this.churchAdtr=aplyData.churchAdtr;
-        //   _this.churchAddr=aplyData.churchAddr;
-        //   _this.churchDtlAddr=aplyData.churchDtlAddr;
-        //   _this.schdlSe=aplyData.schdlSe;
-        //   _this.phone=aplyData.phone;
-        //   _this.email=aplyData.email;
-        //   _this.checkbox=aplyData.checkbox;
-        //   _this.fullAddress=aplyData.fullAddress;
-        //   _this.detailAddress=aplyData.detailAddress;
-        //   _this.joinHisSe=aplyData.joinHisSe;
-        //   _this.joinPathSe=aplyData.joinPathSe;
-        //   _this.campCnt=aplyData.campCnt;
-        //   _this.pyrNm = aplyData.pyrNm;
-        //   _this.checkboxUseRoom = aplyData.checkboxUseRoom;
-        //   _this.bankNm = aplyData.bankNm;
-        //   _this.memo = aplyData.memo;
-        // })
-        // .catch(()=>{})
+
+        this.$axios.get('/api/campAply/one',{params:{seq : 2}})
+        .then(({data})=>{
+          console.log(data)
+            var aplyData = data;
+            console.log('aplyData:::',aplyData );
+            _this.seq = aplyData.seq
+            _this.aplyName = aplyData.aplyName;
+            _this.jikbunSe=aplyData.jikbunSe;
+            _this.church=aplyData.church;
+            _this.churchSe=aplyData.churchSe;
+            _this.churchAdtr=aplyData.churchAdtr;
+            _this.churchAddr=aplyData.churchAddr;
+            _this.churchDtlAddr=aplyData.churchDtlAddr;
+            _this.schdlSe=aplyData.schdlSe;
+            _this.phone=aplyData.phone;
+            _this.email=aplyData.email;
+            _this.checkbox=aplyData.checkbox;
+            _this.fullAddress=aplyData.fullAddress;
+            _this.detailAddress=aplyData.detailAddress;
+            _this.joinHisSe=aplyData.joinHisSe;
+            _this.pyrNm = aplyData.pyrNm;
+            _this.checkboxUseRoom = aplyData.checkboxUseRoom;
+            _this.bankNm = aplyData.bankNm;
+            _this.memo = aplyData.memo;
+        });
+        
+        this.$axios.get('/api/joinPathSe/one',{params:{seq : 2}})
+        .then(({data})=>{ 
+          for(var i in data){ 
+            _this.joinPathSe.push(data[i].path);
+          }
+        });
+        this.$axios.get('/api/campCnt/one',{params:{seq : 2}})
+        .then(({data})=>{ 
+          _this.campCnt = data;
+        });
       }
+
     }
   }
 </script>

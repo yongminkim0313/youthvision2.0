@@ -1,59 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mapper namespace="campAply">  
+  <select id="selectMaxSeq">
+    select max(seq) as seq from T_CM_APLY_CAMP
+  </select>
+
   <select id="selectCampAply">
     select 
-      seq,
-      aply_tot_amt,
-      aply_prgrs,
-      aply_dt,
-      aply_name,
-      jikbun_se,
-      church_adtr,
-      church_addr,
-      church_dtl_addr,
-      schdl_se,
-      phone,
-      email,
-      checkbox,
-      full_address,
-      detail_address,
-      join_his_se,
-      rgtr_nm,
-      rgtr_dt,
-      updt_nm,
-      updt_dt,
-      kakao_email,
-      pyr_nm,
-      checkbox_use_room,
-      bank_nm,
-      kakao_id,
-      memo
+      seq, aply_tot_amt, aply_prgrs, aply_dt, aply_name, jikbun_se, church_adtr, church_addr,church,church_se,
+      church_dtl_addr, schdl_se, phone, email, checkbox, full_address, detail_address, join_his_se,
+      rgtr_nm, rgtr_dt, updt_nm, updt_dt, kakao_email, pyr_nm, checkbox_use_room, bank_nm, kakao_id, memo
     from T_CM_APLY_CAMP
   </select>
 
+  <select id="selectCampAplyOne">
+    select 
+      seq, aply_tot_amt, aply_prgrs, aply_dt, aply_name, jikbun_se, church_adtr, church_addr,church,church_se,
+      church_dtl_addr, schdl_se, phone, email, checkbox, full_address, detail_address, join_his_se,
+      rgtr_nm, rgtr_dt, updt_nm, updt_dt, kakao_email, pyr_nm, checkbox_use_room, bank_nm, kakao_id, memo
+    from T_CM_APLY_CAMP
+    where seq = #{seq}
+  </select>
+
+  <select id="selectJoinPathSe">
+    select seq, path from T_CM_JOIN_PATH_SE where seq = #{seq}
+  </select>
+
+  <insert id="insertJoinPathSe">
+    insert into T_CM_JOIN_PATH_SE ( seq, path )
+    values (#{seq}, #{path})
+  </insert>
+
+  <select id="selectCampCnt">
+    select seq, chodeung, cheongsonyeon, cheongnyeon, jangnyeon, sayeogja from T_CM_CAMP_CNT where seq = #{seq}
+  </select>
+  
+  <insert id="insertCampCnt">
+    insert into T_CM_CAMP_CNT (seq, chodeung, cheongsonyeon, cheongnyeon, jangnyeon, sayeogja)
+    values(#{seq}, #{chodeung}, #{cheongsonyeon}, #{cheongnyeon}, #{jangnyeon}, #{sayeogja})
+  </insert>
+
   <insert id="insertCampAply">
-  INSERT INTO T_CM_CONECT_LOG (
-    conect_url,
-    conect_dt,
-    menu_nm,
-    os_knd,
-    os_nm,
-    browser_nm,
-    ip_adres,
-    ref_url,
-    prmanent_cookie,
-    tmpr_cookie
+  INSERT INTO T_CM_APLY_CAMP (
+    seq, aply_tot_amt, aply_prgrs, aply_dt, aply_name, jikbun_se, church_adtr, church_addr,church,church_se,
+      church_dtl_addr, schdl_se, phone, email, checkbox, full_address, detail_address, join_his_se,
+      rgtr_nm, rgtr_dt, updt_nm, updt_dt, pyr_nm, checkbox_use_room, bank_nm, kakao_id, memo
   ) VALUES (
-    #{conectUrl},
-    #{conectDt},
-    #{menuNm},
-    #{osKnd},
-    #{osNm},
-    #{browserNm},
-    #{ipAdres},
-    #{refUrl},
-    #{prmanentCookie},
-    #{tmprCookie}
+    #{seq}, #{aplyTotAmt}, #{aplyPrgrs}, #{aplyDt}, #{aplyName}, #{jikbunSe}, #{churchAdtr}, #{churchAddr},#{church},#{churchSe},
+    #{churchDtlAddr}, #{schdlSe}, #{phone}, #{email}, #{checkbox}, #{fullAddress}, #{detailAddress}, #{joinHisSe},
+    #{rgtrNm}, #{rgtrDt}, #{updtNm}, #{updtDt}, #{pyrNm}, #{checkboxUseRoom}, #{bankNm}, #{kakaoId}, #{memo}
   )
   </insert>
   
