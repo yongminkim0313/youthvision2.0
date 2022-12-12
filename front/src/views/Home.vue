@@ -152,9 +152,15 @@ export default {
       console.log(window.scrollY);
     },
     aplyCamp: function () {
-      // alert("준비중입니다.");
-      // return;  
-      this.$router.push("/aplyCamp").catch(() => {});
+      if(this.$cookies.get('isLogin')==="001"){
+        this.$router.push("/aplyCamp").catch(() => {});
+      }else{
+        location.href = 'https://kauth.kakao.com/oauth/authorize?'
+                +'client_id=be0d818c768f8e2198c97470fc7577c5&'
+                +'redirect_uri='+this.APP_URL+'/auth/kakao/callback&'
+                +'response_type=code&'
+                +'scope=profile_nickname, profile_image, account_email, gender, friends';
+      }
     },
   },
 };
