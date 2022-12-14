@@ -4,16 +4,16 @@
       <v-card class="card-img-box">
         <img src="../assets/camps/2023_winter/photo00_main.jpeg" class="img-mask"/>
         <svg id="svg-purpleline" viewBox="0 0 2868.45 2353.26" height="53rem" width="52rem" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:vectornator="http://vectornator.io" xmlns:xlink="http://www.w3.org/1999/xlink">
-          <path id="path-a" d="M1086.66 648.767L1572.58 127.787C1590.7 108.359 1620.91 107.543 1640.05 125.963L1640.05 125.963C1659.19 144.384 1660.02 175.066 1641.9 194.494L1155.98 715.473C1137.86 734.901 1107.65 735.717 1088.51 717.297L1088.51 717.297C1069.37 698.876 1068.54 668.194 1086.66 648.767Z" fill="#6437b2" fill-rule="nonzero" opacity="1" stroke="none"/>
-          <path id="path-b" d="M2050.42 392.843L2295.91 129.64C2335.11 87.6066 2400.47 85.8403 2441.89 125.694L2441.89 125.694C2483.3 165.549 2485.09 231.931 2445.89 273.964L2200.4 537.168C2161.19 579.201 2095.84 580.967 2054.42 541.113L2054.42 541.113C2013 501.259 2011.21 434.876 2050.42 392.843Z" fill="#6437b2" fill-rule="nonzero" opacity="1" stroke="none"/>
-          <path id="path-c" d="M2255.53 728.764L2501.02 465.56C2540.23 423.527 2608.7 424.755 2653.95 468.302L2653.95 468.302C2699.2 511.849 2704.11 581.226 2664.9 623.259L2419.41 886.462C2380.2 928.495 2311.74 927.268 2266.48 883.721L2266.48 883.721C2221.23 840.173 2216.33 770.797 2255.53 728.764Z" fill="#6437b2" fill-rule="nonzero" opacity="1" stroke="none"/>
-          <path id="path-d" d="M2010.8 2061.1L2575.55 1449.25C2638.24 1381.33 2743.31 1377.93 2810.24 1441.67L2810.24 1441.67C2877.16 1505.4 2880.59 1612.12 2817.9 1680.04L2253.15 2291.9C2190.46 2359.82 2085.38 2363.21 2018.46 2299.48L2018.46 2299.48C1951.54 2235.75 1948.11 2129.03 2010.8 2061.1Z" fill="#6437b2" fill-rule="nonzero" opacity="1" stroke="#7d43cb" stroke-linecap="butt" stroke-linejoin="round" stroke-width="1"/>
-          <path id="path-e" d="M63.8671 810.974L766.192 71.7156C848.072-14.4701 983.291-16.8622 1068.21 66.3727L1068.21 66.3727C1153.13 149.608 1155.6 286.95 1073.72 373.136L371.395 1112.39C289.515 1198.58 154.296 1200.97 69.3746 1117.74L69.3746 1117.74C-15.547 1034.5-18.0127 897.16 63.8671 810.974Z" fill="#6437b2" fill-rule="nonzero" opacity="1" stroke="#7d43cb" stroke-linecap="butt" stroke-linejoin="round" stroke-width="1"/>
-          <path id="path-f" d="M165.328 2112.24L801.384 1435.22C845.705 1388.05 919.876 1385.74 967.051 1430.06L967.051 1430.06C1014.23 1474.38 1016.54 1548.55 972.219 1595.72L336.162 2272.74C291.842 2319.91 217.67 2322.23 170.496 2277.91L170.496 2277.91C123.321 2233.59 121.007 2159.42 165.328 2112.24Z" fill="#6437b2" fill-rule="nonzero" opacity="1" stroke="#7d43cb" stroke-linecap="butt" stroke-linejoin="round" stroke-width="1"/>
-          <path id="path-g" d="M455.694 1323.76L761.43 997.628C796.722 959.982 855.851 958.074 893.497 993.366L893.497 993.366C931.144 1028.66 933.052 1087.79 897.759 1125.43L592.023 1451.56C556.731 1489.21 497.602 1491.12 459.956 1455.82L459.956 1455.82C422.309 1420.53 420.401 1361.4 455.694 1323.76Z" fill="#6437b2" fill-rule="nonzero" opacity="1" stroke="#7d43cb" stroke-linecap="butt" stroke-linejoin="round" stroke-width="1"/>
-          <path id="path-h" d="M-0.090154 0.700223C0.0535503 1.10195 0.0987751 1.64969 0.476609 1.84788C0.70097 1.96557 0.783845 1.44401 0.917583 1.22883C1.45067 0.371108 2.69705-1.44697 2.89631-2.35267C3.02264-2.9269 2.89631-1.17674 2.89631-0.588775C2.89631 0.0905623 2.17856 1.49924 1.54512 1.85354C-0.330497 2.90261-1.3028-2.68979-0.090154 0.700223Z" fill="#6437b2" fill-rule="nonzero" opacity="1" stroke="#7d43cb" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-          <path d="M2868.47 0.217467L2868.47 0.170919L2868.47 0.123595L2868.47 0.115061L2868.47 0.107044L2868.47 0.0987691L2868.47 0.0904939L2868.47 0.0822186L2868.47 0.0589446L2868.47 0.0429114L2868.45 0.0426528L2868.45 0.0351534L2868.45 0.0271368L2868.44 0.0266196L2868.43 0.0266196L2868.43 0.0416184L2868.43 0.0493764L2868.43 0.0641166L2868.44 0.078081L2868.45 0.0866149L2868.45 0.0866149" fill="#6437b2" fill-rule="nonzero" opacity="1" stroke="#7d43cb" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-          <path d="M2868.37 2353.63L2868.37 2353.57L2868.37 2353.39L2868.37 2353.37L2868.37 2353.36L2868.37 2353.34L2868.37 2353.33L2868.37 2353.31L2868.37 2353.27L2868.37 2353.24L2868.38 2353.24L2868.4 2353.24L2868.41 2353.24L2868.42 2353.24L2868.42 2353.26L2868.42 2353.27L2868.42 2353.28L2868.42 2353.33L2868.42 2353.36L2868.42 2353.36" fill="#6437b2" fill-rule="nonzero" opacity="1" stroke="#7d43cb" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          <path id="path-a" d="M1086.66 648.767L1572.58 127.787C1590.7 108.359 1620.91 107.543 1640.05 125.963L1640.05 125.963C1659.19 144.384 1660.02 175.066 1641.9 194.494L1155.98 715.473C1137.86 734.901 1107.65 735.717 1088.51 717.297L1088.51 717.297C1069.37 698.876 1068.54 668.194 1086.66 648.767Z" fill="#1C549F" fill-rule="nonzero" opacity="1" stroke="none"/>
+          <path id="path-b" d="M2050.42 392.843L2295.91 129.64C2335.11 87.6066 2400.47 85.8403 2441.89 125.694L2441.89 125.694C2483.3 165.549 2485.09 231.931 2445.89 273.964L2200.4 537.168C2161.19 579.201 2095.84 580.967 2054.42 541.113L2054.42 541.113C2013 501.259 2011.21 434.876 2050.42 392.843Z" fill="#1C549F" fill-rule="nonzero" opacity="1" stroke="none"/>
+          <path id="path-c" d="M2255.53 728.764L2501.02 465.56C2540.23 423.527 2608.7 424.755 2653.95 468.302L2653.95 468.302C2699.2 511.849 2704.11 581.226 2664.9 623.259L2419.41 886.462C2380.2 928.495 2311.74 927.268 2266.48 883.721L2266.48 883.721C2221.23 840.173 2216.33 770.797 2255.53 728.764Z" fill="#1C549F" fill-rule="nonzero" opacity="1" stroke="none"/>
+          <path id="path-d" d="M2010.8 2061.1L2575.55 1449.25C2638.24 1381.33 2743.31 1377.93 2810.24 1441.67L2810.24 1441.67C2877.16 1505.4 2880.59 1612.12 2817.9 1680.04L2253.15 2291.9C2190.46 2359.82 2085.38 2363.21 2018.46 2299.48L2018.46 2299.48C1951.54 2235.75 1948.11 2129.03 2010.8 2061.1Z" fill="#1C549F" fill-rule="nonzero" opacity="1" stroke="#7d43cb" stroke-linecap="butt" stroke-linejoin="round" stroke-width="1"/>
+          <path id="path-e" d="M63.8671 810.974L766.192 71.7156C848.072-14.4701 983.291-16.8622 1068.21 66.3727L1068.21 66.3727C1153.13 149.608 1155.6 286.95 1073.72 373.136L371.395 1112.39C289.515 1198.58 154.296 1200.97 69.3746 1117.74L69.3746 1117.74C-15.547 1034.5-18.0127 897.16 63.8671 810.974Z" fill="#1C549F" fill-rule="nonzero" opacity="1" stroke="#7d43cb" stroke-linecap="butt" stroke-linejoin="round" stroke-width="1"/>
+          <path id="path-f" d="M165.328 2112.24L801.384 1435.22C845.705 1388.05 919.876 1385.74 967.051 1430.06L967.051 1430.06C1014.23 1474.38 1016.54 1548.55 972.219 1595.72L336.162 2272.74C291.842 2319.91 217.67 2322.23 170.496 2277.91L170.496 2277.91C123.321 2233.59 121.007 2159.42 165.328 2112.24Z" fill="#1C549F" fill-rule="nonzero" opacity="1" stroke="#7d43cb" stroke-linecap="butt" stroke-linejoin="round" stroke-width="1"/>
+          <path id="path-g" d="M455.694 1323.76L761.43 997.628C796.722 959.982 855.851 958.074 893.497 993.366L893.497 993.366C931.144 1028.66 933.052 1087.79 897.759 1125.43L592.023 1451.56C556.731 1489.21 497.602 1491.12 459.956 1455.82L459.956 1455.82C422.309 1420.53 420.401 1361.4 455.694 1323.76Z" fill="#1C549F" fill-rule="nonzero" opacity="1" stroke="#7d43cb" stroke-linecap="butt" stroke-linejoin="round" stroke-width="1"/>
+          <path id="path-h" d="M-0.090154 0.700223C0.0535503 1.10195 0.0987751 1.64969 0.476609 1.84788C0.70097 1.96557 0.783845 1.44401 0.917583 1.22883C1.45067 0.371108 2.69705-1.44697 2.89631-2.35267C3.02264-2.9269 2.89631-1.17674 2.89631-0.588775C2.89631 0.0905623 2.17856 1.49924 1.54512 1.85354C-0.330497 2.90261-1.3028-2.68979-0.090154 0.700223Z" fill="#1C549F" fill-rule="nonzero" opacity="1" stroke="#7d43cb" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          <path d="M2868.47 0.217467L2868.47 0.170919L2868.47 0.123595L2868.47 0.115061L2868.47 0.107044L2868.47 0.0987691L2868.47 0.0904939L2868.47 0.0822186L2868.47 0.0589446L2868.47 0.0429114L2868.45 0.0426528L2868.45 0.0351534L2868.45 0.0271368L2868.44 0.0266196L2868.43 0.0266196L2868.43 0.0416184L2868.43 0.0493764L2868.43 0.0641166L2868.44 0.078081L2868.45 0.0866149L2868.45 0.0866149" fill="#1C549F" fill-rule="nonzero" opacity="1" stroke="#7d43cb" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+          <path d="M2868.37 2353.63L2868.37 2353.57L2868.37 2353.39L2868.37 2353.37L2868.37 2353.36L2868.37 2353.34L2868.37 2353.33L2868.37 2353.31L2868.37 2353.27L2868.37 2353.24L2868.38 2353.24L2868.4 2353.24L2868.41 2353.24L2868.42 2353.24L2868.42 2353.26L2868.42 2353.27L2868.42 2353.28L2868.42 2353.33L2868.42 2353.36L2868.42 2353.36" fill="#1C549F" fill-rule="nonzero" opacity="1" stroke="#7d43cb" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
           <path d="M-0.140107 2353.35L-0.120567 2353.29L-0.101028 2353.23L-0.0619498 2353.23L-0.0424107 2353.23L-0.0228715 2353.19L0.0149043 2353.19L0.054634 2353.19L0.095015 2353.19L0.114554 2353.19L0.15233 2353.19L0.171869 2353.19L0.191408 2353.19L0.210947 2353.19L0.231789 2353.19L0.251328 2353.19L0.270868 2353.19L0.328183 2353.19L0.328183 2353.19" fill="#6539b4" fill-rule="nonzero" opacity="1" stroke="#7d43cb" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
         </svg>
         <div class="div-camp-box">
@@ -185,7 +185,52 @@
             </v-row>
             <v-row>
               <v-col cols="12">
-                <v-img src="../assets/camps/joinus.png" contain/>
+                <img src="../assets/camps/joinus.png" class="img-joinus"/>
+              </v-col>
+            </v-row>
+          </div>
+        </div>
+        <div class="div-comepath">
+          <div class="div-comepath-title">오시는길</div>
+          <hr/>
+          <div class="div-comepath-contents">
+            <v-row>
+              <v-col cols="12">
+                <img src="../assets/map.svg" class="img-joinus"/>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="6">
+                <v-card color="#1C549F" elevation="0" class="card-body">
+                  <img src="../assets/car.svg" class="img-car"/>
+                  <v-card-title class="card-car">자가용이용시</v-card-title>
+                  <hr style="margin: 0 0 2rem 0;"/>
+                  <v-card-text class="card-text">
+                    <ul class="ul-comepath">
+                      <li>네비게이션</li>
+                      <li>"고려신학대 천안캠퍼스" 검색</li>
+                    </ul>
+                  </v-card-text>
+                </v-card>
+              </v-col>
+              <v-col cols="6">
+                <v-card color="#1C549F" elevation="0" class="card-body">
+                  <img src="../assets/train.svg" class="img-train"/>
+                  <v-card-title class="card-train">지하철이용시</v-card-title>
+                  <hr style="margin: 0 0 2rem 0;"/>
+                  <v-card-text class="card-text">
+                    <ul class="ul-comepath">
+                      <li>1호선 천안역 3번출구</li>
+                      <li>도보 5분거리 / 동부광장버스(23, 381, 6370)</li>
+                      <li>15분 이동 천안의료원, 고려신학대 하차</li>
+                    </ul>
+                  </v-card-text>
+                </v-card>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12">
+                <img src="../assets/camps/comepath.png" class="img-joinus"/>
               </v-col>
             </v-row>
           </div>
@@ -236,19 +281,21 @@ export default {
 </script>
 
 <style>
+.card-car, .card-train {margin: 0 0 0 0; color: white; font-size: 3rem;}
+.img-car{width:9rem; height:10rem;}
+.img-train{width:10rem; height:10rem;}
+.img-comepath{display:block; width: 100%;}
+.ul-comepath{margin-bottom: 3rem;}
+.div-comepath{ background-color: #1C549F; color: white; font-size: 6rem; font-weight: 700; padding: 7rem 2rem 0 2rem; }
+
+.img-joinus{display:block; width: 100%;}
 .card-body{position: static;}
 .ul-joinus{margin-bottom: 3rem;}
 ul{ list-style:none; }
 .v-application ul{padding-left: 1rem;}
 .card-title{color:white; font-size:3rem; padding: 0rem; margin: 3rem 0 3rem 0;}
 .card-text{color:white !important; font-size:2.6rem; line-height: 3.375rem !important; padding: 0rem;}
-.div-joinus{
-  background-color: #EF7278;
-  color: white;
-  font-size: 6rem;
-  font-weight: 700;
-  padding: 7rem 2rem 0 2rem;
-}
+.div-joinus{ background-color: #EF7278; color: white; font-size: 6rem; font-weight: 700; padding: 7rem 2rem 0 2rem; }
 .row{margin: 0 !important;}
 .card-img-box{position:absolute; top:0}
 .div-camp-box{ position: absolute; top:2rem; left: 17rem;}
@@ -289,10 +336,8 @@ ul{ list-style:none; }
 .div-main-poster{display: block;}
 .col{padding: 1rem !important;}
 path { width: 10%; }
-.v-main {
-  background-color: #6437b2;
-}
-.home-card { background-color: #6437b2 !important;}
+.v-main { background-color: #1C549F; }
+.home-card { background-color: #1C549F !important;}
 .frame-img { position: absolute; top: 10rem; left: 8rem; width: 70rem; height: 70rem; background-image: url("../assets/screen.png"); background-size: cover; }
 #svg-purpleline { position: absolute; top: -9rem; left: 12rem; width: 69rem; height: 69rem; }
 .img-mask { position: absolute; top: 0rem; left: 23rem; width: 52rem; height: 53rem; -webkit-mask-image: url("../assets/mask_poster.svg"); mask-image: url("../assets/mask_poster.svg"); -webkit-mask-position: -10rem 0rem; mask-position: -10rem 0rem; -webkit-mask-size: 68rem; mask-size: 68rem; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; opacity: 0.9; animation: m 3.5s ease-in-out forwards; }
