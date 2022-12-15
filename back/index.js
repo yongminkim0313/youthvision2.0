@@ -218,8 +218,8 @@ app.get('/auth/kakao/callback', async(req, res) => {
     // //     var user = await User.findOne({id: userInfo.data.id});
     // //     if(user) req.session.auth = user.auth;
     // //     if(req.session.email=='kimyongmin1@kakao.com') req.session.auth = 'admin';
-        userInfo.data.last_connect_dt = common.getDateTime();
-        userInfo.data.prmanent_cookie = common.getPrmanentCookie(req);
+        // userInfo.data.last_connect_dt = common.getDateTime();
+        // userInfo.data.prmanent_cookie = common.getPrmanentCookie(req);
         logger.info(userInfo.data);
         set(ref(fireDB,`posts/common/kakaologin/${userInfo.data.id}`),userInfo.data);
 
