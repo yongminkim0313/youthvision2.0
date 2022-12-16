@@ -191,8 +191,12 @@
           </div>
         </div>
         <div class="div-comepath">
-          <div class="div-comepath-title">오시는길</div>
+          <div style="color: white; font-size: 6rem; display:inline">
+            <div style="display: inline;" class="div-comepath-title">오시는 길</div>
+            <div style="display: inline-block; width:60rem;" class="div-comepath-subtitle">충청남도 천안시 동남구 충절로 535-31 <strong style="display: inline-block">고신대학교천안캠퍼스</strong></div>
+          </div>
           <hr/>
+          <div id="map" style="width:100%;height:40rem;"></div>
           <div class="div-comepath-contents">
             <v-row>
               <v-col cols="12">
@@ -255,7 +259,27 @@ export default {
   destroyed() {
     window.removeEventListener("resize", this.handleResize);
   },
-  mounted: function () {},
+  mounted: function () {
+    var markers = [ { position: new kakao.maps.LatLng(36.7772138178129,127.181382399891), text: '텍스트를 표시할 수 있어요!'} ];
+    var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+    var options = { //지도를 생성할 때 필요한 기본 옵션
+      center: new kakao.maps.LatLng(36.7772138178129,127.181382399891), //지도의 중심좌표.
+      level: 3, //지도의 레벨(확대, 축소 정도)
+    };
+    var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+
+    var imageSrc = require('../assets/marker.svg'), // 마커이미지의 주소입니다    
+    imageSize = new kakao.maps.Size(64, 69), // 마커이미지의 크기입니다
+    imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+      
+      // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption)
+    var marker = new kakao.maps.Marker({
+      position: new kakao.maps.LatLng(36.7772138178129,127.181382399891),
+      image: markerImage
+    });
+    marker.setMap(map);
+  },
   watch: {},
   methods: {
     handleResize() {
@@ -281,7 +305,8 @@ export default {
 </script>
 
 <style>
-.card-car, .card-train {margin: 0 0 0 0; color: white; font-size: 3rem;}
+.div-comepath-subtitle{font-size: 2rem;}
+.card-car, .card-train {margin: 0 0 0 0; color: white; font-size: 3rem; padding-top: 0;}
 .img-car{width:9rem; height:10rem;}
 .img-train{width:10rem; height:10rem;}
 .img-comepath{display:block; width: 100%;}
@@ -427,7 +452,7 @@ path { display: inline-block; position: absolute; }
   display: flex;
   position: -webkit-sticky;
   position:sticky;
-  top: 7%;
+  top: 7rem;
   text-align: center;
 }
 </style>
