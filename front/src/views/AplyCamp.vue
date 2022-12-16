@@ -815,7 +815,7 @@ import { email, maxLength, required } from 'vuelidate/lib/validators'
     }
   }
 </script>
-<style scoped>
+<style>
 .v-card__title {
   font-size:3rem !important;
   line-height: 2rem !important;
@@ -829,5 +829,6 @@ import { email, maxLength, required } from 'vuelidate/lib/validators'
 .v-btn.v-size--default{
   font-size: 2rem !important;
 }
+.v-list-item__title {font-size: 1.3rem !important;}
 </style>
 

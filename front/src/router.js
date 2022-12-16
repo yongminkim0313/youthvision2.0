@@ -20,7 +20,7 @@ const routes = [
         components: {
             header: UserHeader,
             default: Home,
-            footer: null
+            footer: UserFooter
         }
     },
     {
@@ -47,7 +47,7 @@ const routes = [
         components: {
             header: UserHeader,
             default: AplyCamp,
-            footer: null
+            footer: UserFooter
         }
     },
     {
@@ -56,7 +56,7 @@ const routes = [
         components: {
             header: UserHeader,
             default: CampLive,
-            footer: null
+            footer: UserFooter
         }
     },
     {
