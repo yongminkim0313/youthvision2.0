@@ -17,8 +17,8 @@
           <path d="M-0.140107 2353.35L-0.120567 2353.29L-0.101028 2353.23L-0.0619498 2353.23L-0.0424107 2353.23L-0.0228715 2353.19L0.0149043 2353.19L0.054634 2353.19L0.095015 2353.19L0.114554 2353.19L0.15233 2353.19L0.171869 2353.19L0.191408 2353.19L0.210947 2353.19L0.231789 2353.19L0.251328 2353.19L0.270868 2353.19L0.328183 2353.19L0.328183 2353.19" fill="#6539b4" fill-rule="nonzero" opacity="1" stroke="#7d43cb" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
         </svg>
         <div class="div-camp-box">
-          <span class="span-winter-camp">2023 WINTER CAMP</span>
-          <span class="span-youthvision">YOUTHVISION</span>
+          <div class="span-winter-camp">2023 WINTER CAMP</div>
+          <div class="span-youthvision">YOUTHVISION</div>
         </div>
         
         <span class="lside onlyjesus-o">O</span>
