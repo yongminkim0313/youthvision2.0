@@ -485,7 +485,7 @@ import { email, maxLength, required } from 'vuelidate/lib/validators'
       cnt50:[],
       pyrNm: '',
       checkboxUseRoom: '',
-      bankNm: '',
+      bankNm: '국민 172601-04-185856',
       dpstList:[
         // '농협 351-0823-9838-33'
         // ,'신한 140-011-071790' 

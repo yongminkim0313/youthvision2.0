@@ -185,7 +185,8 @@
             </v-row>
             <v-row>
               <v-col cols="12">
-                <img src="../assets/camps/joinus.png" class="img-joinus"/>
+                <div class="img-joinus img-back"> </div>
+                <iframe class="iframe-youtube" src="https://www.youtube.com/embed/v27mGxia5fQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
               </v-col>
             </v-row>
           </div>
@@ -312,7 +313,8 @@ export default {
 .img-comepath{display:block; width: 100%;}
 .ul-comepath{margin-bottom: 3rem;}
 .div-comepath{ background-color: #1C549F; color: white; font-size: 6rem; font-weight: 700; padding: 7rem 2rem 0 2rem; }
-
+.img-back{background-image: url('../assets/camps/joinus.png'); height: 60rem; background-repeat: no-repeat; background-size: contain;}
+.iframe-youtube{ width: 100%; height: 50rem;}
 .img-joinus{display:block; width: 100%;}
 .card-body{position: static;}
 .ul-joinus{margin-bottom: 3rem;}
