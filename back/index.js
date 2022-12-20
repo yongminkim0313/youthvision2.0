@@ -278,7 +278,7 @@ app.get('/api/youtube', (req, res) => {
 
 app.get('/api/admin/aply/all', async (req, res)=>{
     logger.info(req.session.auth);
-    if(req.session.auth == 'admin'){
+    if(req.session.auth != 'admin'){
         console.log('관리자가 아닙니다.')
         res.status(200).json([]);
         return;
