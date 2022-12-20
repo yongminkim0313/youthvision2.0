@@ -12,6 +12,14 @@
     from T_CM_APLY_CAMP
   </select>
 
+  <select id='selectCampCnt'>
+    select seq, chodeung, cheongsonyeon, cheongnyeon, jangnyeon, sayeogja from T_CM_CAMP_CNT
+  </select>
+
+  <select id='selectPathSe'>
+    select seq, path from T_CM_JOIN_PATH_SE
+  </select>
+
   <select id="selectCampAplyOne">
     select 
       seq, aply_tot_amt, aply_prgrs, aply_dt, aply_name, jikbun_se, church_adtr, church_addr,church,church_se,
@@ -30,10 +38,6 @@
     values (#{seq}, #{path})
   </insert>
 
-  <select id="selectCampCnt">
-    select seq, chodeung, cheongsonyeon, cheongnyeon, jangnyeon, sayeogja from T_CM_CAMP_CNT where seq = #{seq}
-  </select>
-  
   <insert id="insertCampCnt">
     insert into T_CM_CAMP_CNT (seq, chodeung, cheongsonyeon, cheongnyeon, jangnyeon, sayeogja)
     values(#{seq}, #{chodeung}, #{cheongsonyeon}, #{cheongnyeon}, #{jangnyeon}, #{sayeogja})

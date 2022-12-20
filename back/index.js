@@ -215,11 +215,15 @@ app.get('/auth/kakao/callback', async(req, res) => {
         req.session.name            = userInfo.data.kakao_account.profile.nickname
         req.session.accessToken     = `${access_token}`;
         req.session.refreshToken    = `${refresh_token}`;
-    // //     var user = await User.findOne({id: userInfo.data.id});
-    // //     if(user) req.session.auth = user.auth;
-    // //     if(req.session.email=='kimyongmin1@kakao.com') req.session.auth = 'admin';
-        // userInfo.data.last_connect_dt = common.getDateTime();
-        // userInfo.data.prmanent_cookie = common.getPrmanentCookie(req);
+        var adminList = ['cnalgus1004@naver.com','kimyongmin1@kakao.com'];
+        console.log(userInfo.data.kakao_account.email);
+        if(adminList.indexOf(userInfo.data.kakao_account.email) > -1){
+            req.session.auth = 'admin';
+            res.cookie('auth','admin');
+        }else{
+            req.session.auth = 'user';
+            res.cookie('auth','user');
+        }
         logger.info(userInfo.data);
         set(ref(fireDB,`posts/common/kakaologin/${userInfo.data.id}`),userInfo.data);
 
@@ -271,6 +275,32 @@ app.get('/api/youtube', (req, res) => {
         res.status(400).json(Error(err))
     });
 });
+
+app.get('/api/admin/aply/all', async (req, res)=>{
+    if(req.session.auth == 'admin'){
+        res.status(200).json([]);
+        return;
+    }
+    var aplyList        = await db.getList('campAply','selectCampAply', {})
+    var aplyCampCnt     = await db.getList('campAply','selectCampCnt', {})
+    var aplyPathSe      = await db.getList('campAply','selectPathSe', {})
+    aplyList.forEach((aply) => {
+        var a = aplyCampCnt.find((el, idx, arr)=>{
+            return el.seq == aply.seq;
+        })
+        aply['campCnt'] = a;
+        
+        var b = aplyPathSe.filter((el) =>{
+            return el.seq == aply.seq;
+        })
+        aply['joinPathSe'] = [];
+        b.forEach((el)=>{
+            aply['joinPathSe'].push(el.path);
+        })
+    })
+    console.log('aplyList:',aplyList);
+    res.status(200).json(aplyList);
+})
 
 app.listen(process.env.SERVER_PORT,()=>{
     logger.info(`server start! port:${process.env.SERVER_PORT}`)
