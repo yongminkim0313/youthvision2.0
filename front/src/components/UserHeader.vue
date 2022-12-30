@@ -1,6 +1,7 @@
 <template>
     <v-app-bar app dense style="height:7rem; background:linear-gradient(0deg, rgba(255,255,255,0.5) 0%, rgb(255, 255, 255,0.1) 50%, rgba(255,255,255,0.72) 100%)" fixed >
-        <router-link to="/" class="mr-auto"> <v-img alt="주꿈로고" class="mr-2" contain src="../assets/jesusdream.png" transition="scale-transition" width="30" /> </router-link>
+        <router-link to="/" class="mr-auto"> 
+            <v-img alt="주꿈로고" class="mr-2 youthvisionlogo" contain src="../assets/youthvision_logo.svg" transition="scale-transition"/> </router-link>
         <v-spacer></v-spacer>
         <span @click="goAdminPage" v-if="isAdmin" class="amber--text text--darken-3 font-weight-bold d-sm-flex mr-2" style="font-size:2rem;" >관리자페이지 </span>
         <span @click="goCampLivePage" class="amber--text text--darken-3 font-weight-bold d-sm-flex mr-2" style="font-size:2rem;" >CAMPLIVE </span>
@@ -60,3 +61,8 @@ export default {
 
 }
 </script>
+<style>
+ .youthvisionlogo{
+    width: 7rem;
+ }
+</style>
