@@ -215,7 +215,7 @@ app.get('/auth/kakao/callback', async(req, res) => {
         req.session.name            = userInfo.data.kakao_account.profile.nickname
         req.session.accessToken     = `${access_token}`;
         req.session.refreshToken    = `${refresh_token}`;
-        var adminList = ['cnalgus1004@naver.com','kimyongmin1@kakao.com'];
+        var adminList = ['cnalgus1004@naver.com','kimyongmin1@kakao.com','yjcm00@hanmail.net'];
         console.log(userInfo.data.kakao_account.email);
         if(adminList.indexOf(userInfo.data.kakao_account.email) > -1){
             req.session.auth = 'admin';
