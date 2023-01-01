@@ -286,19 +286,10 @@
           </v-row>
         </template>
         <template v-slot:[`item.aplyDt`]="{ item }">
-          <v-row>{{item.aplyDt }}</v-row>
-          <v-row>
-            <v-badge dot
-            :value="diffTime(item.aplyDt) > 3 ?  1 : 0 "
-            >
-            ({{diffTime(item.aplyDt)}}일 지남)
-            </v-badge>
-          </v-row>
+          {{item.aplyDt }}
         </template>
         <template v-slot:[`item.aplyTotAmt`]="{ item }">
-        <v-btn
-          elevation="0"
-        >
+        <v-btn elevation="0" >
           {{item.aplyTotAmt | makeComma }}
         </v-btn>
         </template>
@@ -374,7 +365,7 @@ export default {
           checkboxUseRoom: '',
           bankNm: '',
           msgAgree: false,
-          memo:''
+          memo:'',
         },
         defaultItem: {
           aplyName: '',
@@ -436,6 +427,8 @@ export default {
           {text: '참여경로', value: 'joinPathSe', width: 200},
           {text: '캠프인원', value: 'campCnt'},
           {text: '기타의견 및 메모사항', value: 'memo'},
+          {text: '브로셔', value: 'brochureCnt'},
+          {text: '포스터', value: 'posterCnt'},
           {text: '수정,삭제', value: 'actions', soçrtable: false },
         ],
         aplyPrgrsList:['접수','가등록','등록완료','등록취소'],
@@ -557,7 +550,7 @@ export default {
        })
     },
     excelDown(){
-      this.axios.post('/admin/aply/excel',{})
+      this.$axios.post('/api/admin/aply/excel',{})
       .then((result)=>{
         var resp = result.data;
           if(!resp.result) {

@@ -10,6 +10,7 @@ import CampLive from './views/CampLive.vue'
 import AplyCamp from './views/AplyCamp.vue'
 import MyAplyList from './views/MyAplyList.vue'
 import AplyList from './views/admin/AplyList.vue'
+import AplyPoster from './views/AplyPoster.vue'
 
 Vue.use(VueRouter);
 
@@ -74,6 +75,15 @@ const routes = [
         components: {
             header: UserHeader,
             default: AplyList,
+            footer: null
+        }
+    },
+    {
+        path: "/aplyPoster",
+        name: "AplyPoster",
+        components: {
+            header: UserHeader,
+            default: AplyPoster,
             footer: null
         }
     },

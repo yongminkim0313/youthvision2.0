@@ -215,6 +215,7 @@ app.get('/auth/kakao/callback', async(req, res) => {
         req.session.name            = userInfo.data.kakao_account.profile.nickname
         req.session.accessToken     = `${access_token}`;
         req.session.refreshToken    = `${refresh_token}`;
+        req.session.email           = userInfo.data.kakao_account.email;
         var adminList = ['cnalgus1004@naver.com','kimyongmin1@kakao.com','yjcm00@hanmail.net'];
         console.log(userInfo.data.kakao_account.email);
         if(adminList.indexOf(userInfo.data.kakao_account.email) > -1){
@@ -237,7 +238,7 @@ app.get('/auth/kakao/callback', async(req, res) => {
     }
 });
 
-app.get('/auth/logout', async(req, res) => {
+app.get('/api/auth/logout', async(req, res) => {
     const accessToken = req.session.accessToken;
     console.log('accessToken::::::::',accessToken);
     
@@ -281,7 +282,7 @@ app.get('/api/admin/aply/all', async (req, res)=>{
     if(req.session.auth != 'admin'){
         console.log('관리자가 아닙니다.')
         res.status(200).json([]);
-        return;
+        return; 
     }
     var aplyList        = await db.getList('campAply','selectCampAply', {})
     var aplyCampCnt     = await db.getList('campAply','selectCampCnt', {})
@@ -300,9 +301,57 @@ app.get('/api/admin/aply/all', async (req, res)=>{
             aply['joinPathSe'].push(el.path);
         })
     })
-    console.log('aplyList:',aplyList);
     res.status(200).json(aplyList);
 })
+app.get('/api/user/aply/poster',async(req, res)=>{
+    if(!req.session) return;
+    var aplyList = await db.getList('campAply','selectCampAplyToPoster', req.session);
+    res.status(200).json(aplyList);
+})
+
+app.post('/api/user/aply/poster', async(req,res)=>{
+    var aplyContents = {
+        brochureCnt: req.body['brochureCnt'],
+        posterCnt: req.body['posterCnt'],
+        aplyName: req.body['aplyName'],
+        church: req.body['church'],
+        addr: req.body['addr'],
+        dtlAddr: req.body['dtlAddr'],
+        phone: req.body['phone'],
+        email: req.body['email'],
+      }
+    db.setData('campAply','insertAplyPoster', aplyContents )
+    .then(function(row) {console.log(row)})
+    res.status(200).json({msg:'success'});
+})
+
+app.post('/api/admin/aply/excel', async(req, res) => {
+    const excelService = require('./services/excelService');
+    try{
+        var aplyList        = await db.getList('campAply','selectCampAply', {})
+        var aplyCampCnt     = await db.getList('campAply','selectCampCnt', {})
+        var aplyPathSe      = await db.getList('campAply','selectPathSe', {})
+        aplyList.forEach((aply) => {
+            var a = aplyCampCnt.find((el, idx, arr)=>{
+                return el.seq == aply.seq;
+            })
+            aply['campCnt'] = a;
+            
+            var b = aplyPathSe.filter((el) =>{
+                return el.seq == aply.seq;
+            })
+            aply['joinPathSe'] = [];
+            b.forEach((el)=>{
+                aply['joinPathSe'].push(el.path);
+            })
+        })
+        const report = await excelService.makeExcelFile(aplyList);
+        res.status(200).json({content: report.toString('base64'), filename: 'testFile', result:true});
+    } catch (err) {
+        logger.error("Error >>" + err);
+        res.status(400).json({msg: '캠프신청 불러오기 실패'});
+    }
+});
 
 app.listen(process.env.SERVER_PORT,()=>{
     logger.info(`server start! port:${process.env.SERVER_PORT}`)

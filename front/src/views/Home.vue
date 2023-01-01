@@ -366,7 +366,7 @@ path { width: 10%; }
 .v-main { background-color: #1C549F; }
 .home-card { background-color: #1C549F !important;}
 .frame-img { position: absolute; top: 10rem; left: 8rem; width: 70rem; height: 70rem; background-image: url("../assets/screen.png"); background-size: cover; }
-#svg-purpleline { position: absolute; top: -9rem; left: 12rem; width: 67rem; height: 69rem; }
+#svg-purpleline { position: absolute; top: -9rem; left: 12rem; width: 64rem; height: 69rem; }
 .img-mask { position: absolute; top: 0rem; left: 23rem; width: 52rem; height: 53rem; -webkit-mask-image: url("../assets/mask_poster.svg"); mask-image: url("../assets/mask_poster.svg"); -webkit-mask-position: -10rem 0rem; mask-position: -10rem 0rem; -webkit-mask-size: 68rem; mask-size: 68rem; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; opacity: 0.9; animation: m 3.5s ease-in-out forwards; }
 .lside { font-family: Arial, Helvetica, sans-serif; font-size: 16rem; font-weight: 620; transform: rotate(90deg); position: absolute; left: 3rem; display: inline-block; height: 24rem; width: 11rem; color: #a57bed; opacity: 0; }
 .onlyjesus-o { font-weight: 600; color: aliceblue; animation: onlyjesus-o 2s ease-out forwards; }

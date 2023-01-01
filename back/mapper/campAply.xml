@@ -8,8 +8,19 @@
     select 
       seq, aply_tot_amt, aply_prgrs, aply_dt, aply_name, jikbun_se, church_adtr, church_addr,church,church_se,
       church_dtl_addr, schdl_se, phone, email, checkbox, full_address, detail_address, join_his_se,
+      rgtr_nm, rgtr_dt, updt_nm, updt_dt, kakao_email, pyr_nm, checkbox_use_room, bank_nm, kakao_id, memo,
+      nvl((select sum(brochure_cnt) from T_CM_APLY_POSTER where email = T_CM_APLY_CAMP.email),0) as brochure_cnt,
+      nvl((select sum(poster_cnt) from T_CM_APLY_POSTER where email = T_CM_APLY_CAMP.email),0) as poster_cnt
+    from T_CM_APLY_CAMP
+  </select>
+
+  <select id="selectCampAplyToPoster">
+    select 
+      seq, aply_tot_amt, aply_prgrs, aply_dt, aply_name, jikbun_se, church_adtr, church_addr,church,church_se,
+      church_dtl_addr, schdl_se, phone, email, checkbox, full_address, detail_address, join_his_se,
       rgtr_nm, rgtr_dt, updt_nm, updt_dt, kakao_email, pyr_nm, checkbox_use_room, bank_nm, kakao_id, memo
     from T_CM_APLY_CAMP
+    where kakao_id = #{kakaoId}
   </select>
 
   <select id='selectCampCnt'>
@@ -53,6 +64,21 @@
     #{churchDtlAddr}, #{schdlSe}, #{phone}, #{email}, #{checkbox}, #{fullAddress}, #{detailAddress}, #{joinHisSe},
     #{rgtrNm}, #{rgtrDt}, #{updtNm}, #{updtDt}, #{pyrNm}, #{checkboxUseRoom}, #{bankNm}, #{kakaoId}, #{memo}
   )
+  </insert>
+
+  <insert id="insertAplyPoster">
+  insert into T_CM_APLY_POSTER(
+    aply_name, email, brochure_cnt, poster_cnt, church, addr, dtl_addr, phone ) 
+    values(
+    #{aplyName},
+    #{email},
+    #{brochureCnt},
+    #{posterCnt},
+    #{church},
+    #{addr},
+    #{dtlAddr},
+    #{phone}
+    )
   </insert>
   
 </mapper>
