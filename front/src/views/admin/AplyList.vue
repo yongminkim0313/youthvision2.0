@@ -295,6 +295,7 @@
         </template>
         <template v-slot:[`item.aplyName`]="{ item }">
             {{item.aplyName}}|{{item.jikbunSe}}
+            <v-btn v-if="item.uuid" @click="sendMsg(item.uuid)">메세지보내기</v-btn>
         </template>
         <template v-slot:[`item.memo`]="{ item }">
         <v-card width="200" class="overflow-auto">
@@ -324,6 +325,7 @@
             </v-icon>
         </template>
         </v-data-table>
+        <v-btn @click="test">test</v-btn>
   </v-card>
 </template>
 <script>
@@ -444,12 +446,12 @@ export default {
         ],
         cnt50:[],
         dpstList:[
-          '농협 351-0823-9838-33'
-          ,'신한 140-011-071790' 
+          // '농협 351-0823-9838-33'
+          // ,'신한 140-011-071790' 
           ,'국민 172601-04-185856'
-          ,'우리 1005-502-838415'
-          ,'새마을 9002-1937-0057-1'
-          ,'우체국 104570-01-002038'
+          // ,'우리 1005-502-838415'
+          // ,'새마을 9002-1937-0057-1'
+          // ,'우체국 104570-01-002038'
         ],
         events: [],
         today:'',
@@ -485,6 +487,12 @@ export default {
     },
   },
   methods : {
+    sendMsg(uuid){
+      this.$axios.post('/api/admin/message/send',{uuid:uuid, args:{},templateId:77885})
+      .then((result)=>{
+        console.log(result);
+      })
+    },
     addEvent(type, title,details,date){
       this.events.push({ type: type, title: title, details: details, date: date, open: false });
     },
@@ -519,6 +527,21 @@ export default {
               timed: true 
             });
         }
+
+        this.$axios.post('/api/talk/friends')
+        .then((result)=>{
+          console.log(result);
+          const {data:{elements}} = result;
+          var tmp = {};
+          elements.forEach(function(val){
+            tmp[val.id]=val.uuid;
+          })
+          
+          _this.aplyList.forEach(function(value){
+            var uuid = tmp[value.kakaoId]
+            value['uuid'] = uuid;
+          })
+        })
       })
       _this.loading = false;
     },
@@ -536,14 +559,14 @@ export default {
       this.$socket.emit('sendMsgUser', { customerName: order.customerName, msg:'주문접수되었습니다.'})
     },
     saveAply(item){
-      this.axios.put('/admin/aply/one',item)
+      this.$axios.put('/api/admin/aply/one/prgrs',item)
       .then((data)=>{
         console.log(data);
        })
     },
     deleteAply(item){
       var _this = this;
-      this.axios.delete('/admin/aply/one',{ data: item})
+      this.$axios.delete('/api/admin/aply/one',{ data: item})
       .then((data)=>{
         console.log(data);
         _this.getAplyAll();
@@ -606,11 +629,10 @@ export default {
       submit () {
         this.loading = true
         Object.assign(this.aplyList[this.editedIndex], this.editedItem);
-        this.axios.put('/user/aply',this.editedItem)
+        this.$axios.put('/api/admin/aply/one',this.editedItem)
         .then((result)=>{
             console.log(result);
             setTimeout(() => (this.loading = false), 2000)
-            this.$awn.info('저장되었습니다.');
         }).catch((err)=>{
             console.log(err);
         })

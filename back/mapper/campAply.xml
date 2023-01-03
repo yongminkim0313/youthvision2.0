@@ -80,5 +80,28 @@
     #{phone}
     )
   </insert>
-  
+  <update id="updateAplyCampPrgrs">
+  update T_CM_APLY_CAMP set
+    aply_prgrs = #{aplyPrgrs}
+  where seq = #{seq}
+  </update>
+   <update id="updateAplyCamp">
+  update T_CM_APLY_CAMP set
+    aply_name = #{aplyName}, 
+    jikbun_se = #{jikbunSe}, 
+    church_adtr = #{churchAdtr}, 
+    church_addr = #{churchAddr},
+    church = #{church},
+    church_se = #{churchSe},
+    church_dtl_addr = #{churchDtlAddr}, 
+    schdl_se = #{schdlSe}, 
+    phone = #{phone}, 
+    email = #{email}, 
+    full_address = #{fullAddress}, 
+    detail_address = #{detailAddress},
+    pyr_nm = #{pyrNm}, 
+    bank_nm = #{bankNm},  
+    memo = #{memo}
+  where seq = #{seq}
+  </update>
 </mapper>

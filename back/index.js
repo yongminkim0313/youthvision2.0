@@ -300,6 +300,7 @@ app.get('/api/admin/aply/all', async (req, res)=>{
         b.forEach((el)=>{
             aply['joinPathSe'].push(el.path);
         })
+        aply['uuid']='';
     })
     res.status(200).json(aplyList);
 })
@@ -352,6 +353,83 @@ app.post('/api/admin/aply/excel', async(req, res) => {
         res.status(400).json({msg: '캠프신청 불러오기 실패'});
     }
 });
+
+app.put('/api/admin/aply/one/prgrs', async(req, res)=>{
+    if(req.session.auth != "admin"){
+        res.status(400).json({msg: '관리자가 아닙니다'});
+        return;
+    } 
+
+    const { body: { aplyPrgrs, seq } } = req;
+    console.log(aplyPrgrs, seq);
+    db.setData('campAply','updateAplyCampPrgrs', {aplyPrgrs:aplyPrgrs, seq:seq} )
+    .then(function(row) {
+        res.status(200).json({msg: '접수상태 변경 성공'});
+    })
+})
+
+app.put('/api/admin/aply/one', async(req, res)=>{
+    if(req.session.auth != "admin"){
+        res.status(400).json({msg: '관리자가 아닙니다'});
+        return;
+    } 
+
+    db.setData('campAply','updateAplyCamp', req.body )
+    .then(function(row) {
+        res.status(200).json({msg: '변경 성공'});
+    })
+})
+
+app.post('/api/admin/message/send', async(req,res) => {
+    const {body: {uuid, args,templateId},session: {accessToken}} = req;
+
+    try {
+        const response = await axios({
+            method: "post",
+            url: "https://kapi.kakao.com/v1/api/talk/friends/message/send", // 서버
+            headers: {
+                'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+                'Authorization': `Bearer ${accessToken}`
+            },
+            params:{
+                    receiver_uuids: '["'+uuid+'"]',
+                    template_id : templateId,
+                    template_args : args
+                }
+        });
+        console.log('response::',response.data);
+        res.status(200).json(response.data);
+    } catch (err) {
+        logger.error("Error >>" + err);
+        console.log(err);
+        res.status(401).json(err);
+    }
+    
+})
+
+app.post('/api/talk/friends', async(req,res) => {
+    logger.info(req.session.auth);
+    if(req.session.auth != 'admin'){
+        console.log('관리자가 아닙니다.')
+        res.status(200).json([]);
+        return; 
+    }
+    const accessToken = req.session.accessToken;
+    try {
+        const response = await axios({
+            method: "get",
+            url: "https://kapi.kakao.com/v1/api/talk/friends", // 서버
+            headers: { 'Authorization': `Bearer ${accessToken}` }, // 요청 헤더 설정
+        });
+
+        console.log('response::',response.data);
+        res.status(200).json(response.data);
+    } catch (err) {
+        logger.error("Error >>" + err);
+        res.status(401).json(err);
+    }
+    
+})
 
 app.listen(process.env.SERVER_PORT,()=>{
     logger.info(`server start! port:${process.env.SERVER_PORT}`)

@@ -39,6 +39,8 @@ module.exports = {
         email: { displayName: '이메일', headerStyle: styles.headerDark, cellStyle: {}, width: 200 },
         joinHisSe: { displayName: '참석여부', headerStyle: styles.headerDark, cellStyle: {}, width: 200 },
         joinPathSe: { displayName: '참여경로', headerStyle: styles.headerDark, cellStyle: {}, width: 200 },
+        brochureCnt: { displayName: '브로셔', headerStyle: styles.headerDark, cellStyle: {}, width: 200 },
+        posterCnt: { displayName: '포스터', headerStyle: styles.headerDark, cellStyle: {}, width: 200 },
         memo: { displayName: '기타의견 및 메모사항', headerStyle: styles.headerDark, cellStyle: {}, width: 200 },
     };
   

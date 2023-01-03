@@ -82,11 +82,12 @@
           </v-col>
           <v-col cols="12" md="6" sm="12" v-if="myPosterList.length == 0">
             <v-card :loading="posterLoading" class="mx-auto" max-width="374">
-              <v-img contain src="../assets/jd3.jpeg" class="white--text align-end" max-height="252px">
+              <v-img contain src="../assets/camps/2023_winter/brocher1.jpeg" class="white--text align-end" max-height="252px"></v-img>
+              <v-img contain src="../assets/camps/2023_winter/brocher2.jpeg" class="white--text align-end" max-height="252px">
                 <v-card-title class="text-no-wrap secondary">브로셔</v-card-title>
               </v-img>
               <v-divider class="pa-2"></v-divider>
-              <v-img contain src="../assets/jd3.jpeg" class="white--text align-end" max-height="252px">
+              <v-img contain src="../assets/camps/2023_winter/poster1.jpeg" class="white--text align-end" max-height="504px">
                 <v-card-title class="text-no-wrap secondary">포스터</v-card-title>
               </v-img>
               <v-card-actions>
