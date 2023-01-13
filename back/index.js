@@ -431,6 +431,13 @@ app.post('/api/talk/friends', async(req,res) => {
     
 })
 
+app.get('/api/user/aply/camp/one', async(req,res) => {
+    console.log(req.session);
+    if(!req.session.kakaoId) return;
+    var aply = await db.getData('campAply','selectCampAplyOne', req.session);
+    res.status(200).json(aply);
+})
+
 app.listen(process.env.SERVER_PORT,()=>{
     logger.info(`server start! port:${process.env.SERVER_PORT}`)
 })

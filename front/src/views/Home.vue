@@ -1,6 +1,7 @@
 <template>
   <v-container class="mx-auto pa-0">
     <v-card v-scroll="handleScroll" elevation="0" class="home-card">
+      
       <v-card class="card-img-box">
         <img src="../assets/camps/2023_winter/photo00_main.jpeg" class="img-mask"/>
         <svg id="svg-purpleline" viewBox="0 0 2868.45 2353.26" height="53rem" width="52rem" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:vectornator="http://vectornator.io" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -19,6 +20,26 @@
         <div class="div-camp-box">
           <div class="span-winter-camp">2023 WINTER CAMP</div>
           <div class="span-youthvision">YOUTHVISION</div>
+          <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-card v-show="aplyObj.show" color="rgba(255,255,255,0.5)" elevation="0" v-bind="attrs" v-on="on" style="z-index: 999;" :class="aplyObj.css" :loading="aplyObj.loading" :disabled="aplyObj.loading" >
+              <v-card-title class="white--text">
+                등록현황
+              </v-card-title>
+              <v-card-text style="z-index: 999;" class="white--text font-weight-normal">
+                {{aplyObj.msg}}
+              </v-card-text>
+            </v-card>
+          </template>
+          <span>
+            신청일: {{ tooltipData.aplyDt }} <br/>
+            신청인: {{ tooltipData.aplyName }} <br/>
+            교회명: {{ tooltipData.church }} <br/>
+            연락처: {{ tooltipData.phone }} <br/>
+            일정: {{ tooltipData.schdlSe }} <br/>
+            인원: {{ tooltipData.CAMP_CNT }}
+          </span>
+        </v-tooltip>
         </div>
         
         <span class="lside onlyjesus-o">O</span>
@@ -252,10 +273,22 @@ export default {
     return {
       clientHeight: 1000,
       purpleline: "../assets/frame.svg",
+      aplyObj:{
+        loading:true,
+        msg:'',
+        show: false,
+        css:'',
+        aplyDt:'',
+        aplyName: ''
+      },
+      tooltipData:{}
     };
   },
   created() {
     window.addEventListener("resize", this.handleResize);
+    if(this.$cookies.get('isLogin')==="001"){
+      this.campAplyCheck();
+    }
   },
   destroyed() {
     window.removeEventListener("resize", this.handleResize);
@@ -289,6 +322,24 @@ export default {
     },
     handleScroll: function (event) {
       console.log(window.scrollY);
+    },
+    campAplyCheck: async function(){
+      var _this = this;
+      this.$axios.get('/api/user/aply/camp/one')
+      .then((result)=>{
+        const {data} = result;
+        if(!data) return;
+        _this.tooltipData = data;
+        _this.aplyObj.loading = false;
+        _this.aplyObj.show=true;
+        _this.aplyObj.msg = data.aplyPrgrs;
+        var cnt = 0;
+        var msg = [data.aplyPrgrs, data.aplyName, data.church, data.churchAdtr, data.schdlSe]
+        setInterval(function(){
+          _this.aplyObj.msg = msg[cnt%5];
+          cnt++;
+        }, 2000);
+      })
     },
     aplyCamp: function () {
       if(this.$cookies.get('isLogin')==="001"){
@@ -456,5 +507,13 @@ path { display: inline-block; position: absolute; }
   position:sticky;
   top: 7rem;
   text-align: center;
+}
+.btn-aply-camp{
+  animation: btn-aply-camp 2.3s ease;
+}
+
+@keyframes btn-aply-camp {
+  from { transform: translate(100rem, -100rem); }
+  to { transform: translate(0rem, 0rem); }
 }
 </style>
