@@ -35,16 +35,16 @@
         <v-spacer></v-spacer>
         <div>
           <span class="d-inline-block text-caption" :class="scrollTop?'black--text':'white--text'">로그인</span>
-          <v-divider vertical inset class="ma-1"></v-divider>
+          <v-divider vertical inset class="mx-2" style="height:14px; border-color:rgba(150,150,150,0.5)"></v-divider>
           <span class="d-inline-block text-caption" :class="scrollTop?'black--text':'white--text'">문의하기</span>
-          <v-divider vertical inset class="ma-1"></v-divider>
+          <v-divider vertical inset class="mx-2" style="height:14px; border-color:rgba(150,150,150,0.5)"></v-divider>
           <span class="d-inline-block text-caption" :class="scrollTop?'black--text':'white--text'">FAQ</span>
         </div>
         <v-spacer></v-spacer>
         <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="d-md-none d-lg-none d-xl-none"></v-app-bar-nav-icon>
     </v-app-bar>
 
-    <v-navigation-drawer v-model="drawer" absolute right temporary >
+    <v-navigation-drawer v-model="drawer" fixed right temporary >
       <v-img
         src="https://cdn.vuetifyjs.com/images/lists/ali.png"
         height="300px"
