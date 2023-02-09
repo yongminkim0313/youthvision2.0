@@ -65,12 +65,12 @@
       btn:false,
     }),
     created(){
-      if(this.$route.name=='Main') this.btn=true;
+      if(this.$route.name=='Home') this.btn=true;
       else this.btn=false;
     },
     watch:{
       $route(r){
-        if(r.name == 'Main'){
+        if(r.name == 'Home'){
           this.btn=true;
         }else{
           this.btn=false;

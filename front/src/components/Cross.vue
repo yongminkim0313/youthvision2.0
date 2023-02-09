@@ -1,19 +1,19 @@
 <template>
     <v-card flat style="height:100vw;" class="my-2 overflow-hidden">
-        <div :class="isScroll?'cross1':'cross1e'" style="position: absolute; width:65vw; height:65vw; transform:rotate(45deg); background-color:aqua; transform-origin: 0 0; left: 0vw; top:20vw;">
-        <v-img src="../assets/camps/main/2023_winter_001.jpeg"></v-img>
-        </div>
-        <div :class="isScroll?'cross2':'cross2e'" style="position: absolute; width:65vw; height:65vw; transform:rotate(45deg); background-color:aqua; transform-origin: 0 0; left:30vw; top:-50vw;"></div>
-        <div :class="isScroll?'cross3':'cross3e'" style="position: absolute; width:65vw; height:65vw; transform:rotate(45deg); background-color:aqua; transform-origin: 0 0; left:100vw; top:-20vw;"></div>
-        <div :class="isScroll?'cross4':'cross4e'" style="position: absolute; width:65vw; height:65vw; transform:rotate(45deg); background-color:aqua; transform-origin: 0 0; left:70vw; top:50vw;"></div>
+        <v-img src="../assets/camps/main/cross_001.jpeg" contain :class="isScroll?'cross1 img-default':'cross1e img-default'" style=" left: 0vw; top:20vw;" ></v-img>
+        <v-img src="../assets/camps/main/cross_002.jpeg" contain :class="isScroll?'cross2 img-default':'cross2e img-default'" style=" left:30vw; top:-50vw;"> </v-img>
+        <v-img src="../assets/camps/main/cross_003.jpeg" contain :class="isScroll?'cross3 img-default':'cross3e img-default'" style=" left:100vw; top:-20vw;"></v-img>
+        <v-img src="../assets/camps/main/cross_004.jpeg" contain :class="isScroll?'cross4 img-default':'cross4e img-default'" style=" left:70vw; top:50vw;"> </v-img>
+        <v-img src="../assets/camps/main/cross_frame.jpeg" class="cross-frame"></v-img>
         <div class="squre">
-            <span class="monaco">JESUS</span>
-            <br/>
-            <span class="jesus2">예수가답이다</span>
+                <span class="monaco">JESUS</span>
+                <br/>
+                <span class="jesus2">예수가답이다</span>
         </div>
     </v-card>
 </template>
 <style>
+.img-default{position: absolute; width:65vw; height:65vw; transform:rotate(45deg); background-color:cornsilk; transform-origin: 0 0;}
 .cross1{ animation: cross1 1s ease-out forwards; opacity: 0;}
 .cross2{ animation: cross2 1s ease-out forwards; opacity: 0;}
 .cross3{ animation: cross3 1s ease-out forwards; opacity: 0;}
@@ -102,5 +102,13 @@ export default {
     justify-content: center;
     margin-top: 5vw;
     line-height: 5vw;
+}
+.cross-frame{
+    position: absolute; 
+    top: 52%; 
+    left: 35%;
+    width: 30vw; 
+    height: 30vw; 
+    transform:rotate(45deg) translate(-50%, -50%);
 }
 </style>

@@ -33,12 +33,13 @@
         </v-sheet>
       </v-menu>
         <v-spacer></v-spacer>
-        <div>
-          <span class="d-inline-block text-caption" :class="scrollTop?'black--text':'white--text'">로그인</span>
+        <div class="area_util">
+          <span @click="kakaoLogin" class="d-inline-block text-caption" :class="scrollTop?'black--text':'white--text'">로그인</span>
           <v-divider vertical inset class="mx-2" style="height:14px; border-color:rgba(150,150,150,0.5)"></v-divider>
           <span class="d-inline-block text-caption" :class="scrollTop?'black--text':'white--text'">문의하기</span>
           <v-divider vertical inset class="mx-2" style="height:14px; border-color:rgba(150,150,150,0.5)"></v-divider>
           <span class="d-inline-block text-caption" :class="scrollTop?'black--text':'white--text'">FAQ</span>
+          
         </div>
         <v-spacer></v-spacer>
         <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="d-md-none d-lg-none d-xl-none"></v-app-bar-nav-icon>
@@ -112,12 +113,21 @@
         }else{
           this.scrollTop=true;
         }
-      }
+      },
+      kakaoLogin: function() {
+        location.href = 'https://kauth.kakao.com/oauth/authorize?'
+            +'client_id=be0d818c768f8e2198c97470fc7577c5&'
+            +'redirect_uri='+this.APP_URL+'/auth/kakao/callback&'
+            +'response_type=code&'
+            +'scope=profile_nickname, profile_image, account_email, gender, friends';
+      },
     }
   }
 </script>
 <style>
+@import url('../src/assets/kakao.css');
 .v-menu__content {
   max-width:100% !important;
 }
+
 </style>
