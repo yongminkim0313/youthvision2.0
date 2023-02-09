@@ -815,24 +815,4 @@ import { email, maxLength, required } from 'vuelidate/lib/validators'
     }
   }
 </script>
-<style>
-.v-card__title {
-  font-size:3rem !important;
-  line-height: 2rem !important;
-  letter-spacing: 0.02rem !important;
-}
-.v-card__subtitle, .v-card__text{
-  font-size: 3rem !important;
-  line-height: 4rem !important;
-  letter-spacing: 0.02rem !important;
-}
-.v-btn.v-size--default{
-  font-size: 2rem !important;
-}
-.v-list-item__title {font-size: 1.3rem !important;}
-.v-data-table > .v-data-table__wrapper > table > tbody > tr > td, .v-data-table > .v-data-table__wrapper > table > thead > tr > td, .v-data-table > .v-data-table__wrapper > table > tfoot > tr > td {
-    font-size: 2rem;
-    height: 48px;
-}
-</style>
 
