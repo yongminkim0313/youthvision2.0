@@ -199,7 +199,7 @@ button .inner_txt{display:block;margin-top:-3px;}
 /* 2021-10-13-v621 수정 */
 .info_friendadd .link_thumb{overflow:hidden;display:block;position:relative;width:56px;height:56px;margin:0 auto;}
 /* 2021-10-12-v621 수정 */
-.info_friendadd .link_thumb .frame_g{position:absolute;top:0;right:0;bottom:0;left:0;background:url() no-repeat 0 0;}
+/* .info_friendadd .link_thumb .frame_g{position:absolute;top:0;right:0;bottom:0;left:0;background:url('') no-repeat 0 0;} */
 .info_friendadd .link_thumb .img_thumb{width:100%;height:100%;}
 .info_friendadd .tit_info{position:relative;display:block;padding:12px 22px 0;font-size:17px;font-weight:700;line-height:19px;text-align:center;font-family:"Noto Sans";}
 /* 2021-11-18-v654 수정 */
