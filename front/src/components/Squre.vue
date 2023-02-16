@@ -55,6 +55,7 @@ export default {
     transform: translateX(0px); opacity: 1; border-radius: 64px 0px 0px 192px !important; height: 70vh;
     background: linear-gradient(90deg, #b16afe 7.62%, rgba(187, 106, 254, 0.591) 100vw, #fff);
     width: 100vw;
+    transform: translateX(100vw); opacity: 0;
 }
 .card-bg.open{
     animation: card-bgOpen 1.2s ease-out forwards;
@@ -64,7 +65,6 @@ export default {
     from { transform: translateX(100vw); opacity: 0;} to { transform: translateX(0vw); opacity: 1; }
 }
 .card-bg.close{
-    background: linear-gradient(90deg, #b16afe 7.62%, rgba(187, 106, 254, 0.591) 100vw, #fff);
     animation: card-bgClose 1.2s ease-out forwards;
 }
 
