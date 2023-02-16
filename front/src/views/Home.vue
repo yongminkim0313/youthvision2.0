@@ -8,14 +8,17 @@
         <!-- <v-img src="../assets/camps/main/2023_winter_001.jpeg" contain></v-img> -->
       </section>
       <section>
+        <Squre></Squre>
       </section>
     </v-container>
 </template>
 <script scoped>
+
 import Carousel from '@/components/Carousel.vue';
 import Cross from '@/components/Cross.vue';
+import Squre from '@/components/Squre.vue';
   export default {
-      components: {Carousel, Cross},
+      components: {Carousel, Cross, Squre},
       name: "Home",
       data: () => {
           return { };
