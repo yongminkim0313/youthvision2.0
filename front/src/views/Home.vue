@@ -1,6 +1,6 @@
 <template>
     <v-container fluid class="pa-0">
-      <div style="position:fixed; color: aqua; display: inline-block; z-index: 9999;">{{ scrollYpos }}</div>
+      <!-- <div style="position:fixed; color: aqua; display: inline-block; z-index: 9999;">{{ scrollYpos }}</div> -->
       <section>
         <Carousel></Carousel>
       </section>
@@ -29,10 +29,10 @@ import YouthvisionMovie from '@/components/YouthvisionMovie.vue';
             return { scrollYpos: 0};
         },
         created() { 
-          var _this = this;
-          window.addEventListener("scroll", function(){
-            _this.scrollYpos = window.pageYOffset/window.innerHeight;
-          });
+          // var _this = this;
+          // window.addEventListener("scroll", function(){
+          //   _this.scrollYpos = window.pageYOffset/window.innerHeight;
+          // });
         },
         destroyed() { },
         mounted: function () { },
