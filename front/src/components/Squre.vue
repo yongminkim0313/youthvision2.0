@@ -1,11 +1,11 @@
 
 <template>
-    <v-card class="d-flex flex-column" :class="isScroll?'card-bg open':'card-bg close'">
+    <v-card class="d-flex flex-column card-bg" :class="{'open':isScroll,'close':!isScroll, 'bd-radius' : bdRadius}">
     <v-card-title class="mt-5 white--text text-h6 align-self-start">YOUTHVISION CAMP</v-card-title>
     <v-card-subtitle class="mb-5 white--text align-self-start">  주님오실길을 예비하라</v-card-subtitle>
     <div class="d-sm-flex d-md-none align-self-center flex-column">
         <v-img class="img-card-sm rounded-lg" src="../assets/camps/card001.jpeg" cover>
-            <v-card-text class="white--text text-subtitle-1">무너진 다윈의 장막을 일으키리</v-card-text>
+            <v-card-text class="white--text text-subtitle-1">무너진 다윗의 장막을 일으키리</v-card-text>
         </v-img>
         <v-img class="img-card-sm mt-5 rounded-lg" src="../assets/camps/card002.jpeg" cover>
             <v-card-text class="white--text text-subtitle-1">다음세대가 희망이다</v-card-text>
@@ -16,7 +16,7 @@
     </div>
     <div class="d-none d-md-flex align-self-center">
         <v-img class="img-card-md ml-10 rounded-xl elevation-5" src="../assets/camps/card001.jpeg" cover>
-            <v-card-text class="white--text text-subtitle-1">무너진 다윈의 장막을 일으키리</v-card-text>
+            <v-card-text class="white--text text-subtitle-1">무너진 다윗의 장막을 일으키리</v-card-text>
         </v-img>
         <v-img class="img-card-md ml-10 rounded-xl elevation-5" src="../assets/camps/card002.jpeg" cover>
             <v-card-text class="white--text text-subtitle-1">다음세대가 희망이다</v-card-text>
@@ -31,28 +31,32 @@
 export default {
   data () {
     return {
-        isScroll: false
+        isScroll: false,
+        bdRadius: false,
     }
   },
   created() {
         window.addEventListener("scroll", this.scrollCross);
+        window.addEventListener("resize", this.resizeWidth);
     },
     methods:{
       scrollCross:function(){
-        // console.log(window.pageYOffset, window.innerHeight, window.pageYOffset/window.innerHeight);
         var p = window.pageYOffset/window.innerHeight;
-        if(p > 1.1){
-          this.isScroll=true;
-        }else{
-          this.isScroll=false;
-        }
+        p > 1 ? this.isScroll = true : this.isScroll = false ;
+      },
+      resizeWidth: function(){
+        var w = window.innerWidth;
+        w > 959 ? this.bdRadius =true : this.bdRadius = false;
       }
     }
 }
 </script>
 <style scoped>
+.bd-radius{
+    border-radius: 64px 0px 0px 192px !important;
+}
 .card-bg{
-    transform: translateX(0px); opacity: 1; border-radius: 64px 0px 0px 192px !important; height: 70vh;
+    transform: translateX(0px); opacity: 1;  height: 70vh;
     background: linear-gradient(90deg, #b16afe 7.62%, rgba(187, 106, 254, 0.591) 100vw, #fff);
     width: 100vw;
     transform: translateX(100vw); opacity: 0;
