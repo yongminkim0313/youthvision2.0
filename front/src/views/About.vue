@@ -24,9 +24,9 @@
                     <v-card-subtitle class="mx-5">유스비전 미니스트리 대표 장용성목사/선교사</v-card-subtitle>
                     <v-card flat>
                         <v-timeline dense>
-                            <v-slide-x-reverse-transition group hide-on-leave >
+                            <v-slide-x-transition group hide-on-leave >
                             <v-timeline-item small v-for="item in items" :key="item.idx" v-show="item.show">{{ item.title }}</v-timeline-item>
-                            </v-slide-x-reverse-transition>
+                            </v-slide-x-transition>
                         </v-timeline>
                     </v-card>
                 </v-card-text>
@@ -34,10 +34,10 @@
             <v-card flat class="d-sm-none d-flex">
                 <v-card-text class="pa-0 "> 
                     <v-img class="pa-5" src="../assets/about_bg_001.png" cover>
-                        <h3 class="mt-5 white--text">YOUTHVISION MINISTRY</h3>
-                        <h4 class="mb-3 white--text">"다음세대들이여, 사명으로 다시 일어나라!"</h4>
+                        <h3 class="mt-5 gray--text">YOUTHVISION MINISTRY</h3>
+                        <h4 class="mb-3 gray--text">"다음세대들이여, 사명으로 다시 일어나라!"</h4>
                         <v-divider class="mb-3 white--text"></v-divider>
-                        <h5 class="mb-3 white--text">
+                        <h5 class="mb-3 gray--text">
                             <strong>유스비전 미니스트리(대표 장용성선교사)</strong>는 다음세대 회복과 부흥을 위하여 시작된 선교단체입니다. <br> 
                             2006년 2월 첫 유스비전캠프를 개최하여 현재까지 국내와 해외에서 <strong>선교캠프</strong>가 진행되고 있으며,
                             작은교회와 미자립(개척)교회를 섬기며 민족과 열방에 <strong>그리스도</strong>의 교회를 세우는 사역을 섬기고 있습니다.<br>
@@ -49,12 +49,12 @@
                             예배가 필요한 곳이면 어디든지 달려갑니다. <br>
                         </h5>
                         <v-card-subtitle class="mx-auto white--text">유스비전 미니스트리 대표 장용성목사/선교사</v-card-subtitle>
-                        <v-timeline dense>
-                            <v-slide-x-reverse-transition group hide-on-leave class="white--text">
-                            <v-timeline-item color="black"  small v-for="item in items" :key="item.idx" v-show="item.show">{{ item.title }}</v-timeline-item>
-                            </v-slide-x-reverse-transition>
-                        </v-timeline>
                     </v-img>
+                    <v-timeline dense>
+                        <v-slide-x-transition group hide-on-leave class="black--text">
+                        <v-timeline-item color="black"  small v-for="item in items" :key="item.idx" v-show="item.show">{{ item.title }}</v-timeline-item>
+                        </v-slide-x-transition>
+                    </v-timeline>
                 </v-card-text>
             </v-card>
         </v-card>
@@ -72,7 +72,7 @@ Rev.Pastor.Missionary Jang Yong Sung -->
     </v-card>  
   </template>
   <script>
-  
+
   export default {
     name: 'About',
     components: { },
@@ -98,21 +98,21 @@ Rev.Pastor.Missionary Jang Yong Sung -->
 
     }},
     created() { 
-        window.addEventListener("scroll", this.scrollCross);
+        var _this = this;
+        this.$eventBus.$on('scrollValue', function(p){
+            console.log('about',p);
+            _this.scrollCross(p);
+        })
     },
     methods : { 
-        scrollCross:function(){
+        scrollCross:function(p){
             var _this = this;
-            var p = window.pageYOffset/window.innerHeight;
-            console.log(p);
             if(p > 0.28){
                 for(var i = 0 ; i < this.items.length; i++){
                     (function(x){
-                        console.log(x);
                         setTimeout(() => _this.items[x].show = true, 500*x);
                     })(i);
                 }
-            }else{
             }
         },
     }

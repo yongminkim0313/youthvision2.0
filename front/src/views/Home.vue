@@ -28,12 +28,7 @@ import YouthvisionMovie from '@/components/YouthvisionMovie.vue';
         data: () => {
             return { scrollYpos: 0};
         },
-        created() { 
-          // var _this = this;
-          // window.addEventListener("scroll", function(){
-          //   _this.scrollYpos = window.pageYOffset/window.innerHeight;
-          // });
-        },
+        created() { },
         destroyed() { },
         mounted: function () { },
         watch: {},

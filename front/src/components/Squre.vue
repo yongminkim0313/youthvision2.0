@@ -36,12 +36,15 @@ export default {
     }
   },
   created() {
-        window.addEventListener("scroll", this.scrollCross);
-        window.addEventListener("resize", this.resizeWidth);
+    var _this = this;    
+    this.$eventBus.$on('scrollValue',function(p){
+        console.log('squre',p);
+        _this.scrollCross(p);
+    })
+    window.addEventListener("resize", this.resizeWidth);
     },
     methods:{
-      scrollCross:function(){
-        var p = window.pageYOffset/window.innerHeight;
+      scrollCross:function(p){
         p > 1 ? this.isScroll = true : this.isScroll = false ;
       },
       resizeWidth: function(){
@@ -56,7 +59,7 @@ export default {
     border-radius: 64px 0px 0px 192px !important;
 }
 .card-bg{
-    transform: translateX(0px); opacity: 1;  height: 70vh;
+    transform: translateX(100px); opacity: 0;  height: 70vh;
     background: linear-gradient(90deg, #b16afe 7.62%, rgba(187, 106, 254, 0.591) 100vw, #fff);
     width: 100vw;
 }

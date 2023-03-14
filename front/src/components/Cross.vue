@@ -63,12 +63,14 @@ export default {
     }
   },
   created() {
-        window.addEventListener("scroll", this.scrollCross);
+    var _this = this;
+    this.$eventBus.$on('scrollValue', function(p){
+        console.log('cross',p);
+        _this.scrollCross(p);
+    })
     },
     methods:{
-      scrollCross:function(){
-        // console.log(window.pageYOffset, window.innerHeight, window.pageYOffset/window.innerHeight);
-        var p = window.pageYOffset/window.innerHeight;
+      scrollCross:function(p){
         if(p > 0.2){
           this.isScroll=true;
         }else{

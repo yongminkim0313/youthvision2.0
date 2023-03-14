@@ -67,4 +67,24 @@ if(!Vue.prototype.$socket){
 }
 new Vue({ router, vuetify, render: h => h(App) }).$mount('#app')
 
+Vue.prototype.$eventBus = new Vue();
+// 디바운싱: 이벤트가 맨 마지막에만 발생하도록!
+let timer;
+window.addEventListener("scroll", () => {   
+  if (!timer) {
+      timer = setTimeout(() => {
+          timer = null;
+          var p = window.pageYOffset/window.innerHeight;
+          Vue.prototype.$eventBus.$emit('scrollValue',p);
+      }, 500);
+  }
+  // if (timer) {   
+  //     clearTimeout(timer); 
+  // }
+  // timer = setTimeout(() => {
+  //     // const scrollValue = document.documentElement.scrollTop;
+  //     var p = window.pageYOffset/window.innerHeight;
+  //     Vue.prototype.$eventBus.$emit('scrollValue',p);
+  // }, 200);
+})
 
