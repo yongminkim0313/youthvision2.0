@@ -89,6 +89,8 @@ export default {
                 +'scope=profile_nickname, profile_image, account_email, gender, friends';
         },
         kakaoLogout: function (){
+            localStorage.clear();
+            this.$cookies.clear();
             location.href=this.APP_URL+"/api/auth/logout";
         },
         goAdminPage: function(){

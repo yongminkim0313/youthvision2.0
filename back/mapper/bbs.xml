@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper namespace="bbs">  
+  <select id="selectBbs">
+    select 
+        idx, upp_idx, title, contents, click_cnt, delyn, rgst_dt, rgst_id 
+    from T_CM_BBS
+  </select>
+
+
+  <insert id="insertBbs">
+  insert into T_CM_BBS(
+    upp_idx, title, contents, click_cnt, rgst_dt, rgst_id 
+    ) values (
+    0,
+    #{title},
+    #{contents},
+    0,
+    now(),
+    1
+    )
+  </insert>
+  <update id="updateBbs">
+  update T_CM_BBS set
+    click_cnt = click_cnt+1
+  where idx = #{idx}
+  </update>
+</mapper>

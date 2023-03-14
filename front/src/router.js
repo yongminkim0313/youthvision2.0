@@ -11,7 +11,8 @@ import AplyCamp from './views/AplyCamp.vue'
 import MyAplyList from './views/MyAplyList.vue'
 import AplyList from './views/admin/AplyList.vue'
 import AplyPoster from './views/AplyPoster.vue'
-
+import Board from './views/Board.vue'
+import About from './views/About.vue'
 Vue.use(VueRouter);
 
 const routes = [
@@ -86,6 +87,26 @@ const routes = [
             default: AplyPoster,
             footer: null
         }
+    },
+    {
+        path: "/board",
+        name: "Board",
+        components: {
+            header: UserHeader,
+            default: Board,
+            footer: null
+        }
+    },
+    {
+        path: "/about",
+        name: "About",
+        components: {
+            header: UserHeader,
+            default: About,
+            footer: UserFooter
+        },
+        meta: { unauthorized: true }
+        ,props: true
     },
 ]
 

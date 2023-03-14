@@ -46,8 +46,13 @@ router.beforeEach(async (to,from, next) => { // router interceptor
   //   'tmprCookie' : Vue.$cookies.get('tmpr_cookie')
   // }
   // axios.post('/api/conectLog',conectLog)
-  // axios.get('/auth/user/info') .then((res)=>{ console.log(res); })
-  next();
+  axios.get('/auth/user/info') .then((res)=>{ 
+    localStorage.setItem("kakaoId", res.data['kakaoId'])
+    localStorage.setItem("name", res.data['name'])
+    localStorage.setItem("auth", res.data['auth'])
+    console.log(res); 
+    next();
+  })
 })
 
 
@@ -60,7 +65,6 @@ if(!Vue.prototype.$socket){
       // },
   });
 }
-
 new Vue({ router, vuetify, render: h => h(App) }).$mount('#app')
 
 

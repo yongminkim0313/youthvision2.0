@@ -244,6 +244,7 @@ app.get('/api/auth/logout', async(req, res) => {
     
     req.session.save(function() {
         res.cookie('isLogin','002');
+        res.cookie('auth','ghest')
         res.redirect('/');
     });
     
@@ -263,7 +264,7 @@ app.post('/auth/myKakaoMsgAgree', async(req,res) => { //동의항목 가져오�
 });
 
 app.get('/auth/user/info', (req,res)=>{
-    res.status(200).json({userInfo: req.session.name});
+    res.status(200).json(req.session);
 })
 
 app.get('/api/youtube', (req, res) => {
@@ -436,6 +437,17 @@ app.get('/api/user/aply/camp/one', async(req,res) => {
     if(!req.session.kakaoId) return;
     var aply = await db.getData('campAply','selectCampAplyOne', req.session);
     res.status(200).json(aply);
+})
+
+app.get('/api/bbs', async(req,res) =>{
+    var bbs = await db.getList('bbs','selectBbs', {});
+    res.status(200).json(bbs);
+})
+
+app.post('/api/bbs', async(req,res) =>{
+    console.log('asdfa',req.body)
+    var bbs = await db.setData('bbs','insertBbs', req.body);
+    res.status(200).json('success');
 })
 
 app.listen(process.env.SERVER_PORT,()=>{

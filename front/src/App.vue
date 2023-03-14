@@ -18,8 +18,8 @@
           </template>
           <v-sheet class="" width="100vw" height="200px">
             <v-list expand>
-              <v-list-item link v-for="(sub,si) in menu.subMenu" :key="si"> 
-                <v-list-item-title>{{ sub.subTitle }}</v-list-item-title> 
+              <v-list-item link v-for="(sub,si) in menu.subMenu" :key="si" @click="goToPath(sub.path);"> 
+                  <v-list-item-title>{{ sub.subTitle }}</v-list-item-title> 
               </v-list-item>
             </v-list>
           </v-sheet>
@@ -54,11 +54,11 @@
                 <v-list-item-title>{{ menu.title }}</v-list-item-title>
               </v-list-item-content>
             </template>
-            <v-list-item link v-for="(sub, si) in menu.subMenu" :key="si">
-              <v-list-item-title>{{ sub.subTitle }}</v-list-item-title>
+            <v-list-item link v-for="(sub, si) in menu.subMenu" :key="si" @click="goToPath(sub.path);">
               <v-list-item-icon>
-                <v-icon>{{ sub.icon }}</v-icon>
+                  <v-icon>{{ sub.icon }}</v-icon>
               </v-list-item-icon>
+                  <v-list-item-title>{{ sub.subTitle }}</v-list-item-title>
             </v-list-item>
           </v-list-group>
 
@@ -86,8 +86,7 @@
         menuList:[
           {title:'소개'
             ,subMenu:[
-              {subTitle:'준비중입니다.1', path:'/',icon:'mdi-bottle-tonic-plus'},
-              {subTitle:'준비중입니다.2', path:'/',icon:'mdi-bottle-tonic-plus'}
+              {subTitle:'ABOUT', path:'/about',icon:'mdi-bottle-tonic-plus'},
             ]
           },
           {title:'소식'
@@ -98,8 +97,7 @@
           },
           {title:'게시판'
             ,subMenu:[
-              {subTitle:'준비중입니다.3', path:'/',icon:'mdi-bottle-tonic-plus'},
-              {subTitle:'준비중입니다.4', path:'/',icon:'mdi-bottle-tonic-plus'}
+              {subTitle:'테스트게시판', path:'/board',icon:'mdi-bottle-tonic-plus'},
             ]
           },
         ],
@@ -134,8 +132,13 @@
             +'scope=profile_nickname, profile_image, account_email, gender, friends';
       },
       kakaoLogout: function (){
+        localStorage.clear();
+        console.log(localStorage.tl)
         location.href=this.APP_URL+"/api/auth/logout";
       },
+      goToPath: function(path){
+        this.$router.push(path).catch(()=>{})
+      }
     }
   }
 </script>

@@ -59,7 +59,6 @@ export default {
     transform: translateX(0px); opacity: 1;  height: 70vh;
     background: linear-gradient(90deg, #b16afe 7.62%, rgba(187, 106, 254, 0.591) 100vw, #fff);
     width: 100vw;
-    transform: translateX(100vw); opacity: 0;
 }
 .card-bg.open{
     animation: card-bgOpen 1.2s ease-out forwards;
