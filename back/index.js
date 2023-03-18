@@ -8,6 +8,7 @@ const logger = require('./modules/winstonConfig');
 const db = require('./modules/dbConnect');
 const kakao = require('./services/kakaoService');
 const common = require('./services/commonService');
+const fs = require('fs');
 
 const { initializeApp } = require('firebase/app');
 const { getDatabase, ref, onChildAdded, set, get } = require('firebase/database');
@@ -21,7 +22,7 @@ const firebaseConfig = {
     messagingSenderId: "872270613716",
     appId: "1:872270613716:web:47cc7435673ac20834bf41",
     measurementId: "G-RV8DQS8YX7"
-  };
+};
 initializeApp(firebaseConfig);
 const fireDB = getDatabase();
 
@@ -39,6 +40,27 @@ app.use(session({
         maxAge : 1000* 60 * 60 
     }
 }));
+
+function logErrors(err, req, res, next) {
+    console.error(err.stack);
+    next(err);
+}
+function clientErrorHandler(err, req, res, next) {
+    if (req.xhr) {
+        res.status(500).send({ error: 'Something failed!' });
+    } else {
+        next(err);
+    }
+}
+function errorHandler(err, req, res, next) {
+    res.status(500);
+    res.render('error', { error: err });
+}
+app.use(logErrors);
+app.use(clientErrorHandler);
+app.use(errorHandler);
+  
+require('./modules/socketConfig')(app,logger);
 app.get('*', (req, res, next) => {
     if(req.url.indexOf('/auth') >-1 || req.url.indexOf('/api') >-1){
         next();
@@ -46,27 +68,6 @@ app.get('*', (req, res, next) => {
     }else{
         res.sendFile(path.join(__dirname, '/public/index.html'));
     }
-});
-
-const options = { maxHttpBufferSize: 1e8, cors: { origin: '*', }, cookie: true }; //1e6: 1MB
-const server = require('http').createServer(app);
-const io = require('socket.io')(server, options);
-server.listen(4000);
-io.on('connection', socket => {
-    logger.info(`socket.io connected`);
-    socket.on('disconnect', () => { 
-        logger.info("@ socket disconnect @@@@"); 
-    });
-    socket.on('reconnecting', () => { logger.info("@ socket reconnecting @@@@"); });
-    socket.on('reconnection', () => { logger.info("@ socket reconnection @@@@"); });
-    var todayFm = common.getDate();
-    onChildAdded(ref(fireDB,'posts/common/connectLog/'+common.getDate())
-    ,(snapshot)=>{
-        var data = snapshot.val();
-          //console.log('onChildAdded::',data);
-          socket.emit('addConnectLog',data);
-     });
-    
 });
 
 app.get('/api/conectLog/key', (req, res) =>{
@@ -247,12 +248,6 @@ app.get('/api/auth/logout', async(req, res) => {
         res.cookie('auth','ghest')
         res.redirect('/');
     });
-    
-    // var result;
-    // if(accessToken){
-    //     result = await kakao.logout(accessToken);
-    // }
-    // res.status(200).json(result);
 });
 
 app.post('/auth/myKakaoMsgAgree', async(req,res) => { //동의항목 가져오기
@@ -445,11 +440,71 @@ app.get('/api/bbs', async(req,res) =>{
 })
 
 app.post('/api/bbs', async(req,res) =>{
-    console.log('asdfa',req.body)
+    console.log('/api/bbs',req.body)
     var bbs = await db.setData('bbs','insertBbs', req.body);
     res.status(200).json('success');
 })
 
+app.get('/api/download/:id', async(req, res, next) => {
+    try{
+        var atchmnfl = await db.getData('bbs','selectAtchmnfl', {atchmnflId: req.params.id, atchmnflSn: 1 });
+        console.log(atchmnfl);
+        var filePath = path.join(__dirname, atchmnfl.atchmnflPath);
+    
+        console.log(filePath);
+        res.download(filePath, atchmnfl.atchmnflNm,
+            (err) => {
+                if (err) { res.send({ error : err, msg   : "Problem downloading the file" }) }
+            }
+        );
+    }catch(err){
+        console.log(err);
+        logger.error(err);
+        next(err);
+    }
+});
+
+app.get('/api/image/:id', async(req,res, next)=>{
+    try{
+        var atchmnfl = await db.getData('bbs','selectAtchmnfl', {atchmnflId: req.params.id, atchmnflSn: 1 });
+        var ext;
+        if(atchmnfl){
+            var f = atchmnfl.atchmnflNm;
+            var l = f.length;
+            var dot = f.lastIndexOf('.');
+            ext = f.substring(dot+1, l).toLowerCase();
+        }else{
+            console.log("없는 파일 입니다.")
+            res.send('image xx');
+            return;
+        }
+
+        var imgExtList = ['jpg','png','jpeg'];
+        console.log(imgExtList.indexOf(ext));
+        if(imgExtList.indexOf(ext) > -1){
+            var filePath = path.join(__dirname, atchmnfl.atchmnflPath);
+            res.sendFile(filePath);
+        }else{
+            console.log("이미지 파일이 아닙니다.")
+            res.send('no image');
+            return;
+        }
+    }catch(err){
+        console.log(err);
+        logger.error(err);
+        next(err);
+    }
+})
+app.put('/api/bbs/cnt',(req,res)=>{
+    const { body:{idx} } = req;
+    db.setData('bbs','updateBbsClickCnt',{idx:idx})
+})
+app.delete('/api/bbs/:idx',(req,res)=>{
+    const {params : { idx }} = req;
+    console.log(req.session);
+    logger.info('delete : ' + idx );
+    db.setData('bbs','deleteBbs',{idx:idx});
+})
 app.listen(process.env.SERVER_PORT,()=>{
     logger.info(`server start! port:${process.env.SERVER_PORT}`)
 })

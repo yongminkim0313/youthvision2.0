@@ -1,71 +1,139 @@
 <template>
-    <v-card color="white">
-        <v-img src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" height="20vh" cover ></v-img>
-        <v-card-title>테스트 게시판</v-card-title>
-        <v-card-text>
-  <div>
-    <v-card-actions max-width="90vw" class="mx-auto mb-2 d-flex " >
-      <v-btn color="blue" elevation="5" @click="openNewBbs();" class="ml-auto" width="10vw" v-if="!bbsDiv && isAdmin">신규작성</v-btn>
-      <v-card v-if="bbsDiv">
-        <v-card-title>
-          <v-text-field label="제목" hide-details="auto" v-model="title"></v-text-field>
-        </v-card-title>
-        <v-card-text>
-          <v-text-field label="내용" hide-details="auto" v-model="contents"></v-text-field>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn color="blue" elevation="5" @click="submitNewBbs()">작성완료</v-btn>
-          <v-btn color="red" elevation="5" @click="bbsDiv = false;">작성취소</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-card-actions>
-
-    <v-card elevation="16" max-width="95vw" class="mx-auto" v-show="!bbsDiv">
-      <v-virtual-scroll :bench="benched" :items="bbs" height="60vh" item-height="64" >
-        <template v-slot:default="{ item }">
-          <v-list-item :key="item.idx">
-            <v-list-item-action>
-              <v-btn fab small depressed color="primary" >
-                {{ item.idx }}
+  <v-card color="white">
+    <v-img src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" height="10vh" cover ></v-img>
+    <v-card-title>테스트 게시판</v-card-title>
+    <v-card-text>
+      <v-btn color="orange" elevation="5" @click="openNewBbs();" class="ml-10 mb-5" v-if="isAdmin">관리자 작성</v-btn>
+      <v-card elevation="16" max-width="85vw" class="mx-auto">
+        <v-virtual-scroll :bench="benched" :items="bbs" height="60vh" item-height="64" >
+          <template v-slot:default="{ item }">
+            <v-scroll-y-transition>
+              <v-list-item :key="item.idx">
+                <v-list-item-avatar @click="detailContents(item);">
+                  <v-icon class="grey lighten-1" dark > mdi-message </v-icon>
+                </v-list-item-avatar>
+                <v-list-item-content @click="detailContents(item);">
+                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                </v-list-item-content>
+                <v-list-item-action>
+                  <v-btn icon>
+                    <v-icon color="grey lighten-1" v-if="isAdmin" @click="deleteBbs(item);">mdi-delete</v-icon>
+                  </v-btn>
+                </v-list-item-action>
+              </v-list-item>
+            </v-scroll-y-transition>
+              <!-- <div>
+                <details>
+                  <summary>{{ item.title }}</summary>
+                  <div>{{ item.contents }}</div>
+                  <a :href="'/api/download/'+item.atchmnflId" v-if="item.atchmnflId">첨부파일다운로드</a>
+                </details>
+              </div> -->
+          </template>
+        </v-virtual-scroll>
+        <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition" >
+          <v-card>
+            <v-toolbar dark color="primary" >
+              <v-btn icon dark @click="dialog = false" >
+                <v-icon>mdi-close</v-icon>
               </v-btn>
-            </v-list-item-action>
-
-            <v-list-item-content>
-              <v-list-item-title>
-                <strong>{{ item.title }}</strong>
-              </v-list-item-title>
-                {{ item.contents }}
-              </v-list-item-content>
-              
-              <v-list-item-action>
-                <v-rating background-color="purple lighten-3" color="purple" small ></v-rating>
-              </v-list-item-action>
-          </v-list-item>
-
-          <v-divider></v-divider>
-        </template>
-      </v-virtual-scroll>
-    </v-card>
-  </div>
-        </v-card-text>
-    </v-card>
+              <v-toolbar-title v-text="editMode?'관리자글작성':'게시판글내용'"></v-toolbar-title>
+              <v-spacer></v-spacer>
+              <v-toolbar-items>
+                <v-btn dark text @click="saveNewBbs();" > 저장 </v-btn>
+              </v-toolbar-items>
+            </v-toolbar>
+            <v-list three-line subheader >
+              <v-subheader>게시글</v-subheader>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title v-if="!editMode">{{ showItem.title }}</v-list-item-title>
+                  <!-- <v-list-item-subtitle>Set the content filtering level to restrict apps that can be downloaded</v-list-item-subtitle> -->
+                  <v-text-field v-if="editMode" label="제목" hide-details="auto" v-model="editItem.title"></v-text-field>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-content>
+                  <!-- <v-list-item-title>Password</v-list-item-title> -->
+                  <v-list-item-subtitle v-if="!editMode">{{ showItem.contents }}</v-list-item-subtitle>
+                  <v-text-field v-if="editMode" label="내용" hide-details="auto" v-model="editItem.contents"></v-text-field>
+                  <v-img v-if="showItem.atchmnflId" :src="'/api/image/'+showItem.atchmnflId" max-width="50vw"/>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item v-if="editMode">
+                <v-list-item-content>
+                  <v-list-item-title>파일추가</v-list-item-title>
+                  <v-list-item-subtitle>파일을 첨부합니다.@파일첨부 후에 꼭 저장버튼 눌러주세요!</v-list-item-subtitle>
+                  <v-img :src="'/api/image/'+editItem.atchmnflId" max-width="50vw"/>
+                </v-list-item-content>
+                <v-list-item-action>
+                  <file-upload @setAtchmnflId-child="setAtchmnflId"></file-upload>
+                </v-list-item-action>
+              </v-list-item>
+            </v-list>
+            <v-divider></v-divider>
+            <v-list three-line subheader v-if="editMode">
+              <v-subheader>옵션</v-subheader>
+              <v-list-item>
+                <v-list-item-action>
+                  <v-checkbox v-model="notifications"></v-checkbox>
+                </v-list-item-action>
+                <v-list-item-content>
+                  <v-list-item-title>상단표시</v-list-item-title>
+                  <v-list-item-subtitle>게시판 상단에 노출됩니다.</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-action>
+                  <v-checkbox v-model="sound"></v-checkbox>
+                </v-list-item-action>
+                <v-list-item-content>
+                  <v-list-item-title>중요 메세지</v-list-item-title>
+                  <v-list-item-subtitle>중요 메시지 "!" 가 표시됩니다.</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-action>
+                  <v-checkbox v-model="widgets"></v-checkbox>
+                </v-list-item-action>
+                <v-list-item-content>
+                  <v-list-item-title>답글기능</v-list-item-title>
+                  <v-list-item-subtitle>답글을 표시합니다.</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </v-card>
+        </v-dialog>
+      </v-card>
+    </v-card-text>
+  </v-card>
 </template>
 <script>
+import FileUpload from '../components/Upload.vue'
 export default {
-  components: { },
+  components: {FileUpload },
   data(){
       return {
         bbs:[ ],
         benched: 10,
-        bbsDiv: false,
-        title: '',
-        contents: ''
+        dialog: false,
+        notifications: false,
+        sound: false,
+        widgets: false,
+        editMode:false,
+        editItem:{
+          title: '',
+          contents: '',
+          atchmnflId: 0,
+        }
+        ,showItem:{}
       }
   },
   computed: {
       isAdmin(){
-        if(localStorage.getItem('auth')==="admin"){ return true; }
-        else{ return false; }
+        return true;
+        // if(localStorage.getItem('auth')==="admin"){ return true; }
+        // else{ return false; }
       }
     },
     created: function(){
@@ -73,7 +141,8 @@ export default {
     },
     methods:{
       openNewBbs: function(){
-        this.bbsDiv = true;
+        this.editMode = true;
+        this.dialog = true;
       },
       selectBbs:function(){
         var _this = this;
@@ -82,13 +151,31 @@ export default {
           _this.bbs = result.data;
         });
       },
-      submitNewBbs: function(){
+      saveNewBbs: function(){
         var _this = this;
-        this.$axios.post('/api/bbs',{title:_this.title, contents:_this.contents})
+        this.$axios.post('/api/bbs',_this.editItem)
         .then((result)=>{
           console.log(result);
-          _this.bbsDiv = false;
+          _this.dialog = false;
+          _this.selectBbs();
         })
+      },
+      setAtchmnflId: function(id){
+        this.editItem.atchmnflId = id;
+      },
+      detailContents: function(item){
+        this.editMode = false;
+        this.showItem = Object.assign({},item);
+        this.dialog = true;
+        this.contentsCntUp(item);
+      },
+      contentsCntUp: function(item){
+        this.$axios.put('/api/bbs/cnt',item);
+      },
+      deleteBbs: function(item){
+        this.$axios.delete('/api/bbs/'+item.idx);
+        const idx = this.bbs.findIndex(function(b) {return b.idx === item.idx;});
+        if (idx > -1) this.bbs.splice(idx, 1);
       }
     }
   }
