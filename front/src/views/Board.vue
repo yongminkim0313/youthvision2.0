@@ -48,16 +48,14 @@
               <v-list-item>
                 <v-list-item-content>
                   <v-list-item-title v-if="!editMode">{{ showItem.title }}</v-list-item-title>
-                  <!-- <v-list-item-subtitle>Set the content filtering level to restrict apps that can be downloaded</v-list-item-subtitle> -->
                   <v-text-field v-if="editMode" label="제목" hide-details="auto" v-model="editItem.title"></v-text-field>
                 </v-list-item-content>
               </v-list-item>
               <v-list-item>
                 <v-list-item-content>
-                  <!-- <v-list-item-title>Password</v-list-item-title> -->
                   <v-list-item-subtitle v-if="!editMode">{{ showItem.contents }}</v-list-item-subtitle>
                   <v-text-field v-if="editMode" label="내용" hide-details="auto" v-model="editItem.contents"></v-text-field>
-                  <v-img v-if="showItem.atchmnflId" :src="'/api/image/'+showItem.atchmnflId" max-width="50vw"/>
+                  <v-img v-if="showItem.atchmnflId && !editMode" :src="'/api/image/'+showItem.atchmnflId" max-width="50vw"/>
                 </v-list-item-content>
               </v-list-item>
               <v-list-item v-if="editMode">
@@ -132,8 +130,8 @@ export default {
   computed: {
       isAdmin(){
         return true;
-        // if(localStorage.getItem('auth')==="admin"){ return true; }
-        // else{ return false; }
+        if(localStorage.getItem('auth')==="admin"){ return true; }
+        else{ return false; }
       }
     },
     created: function(){
