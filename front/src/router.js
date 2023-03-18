@@ -7,6 +7,7 @@ import Home from './views/Home.vue'
 import User from './views/User.vue'
 import ConnectLog from './components/ConnectLog.vue'
 import CampLive from './views/CampLive.vue'
+import NewsCast from './views/NewsCast.vue'
 import AplyCamp from './views/AplyCamp.vue'
 import MyAplyList from './views/MyAplyList.vue'
 import AplyList from './views/admin/AplyList.vue'
@@ -114,6 +115,17 @@ const routes = [
         components: {
             header: UserHeader,
             default: CampLive,
+            footer: UserFooter
+        },
+        meta: { unauthorized: true }
+        ,props: true
+    },
+    {
+        path: "/newsCast",
+        name: "NewsCast",
+        components: {
+            header: UserHeader,
+            default: NewsCast,
             footer: UserFooter
         },
         meta: { unauthorized: true }

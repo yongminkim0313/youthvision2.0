@@ -18,9 +18,6 @@
           </template>
           <v-sheet class="" width="100vw" height="200px">
             <v-list expand>
-              <v-list-item link @click="goToPath('/');"> 
-                  <v-list-item-title>홈</v-list-item-title> 
-              </v-list-item>
               <v-list-item link v-for="(sub,si) in menu.subMenu" :key="si" @click="goToPath(sub.path);"> 
                   <v-list-item-title>{{ sub.subTitle }}</v-list-item-title> 
               </v-list-item>
@@ -43,11 +40,7 @@
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" fixed right temporary >
-      <v-img
-        src="https://cdn.vuetifyjs.com/images/lists/ali.png"
-        height="300px"
-        dark
-      ></v-img>
+      <v-img src="https://cdn.vuetifyjs.com/images/lists/ali.png" height="300px" dark ></v-img>
       <v-list nav dense >
         <v-list-item-group v-model="group" active-class="deep-purple--text text--accent-4" >
           <v-list-item link @click="goToPath('/');">
@@ -98,7 +91,7 @@
           {title:'소식'
             ,subMenu:[
               {subTitle:'CAMP LIVE', path:'/campLive',icon:'mdi-bottle-tonic-plus'},
-              {subTitle:'준비중입니다.4', path:'/',icon:'mdi-bottle-tonic-plus'}
+              {subTitle:'NEWS CAST', path:'/newsCast',icon:'mdi-bottle-tonic-plus'}
             ]
           },
           {title:'게시판'
