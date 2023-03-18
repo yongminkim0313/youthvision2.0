@@ -40,6 +40,7 @@
     methods: {
       upload() {
         var _this = this;
+        _this.message = 'start upload!';
         if (_this.currentFile) {
           var fileReader = new FileReader();
           fileReader.onload = function (event) {
@@ -79,10 +80,11 @@
             fileReader = null;
             fileReader = new FileReader();
             setTimeout(() => {
-              this.progress = 100; 
+              _this.progress = 100; 
               _this.currentFile = null; 
-              this.fileInfos = [];
-              this.$emit('setAtchmnflId-child',data.atchmnflId);
+              _this.fileInfos = [];
+              _this.$emit('setAtchmnflId-child',data.atchmnflId);
+              _this.message = 'end upload!!'
             }, 2000);
           });
         } else {

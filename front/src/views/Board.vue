@@ -40,7 +40,7 @@
               <v-toolbar-title v-text="editMode?'관리자글작성':'게시판글내용'"></v-toolbar-title>
               <v-spacer></v-spacer>
               <v-toolbar-items>
-                <v-btn dark text @click="saveNewBbs();" > 저장 </v-btn>
+                <v-btn dark text @click="saveNewBbs();" v-if="editMode"> 저장 </v-btn>
               </v-toolbar-items>
             </v-toolbar>
             <v-list three-line subheader >
@@ -55,14 +55,14 @@
                 <v-list-item-content>
                   <v-list-item-subtitle v-if="!editMode">{{ showItem.contents }}</v-list-item-subtitle>
                   <v-text-field v-if="editMode" label="내용" hide-details="auto" v-model="editItem.contents"></v-text-field>
-                  <v-img v-if="showItem.atchmnflId && !editMode" :src="'/api/image/'+showItem.atchmnflId" max-width="50vw"/>
+                  <v-img v-if="showItem.atchmnflId && !editMode" :src="'/api/image/'+showItem.atchmnflId" max-width="80vw"/>
                 </v-list-item-content>
               </v-list-item>
               <v-list-item v-if="editMode">
                 <v-list-item-content>
                   <v-list-item-title>파일추가</v-list-item-title>
                   <v-list-item-subtitle>파일을 첨부합니다.@파일첨부 후에 꼭 저장버튼 눌러주세요!</v-list-item-subtitle>
-                  <v-img :src="'/api/image/'+editItem.atchmnflId" max-width="80vw"/>
+                  <v-img v-if="showItem.atchmnflId" :src="'/api/image/'+editItem.atchmnflId" max-width="80vw"/>
                 </v-list-item-content>
                 <v-list-item-action>
                   <file-upload @setAtchmnflId-child="setAtchmnflId"></file-upload>
@@ -129,7 +129,6 @@ export default {
   },
   computed: {
       isAdmin(){
-        return true;
         if(localStorage.getItem('auth')==="admin"){ return true; }
         else{ return false; }
       }
@@ -163,8 +162,8 @@ export default {
       },
       detailContents: function(item){
         this.editMode = false;
-        this.showItem = Object.assign({},item);
         this.dialog = true;
+        this.showItem = Object.assign({},item);
         this.contentsCntUp(item);
       },
       contentsCntUp: function(item){
