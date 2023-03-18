@@ -1,17 +1,15 @@
 <template>
-    <v-card flat min-width="400">
+    <v-card flat>
       <div v-if="currentFile">
-        <div>
           <v-progress-linear v-model="progress" color="light-blue" height="25" reactive >
             <strong>{{ progress }} %</strong>
           </v-progress-linear>
-        </div>
       </div>
   
       <v-card-actions>
           <v-file-input show-size label="File input" @change="selectFile" v-model="fileInfos" ></v-file-input>
           <v-btn color="success" dark small @click="upload">
-            Upload
+            업로드
             <v-icon right dark>mdi-cloud-upload</v-icon>
           </v-btn>
       </v-card-actions>
@@ -80,8 +78,12 @@
             _this.progress = data.Percent;
             fileReader = null;
             fileReader = new FileReader();
-            this.$emit('setAtchmnflId-child',data.atchmnflId);
-            setTimeout(() => {this.progress = 100; _this.currentFile = null; this.fileInfos = [];}, 2000);
+            setTimeout(() => {
+              this.progress = 100; 
+              _this.currentFile = null; 
+              this.fileInfos = [];
+              this.$emit('setAtchmnflId-child',data.atchmnflId);
+            }, 2000);
           });
         } else {
           alert("파일을 선택해주세요");

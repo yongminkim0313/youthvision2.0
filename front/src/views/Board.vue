@@ -44,7 +44,7 @@
               </v-toolbar-items>
             </v-toolbar>
             <v-list three-line subheader >
-              <v-subheader>게시글</v-subheader>
+              <!-- <v-subheader>게시글</v-subheader> -->
               <v-list-item>
                 <v-list-item-content>
                   <v-list-item-title v-if="!editMode">{{ showItem.title }}</v-list-item-title>
@@ -64,7 +64,7 @@
                 <v-list-item-content>
                   <v-list-item-title>파일추가</v-list-item-title>
                   <v-list-item-subtitle>파일을 첨부합니다.@파일첨부 후에 꼭 저장버튼 눌러주세요!</v-list-item-subtitle>
-                  <v-img :src="'/api/image/'+editItem.atchmnflId" max-width="50vw"/>
+                  <v-img :src="'/api/image/'+editItem.atchmnflId" max-width="80vw"/>
                 </v-list-item-content>
                 <v-list-item-action>
                   <file-upload @setAtchmnflId-child="setAtchmnflId"></file-upload>
