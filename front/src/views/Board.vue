@@ -17,7 +17,7 @@
                 </v-list-item-content>
                 <v-list-item-action>
                   <v-btn icon>
-                    <v-icon color="grey lighten-1" v-if="isAdmin" @click="deleteBbs(item);">mdi-delete</v-icon>
+                    <v-icon color="grey lighten-1" v-if="isAdmin" @click="setDeleteItem(item);">mdi-delete</v-icon>
                   </v-btn>
                 </v-list-item-action>
               </v-list-item>
@@ -31,13 +31,22 @@
               </div> -->
           </template>
         </v-virtual-scroll>
+        <div class="deleteDialog text-center" v-if="deleteItem.idx">
+          <v-sheet class="px-7 pt-7 pb-4 mx-auto text-center d-inline-block" color="blue-grey darken-3" dark >
+            <div class="grey--text text--lighten-1 text-body-2 mb-4">
+              [{{deleteItem.title}}]삭제하시겠습니까?
+            </div>
+            <v-btn class="ma-1" color="grey" plain @click="deleteItem = {};"> 취소 </v-btn>
+            <v-btn class="ma-1" color="error" plain @click="deleteBbs" > 삭제 </v-btn>
+          </v-sheet>
+        </div>
         <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition" >
           <v-card>
             <v-toolbar dark color="primary" >
               <v-btn icon dark @click="dialog = false" >
                 <v-icon>mdi-close</v-icon>
               </v-btn>
-              <v-toolbar-title v-text="editMode?'관리자글작성':'게시판글내용'"></v-toolbar-title>
+              <v-toolbar-title v-text="editMode?'관리자글작성':showItem.title"></v-toolbar-title>
               <v-spacer></v-spacer>
               <v-toolbar-items>
                 <v-btn dark text @click="saveNewBbs();" v-if="editMode"> 저장 </v-btn>
@@ -47,7 +56,6 @@
               <!-- <v-subheader>게시글</v-subheader> -->
               <v-list-item>
                 <v-list-item-content>
-                  <v-list-item-title v-if="!editMode">{{ showItem.title }}</v-list-item-title>
                   <v-text-field v-if="editMode" label="제목" hide-details="auto" v-model="editItem.title"></v-text-field>
                 </v-list-item-content>
               </v-list-item>
@@ -61,8 +69,7 @@
               <v-list-item v-if="editMode">
                 <v-list-item-content>
                   <v-list-item-title>파일추가</v-list-item-title>
-                  <v-list-item-subtitle>파일을 첨부합니다.@파일첨부 후에 꼭 저장버튼 눌러주세요!</v-list-item-subtitle>
-                  <v-img v-if="showItem.atchmnflId" :src="'/api/image/'+editItem.atchmnflId" max-width="80vw"/>
+                  <v-list-item-subtitle>파일을 첨부합니다. --파일첨부 후에 꼭 저장버튼 눌러주세요!--</v-list-item-subtitle>
                 </v-list-item-content>
                 <v-list-item-action>
                   <file-upload @setAtchmnflId-child="setAtchmnflId"></file-upload>
@@ -125,6 +132,7 @@ export default {
           atchmnflId: 0,
         }
         ,showItem:{}
+        ,deleteItem:{}
       }
   },
   computed: {
@@ -154,6 +162,7 @@ export default {
         .then((result)=>{
           console.log(result);
           _this.dialog = false;
+          _this.editItem = {};
           _this.selectBbs();
         })
       },
@@ -169,11 +178,24 @@ export default {
       contentsCntUp: function(item){
         this.$axios.put('/api/bbs/cnt',item);
       },
-      deleteBbs: function(item){
-        this.$axios.delete('/api/bbs/'+item.idx);
-        const idx = this.bbs.findIndex(function(b) {return b.idx === item.idx;});
+      deleteBbs: function(){
+        var _this = this;
+        this.$axios.delete('/api/bbs/'+_this.deleteItem.idx);
+        const idx = this.bbs.findIndex(function(b) {return b.idx === _this.deleteItem.idx;});
         if (idx > -1) this.bbs.splice(idx, 1);
+        _this.deleteItem={};
+      },
+      setDeleteItem: function(item){
+        this.deleteItem = item;
       }
     }
   }
 </script>
+<style scoped>
+.deleteDialog{
+  position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+</style>

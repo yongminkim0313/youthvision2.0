@@ -13,9 +13,8 @@
             <v-icon right dark>mdi-cloud-upload</v-icon>
           </v-btn>
       </v-card-actions>
-      <v-alert v-if="message" border="left" color="blue-grey" dark>
         {{ message }}
-      </v-alert>
+      <v-img v-if="tempImgId" :src="'/api/image/'+tempImgId" width="100px" cover/>
     </v-card>
   </template>
   <script>
@@ -30,8 +29,8 @@
         currentFile: null,
         progress: 0,
         message:'',
-        fileInfos:[]
-
+        fileInfos:[],
+        tempImgId:0
       };
     },
     created() {
@@ -40,8 +39,8 @@
     methods: {
       upload() {
         var _this = this;
-        _this.message = 'start upload!';
         if (_this.currentFile) {
+          _this.message = 'start upload!';
           var fileReader = new FileReader();
           fileReader.onload = function (event) {
             var data;
@@ -84,6 +83,7 @@
               _this.currentFile = null; 
               _this.fileInfos = [];
               _this.$emit('setAtchmnflId-child',data.atchmnflId);
+              _this.tempImgId = data.atchmnflId
               _this.message = 'end upload!!'
             }, 2000);
           });

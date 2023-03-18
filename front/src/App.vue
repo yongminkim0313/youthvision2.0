@@ -18,6 +18,9 @@
           </template>
           <v-sheet class="" width="100vw" height="200px">
             <v-list expand>
+              <v-list-item link @click="goToPath('/');"> 
+                  <v-list-item-title>홈</v-list-item-title> 
+              </v-list-item>
               <v-list-item link v-for="(sub,si) in menu.subMenu" :key="si" @click="goToPath(sub.path);"> 
                   <v-list-item-title>{{ sub.subTitle }}</v-list-item-title> 
               </v-list-item>
@@ -47,7 +50,10 @@
       ></v-img>
       <v-list nav dense >
         <v-list-item-group v-model="group" active-class="deep-purple--text text--accent-4" >
-
+          <v-list-item link @click="goToPath('/');">
+            <v-list-item-icon> <v-icon>mdi-home</v-icon> </v-list-item-icon>
+            <v-list-item-title>홈</v-list-item-title>
+          </v-list-item>
           <v-list-group v-for="(menu,i) in menuList" :key="i" no-action prepend-icon="mdi-account-circle">
             <template v-slot:activator>
               <v-list-item-content>
@@ -91,7 +97,7 @@
           },
           {title:'소식'
             ,subMenu:[
-              {subTitle:'준비중입니다.3', path:'/',icon:'mdi-bottle-tonic-plus'},
+              {subTitle:'CAMP LIVE', path:'/campLive',icon:'mdi-bottle-tonic-plus'},
               {subTitle:'준비중입니다.4', path:'/',icon:'mdi-bottle-tonic-plus'}
             ]
           },
