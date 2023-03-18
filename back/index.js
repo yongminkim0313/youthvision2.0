@@ -497,13 +497,15 @@ app.get('/api/image/:id', async(req,res, next)=>{
 })
 app.put('/api/bbs/cnt',(req,res)=>{
     const { body:{idx} } = req;
-    db.setData('bbs','updateBbsClickCnt',{idx:idx})
+    db.setData('bbs','updateBbsClickCnt',{idx:idx});
+    res.status(200).send('cnt +1');
 })
 app.delete('/api/bbs/:idx',(req,res)=>{
     const {params : { idx }} = req;
     console.log(req.session);
     logger.info('delete : ' + idx );
     db.setData('bbs','deleteBbs',{idx:idx});
+    res.status(200).send('delete!! '+idx);
 })
 app.listen(process.env.SERVER_PORT,()=>{
     logger.info(`server start! port:${process.env.SERVER_PORT}`)
