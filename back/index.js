@@ -242,10 +242,13 @@ app.get('/auth/kakao/callback', async(req, res) => {
 app.get('/api/auth/logout', async(req, res) => {
     const accessToken = req.session.accessToken;
     console.log('accessToken::::::::',accessToken);
-    
+    req.session.kakaoId         = null
+    req.session.name            = null
+    req.session.email           = null
+    req.session.auth            = 'guest'
     req.session.save(function() {
         res.cookie('isLogin','002');
-        res.cookie('auth','ghest')
+        res.cookie('auth','guest')
         res.redirect('/');
     });
 });
