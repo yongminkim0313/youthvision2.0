@@ -22,13 +22,6 @@
                 </v-list-item-action>
               </v-list-item>
             </v-scroll-y-transition>
-              <!-- <div>
-                <details>
-                  <summary>{{ item.title }}</summary>
-                  <div>{{ item.contents }}</div>
-                  <a :href="'/api/download/'+item.atchmnflId" v-if="item.atchmnflId">첨부파일다운로드</a>
-                </details>
-              </div> -->
           </template>
         </v-virtual-scroll>
         <div class="deleteDialog text-center" v-if="deleteItem.idx">
@@ -63,7 +56,40 @@
                 <v-list-item-content>
                   <v-list-item-subtitle v-if="!editMode">{{ showItem.contents }}</v-list-item-subtitle>
                   <v-text-field v-if="editMode" label="내용" hide-details="auto" v-model="editItem.contents"></v-text-field>
-                  <v-img v-if="showItem.atchmnflId && !editMode" :src="'/api/image/'+showItem.atchmnflId" max-width="80vw"/>
+                  <v-img v-if="showItem.atchmnflId && !editMode" :src="'/api/image/'+showItem.atchmnflId" max-width="80vw">
+                    <template v-slot:placeholder>
+                      <v-row class="fill-height ma-0" align="center" justify="center" >
+                        <v-progress-circular indeterminate color="grey lighten-5" ></v-progress-circular>
+                      </v-row>
+                    </template>
+                  </v-img>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item v-if="!editMode">
+                <v-list-item-content>
+                  <div>
+                    <v-btn plain max-width="300" class="mr-auto" @click="openReply = !openReply"> <v-icon left dark>mdi-message</v-icon> 댓글쓰기 </v-btn>
+                  </div>
+                  <v-textarea solo v-if="availableReply" name="input-7-4" :label="replyLabel" :disabled="!availableReply" v-model="replyItem.contents"></v-textarea>
+                  <v-btn outlined v-if="availableReply" @click="saveReply">등록</v-btn>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item v-if="!editMode">
+                <v-list-item-content>
+                  <v-timeline dense clipped v-for="item in reply"> 
+                    <v-timeline-item large >
+                      <template v-slot:icon>
+                        <v-avatar> <img src="https://i.pravatar.cc/64"> </v-avatar>
+                      </template>
+                      <template v-slot:opposite>
+                        <span>Tus eu perfecto</span>
+                      </template>
+                      <v-card class="elevation-2">
+                        <v-card-subtitle> {{ item.rgstDt }} </v-card-subtitle>
+                        <v-card-text>{{ item.contents }}</v-card-text>
+                      </v-card>
+                    </v-timeline-item>
+                  </v-timeline>
                 </v-list-item-content>
               </v-list-item>
               <v-list-item v-if="editMode">
@@ -120,6 +146,7 @@ export default {
   data(){
       return {
         bbs:[ ],
+        reply:[],
         benched: 10,
         dialog: false,
         notifications: false,
@@ -133,12 +160,21 @@ export default {
         }
         ,showItem:{}
         ,deleteItem:{}
+        ,replyItem:{uppIdx:0, contents:'', atchmnflId:0}
+        ,replyLabel:'댓글을 작성하려면 로그인 해주세요'
+        ,openReply: false
       }
   },
   computed: {
       isAdmin(){
         if(localStorage.getItem('auth')==="admin"){ return true; }
         else{ return false; }
+      },
+      availableReply(){
+        if(localStorage.getItem('kakaoId') && this.openReply){
+          return true;
+        }
+          return false;
       }
     },
     created: function(){
@@ -148,6 +184,13 @@ export default {
       openNewBbs: function(){
         this.editMode = true;
         this.dialog = true;
+      },
+      selectBbsReply: function(){
+        var _this = this;
+        this.$axios.get('/api/bbs/reply',{params:{idx:_this.showItem.idx}})
+        .then((result)=>{
+          _this.reply = result.data;
+        });
       },
       selectBbs:function(){
         var _this = this;
@@ -174,6 +217,7 @@ export default {
         this.dialog = true;
         this.showItem = Object.assign({},item);
         this.contentsCntUp(item);
+        this.selectBbsReply();
       },
       contentsCntUp: function(item){
         this.$axios.put('/api/bbs/cnt',item);
@@ -187,6 +231,22 @@ export default {
       },
       setDeleteItem: function(item){
         this.deleteItem = item;
+      },
+      saveReply: function(){
+        var _this = this;
+        console.log(this.replyItem);
+        if(this.replyItem['contents'].length < 10){
+          alert('10자 이상 작성바랍니다.');
+          return;
+        }
+        this.replyItem['title'] = '댓글';
+        this.replyItem['uppIdx'] = _this.showItem.idx;
+        this.replyItem['atchmnflId'] = 0;
+        this.$axios.post('/api/bbs/reply',this.replyItem)
+        .then((result)=>{
+          _this.openReply = false;
+          this.replyItem = {};
+        })
       }
     }
   }

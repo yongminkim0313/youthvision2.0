@@ -9,6 +9,7 @@ import axios from 'axios'
 import io from "socket.io-client";
 import common from "./common"
 
+
 Vue.config.productionTip = false;
 Vue.prototype.APP_URL = process.env.VUE_APP_API_URL;
 Vue.use(vueCookies);

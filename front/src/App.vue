@@ -117,7 +117,7 @@
     },
     methods:{
       isTop:function(){
-        if(window.pageYOffset==0){
+        if(window.pageYOffset < 50){
           this.scrollTop=false;
         }else{
           this.scrollTop=true;
@@ -149,5 +149,6 @@
 .v-btn:not(.v-btn--round).v-size--default{
   min-width: 10px !important;
 }
+body {padding:0;margin:0;box-sizing:border-box; font: 17px "NotoSans", sans-serif !important; color:#575757;}
 
 </style>

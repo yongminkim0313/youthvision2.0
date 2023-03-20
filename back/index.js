@@ -510,6 +510,15 @@ app.delete('/api/bbs/:idx',(req,res)=>{
     db.setData('bbs','deleteBbs',{idx:idx});
     res.status(200).send('delete!! '+idx);
 })
+app.post('/api/bbs/reply', async(req,res) =>{
+    console.log('/api/bbs/reply',req.body)
+    var bbs = await db.setData('bbs','insertBbsReply', req.body);
+    res.status(200).json('success');
+})
+app.get('/api/bbs/reply', async(req,res) =>{
+    var bbsReply = await db.getList('bbs','selectBbsReply', req.query);
+    res.status(200).json(bbsReply);
+})
 app.listen(process.env.SERVER_PORT,()=>{
     logger.info(`server start! port:${process.env.SERVER_PORT}`)
 })

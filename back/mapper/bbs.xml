@@ -7,6 +7,7 @@
     from T_CM_BBS a
     left outer join T_CM_ATCHMNFL b on a.atchmnfl_id = b.atchmnfl_id
     where a.delyn = 'N'
+    and a.upp_idx = 0
   </select>
 
 
@@ -43,5 +44,21 @@
   </insert>
   <select id="selectNextAtchmnflSeq">
     select nextval(T_CM_ATCHMNFL_SEQ) as seq
+  </select>
+  <insert id="insertBbsReply">
+  insert into T_CM_BBS(
+    upp_idx, title, contents, click_cnt, atchmnfl_id, rgst_dt, rgst_id 
+  ) values (
+    #{uppIdx},#{title}, #{contents}, 0, #{atchmnflId}, now(), 1
+  )
+  </insert>
+  <select id="selectBbsReply">
+  select 
+        a.idx, a.upp_idx, a.title, a.contents, a.click_cnt, a.delyn, a.rgst_dt, a.rgst_id,
+        b.atchmnfl_nm, b.atchmnfl_size, b.atchmnfl_id
+    from T_CM_BBS a
+    left outer join T_CM_ATCHMNFL b on a.atchmnfl_id = b.atchmnfl_id
+    where a.delyn = 'N'
+    and a.upp_idx = #{idx}
   </select>
 </mapper>
