@@ -13,6 +13,12 @@ import common from "./common"
 Vue.config.productionTip = false;
 Vue.prototype.APP_URL = process.env.VUE_APP_API_URL;
 Vue.use(vueCookies);
+axios.interceptors.response.use((res)=>res,(err)=>{
+  const {response:{data:{error}}} = err;
+  console.log('error message : ', error);
+  alert(error);
+  throw err;
+})
 Vue.prototype.$axios = axios;
 Vue.prototype.$common = common;
 Vue.directive('scroll', {
@@ -49,9 +55,11 @@ router.beforeEach(async (to,from, next) => { // router interceptor
   // axios.post('/api/conectLog',conectLog)
   console.log('socket is complate')
   if(!Vue.prototype.$socket){
+    const isLogin = localStorage.getItem("kakaoId")!='undefined'
+    const kakaoId = isLogin?localStorage.getItem("kakaoId"):'';
     Vue.prototype.$socket = io(process.env.VUE_APP_SOCKET_URL,{
         autoConnect: true,
-        query: {isLogin:true },
+        query: {isLogin, kakaoId},
     });
 }
   axios.get('/auth/user/info') .then((res)=>{ 

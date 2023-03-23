@@ -16,6 +16,9 @@ module.exports = (app, winston) => {
     server.listen(4000);
 
     io.on('connection', socket => {
+        console.log(socket.handshake.query);
+        const kakaoId = socket.handshake.query['kakaoId'];
+        const isLogin = socket.handshake.query['isLogin'];
         socket.on('fileDel', () => {
             socket.broadcast.emit('fileCommend', { fileCommend: 'refresh' });
             socket.emit('fileCommend', { fileCommend: 'refresh' });
@@ -23,6 +26,10 @@ module.exports = (app, winston) => {
         var Files = Object();
         socket.on('Start', (data) => {
             console.log('socket start!!');
+            if(!isLogin){
+                console.log('isLogin', isLogin);
+                return;
+            }
             var Name = data.Name;
             Files[Name] = {
                 FileSize: data.Size,
@@ -78,7 +85,7 @@ module.exports = (app, winston) => {
                                             atchmnflSize : Files[Name].FileSize, 
                                             atchmnflPath : '/uploadFile/' + uuid, 
                                             rgstDt:'', 
-                                            rgstId:1 
+                                            kakaoId:kakaoId
                                         };
                                         console.log(saveFileData);
                                         db.setData('bbs','insertAtchmnfl', saveFileData);

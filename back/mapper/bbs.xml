@@ -3,9 +3,10 @@
   <select id="selectBbs">
     select 
         a.idx, a.upp_idx, a.title, a.contents, a.click_cnt, a.delyn, a.rgst_dt, a.rgst_id,
-        b.atchmnfl_nm, b.atchmnfl_size, b.atchmnfl_id
+        b.atchmnfl_nm, b.atchmnfl_size, b.atchmnfl_id, c.thumbnail_image_url
     from T_CM_BBS a
     left outer join T_CM_ATCHMNFL b on a.atchmnfl_id = b.atchmnfl_id
+    left outer join T_CM_USER c on a.rgst_id = c.kakao_id
     where a.delyn = 'N'
     and a.upp_idx = 0
   </select>
@@ -15,7 +16,7 @@
   insert into T_CM_BBS(
     upp_idx, title, contents, click_cnt, atchmnfl_id, rgst_dt, rgst_id 
   ) values (
-    0, #{title}, #{contents}, 0, #{atchmnflId}, now(), 1
+    0, #{title}, #{contents}, 0, #{atchmnflId}, now(), #{kakaoId}
   )
   </insert>
   <update id="updateBbsClickCnt">
@@ -39,7 +40,7 @@
   insert into T_CM_ATCHMNFL (
     atchmnfl_id, atchmnfl_sn, atchmnfl_nm, atchmnfl_size, atchmnfl_path, rgst_dt, rgst_id 
   ) values (
-    #{atchmnflId}, #{atchmnflSn}, #{atchmnflNm}, #{atchmnflSize}, #{atchmnflPath}, now(), #{rgstId} 
+    #{atchmnflId}, #{atchmnflSn}, #{atchmnflNm}, #{atchmnflSize}, #{atchmnflPath}, now(), #{kakaoId} 
   )
   </insert>
   <select id="selectNextAtchmnflSeq">
@@ -49,15 +50,16 @@
   insert into T_CM_BBS(
     upp_idx, title, contents, click_cnt, atchmnfl_id, rgst_dt, rgst_id 
   ) values (
-    #{uppIdx},#{title}, #{contents}, 0, #{atchmnflId}, now(), 1
+    #{uppIdx},#{title}, #{contents}, 0, #{atchmnflId}, now(), #{kakaoId}
   )
   </insert>
   <select id="selectBbsReply">
   select 
         a.idx, a.upp_idx, a.title, a.contents, a.click_cnt, a.delyn, a.rgst_dt, a.rgst_id,
-        b.atchmnfl_nm, b.atchmnfl_size, b.atchmnfl_id
+        b.atchmnfl_nm, b.atchmnfl_size, b.atchmnfl_id, c.thumbnail_image_url
     from T_CM_BBS a
     left outer join T_CM_ATCHMNFL b on a.atchmnfl_id = b.atchmnfl_id
+    left outer join T_CM_USER c on a.rgst_id = c.kakao_id
     where a.delyn = 'N'
     and a.upp_idx = #{idx}
   </select>

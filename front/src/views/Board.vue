@@ -70,23 +70,24 @@
                   <div>
                     <v-btn plain max-width="300" class="mr-auto" @click="openReply = !openReply"> <v-icon left dark>mdi-message</v-icon> 댓글쓰기 </v-btn>
                   </div>
-                  <v-textarea solo v-if="availableReply" name="input-7-4" :label="replyLabel" :disabled="!availableReply" v-model="replyItem.contents"></v-textarea>
+                  <v-textarea autofocus solo id="textarea" v-if="openReply" name="input-7-4" :label="replyLabel" :disabled="!availableReply" v-model="replyItem.contents"></v-textarea>
                   <v-btn outlined v-if="availableReply" @click="saveReply">등록</v-btn>
                 </v-list-item-content>
               </v-list-item>
               <v-list-item v-if="!editMode">
                 <v-list-item-content>
-                  <v-timeline dense clipped v-for="item in reply"> 
+                  <v-timeline dense align-top v-for="item in reply" :key="item.idx"> 
                     <v-timeline-item large >
                       <template v-slot:icon>
-                        <v-avatar> <img src="https://i.pravatar.cc/64"> </v-avatar>
+                        <v-avatar> <v-img :src="item.thumbnailImageUrl"/> </v-avatar>
                       </template>
-                      <template v-slot:opposite>
-                        <span>Tus eu perfecto</span>
-                      </template>
-                      <v-card class="elevation-2">
-                        <v-card-subtitle> {{ item.rgstDt }} </v-card-subtitle>
-                        <v-card-text>{{ item.contents }}</v-card-text>
+                      <v-card class="elevation-2 align-end">
+                        <v-card-subtitle class="pa-1"> {{ item.rgstDt }} </v-card-subtitle>
+                        <v-card-text class="pb-0">{{ item.contents }}</v-card-text>
+                        <v-card-actions class="pa-0">
+                          <v-spacer></v-spacer>
+                          <v-btn v-if="isAdmin" icon @click="deleteBbsReply(item)"><v-icon color="grey lighten-1">mdi-delete</v-icon></v-btn>
+                        </v-card-actions>
                       </v-card>
                     </v-timeline-item>
                   </v-timeline>
@@ -161,7 +162,6 @@ export default {
         ,showItem:{}
         ,deleteItem:{}
         ,replyItem:{uppIdx:0, contents:'', atchmnflId:0}
-        ,replyLabel:'댓글을 작성하려면 로그인 해주세요'
         ,openReply: false
       }
   },
@@ -171,10 +171,18 @@ export default {
         else{ return false; }
       },
       availableReply(){
-        if(localStorage.getItem('kakaoId') && this.openReply){
+        if(localStorage.getItem('kakaoId')!='null' && this.openReply){
           return true;
-        }
+        }else{
           return false;
+        }
+      },
+      replyLabel(){
+        if(localStorage.getItem('kakaoId')=='null'){
+          return '댓글을 작성하려면 로그인 해주세요';
+        }else{
+          return '';
+        }
       }
     },
     created: function(){
@@ -245,9 +253,17 @@ export default {
         this.$axios.post('/api/bbs/reply',this.replyItem)
         .then((result)=>{
           _this.openReply = false;
-          this.replyItem = {};
+          _this.replyItem = {};
+          _this.selectBbsReply();
         })
-      }
+      },
+      deleteBbsReply: function(item){
+        var _this = this;
+        this.$axios.delete('/api/bbs/'+item.idx);
+        const idx = this.reply.findIndex(function(b) {return b.idx === item.idx;});
+        if (idx > -1) this.reply.splice(idx, 1);
+        _this.deleteItem={};
+      },
     }
   }
 </script>

@@ -69,7 +69,18 @@ app.get('*', (req, res, next) => {
         res.sendFile(path.join(__dirname, '/public/index.html'));
     }
 });
-
+app.post('*', (req, res, next) => {
+    const kakaoId = req.session.kakaoId;
+    console.log('req.method: ', req.method, 'req.session.kakaoId: ', kakaoId);
+    if(!kakaoId){
+        console.log('로그인 상태가 아닙니다.');
+        res.status(500).send({ error: '로그인 상태가 아닙니다.' });
+        return;
+    }else{
+        req.body['kakaoId'] = kakaoId; //카카오아이디 추가
+        next();
+    }
+});
 app.get('/api/conectLog/key', (req, res) =>{
     get(ref(fireDB,'posts/common/connectLog/'))
     .then((snapshot)=>{
@@ -212,11 +223,13 @@ app.get('/auth/kakao/callback', async(req, res) => {
         const refresh_token = response.data.refresh_token;
         const userInfo = await kakao.getUserInfo(access_token);
         console.log(userInfo);
-        req.session.kakaoId         = userInfo.data.id
-        req.session.name            = userInfo.data.kakao_account.profile.nickname
-        req.session.accessToken     = `${access_token}`;
-        req.session.refreshToken    = `${refresh_token}`;
-        req.session.email           = userInfo.data.kakao_account.email;
+        req.session.kakaoId           = userInfo.data.id
+        req.session.nickname          = userInfo.data.kakao_account.profile.nickname
+        req.session.accessToken       = `${access_token}`;
+        req.session.refreshToken      = `${refresh_token}`;
+        req.session.email             = userInfo.data.kakao_account.email;
+        req.session.thumbnailImageUrl = userInfo.data.kakao_account.profile.thumbnail_image_url;
+        req.session.gender            = userInfo.data.kakao_account.gender;
         var adminList = ['cnalgus1004@naver.com','kimyongmin1@kakao.com','yjcm00@hanmail.net'];
         console.log(userInfo.data.kakao_account.email);
         if(adminList.indexOf(userInfo.data.kakao_account.email) > -1){
@@ -226,9 +239,17 @@ app.get('/auth/kakao/callback', async(req, res) => {
             req.session.auth = 'user';
             res.cookie('auth','user');
         }
-        logger.info(userInfo.data);
-        set(ref(fireDB,`posts/common/kakaologin/${userInfo.data.id}`),userInfo.data);
-
+        // logger.info(userInfo.data);
+        // set(ref(fireDB,`posts/common/kakaologin/${userInfo.data.id}`),userInfo.data);
+        db.getData('user','selectUser',req.session)
+        .then((row)=>{
+            console.log('selectUser', row);
+            if(row){
+                db.setData('user','updateUser',req.session);
+            }else{
+                db.setData('user','insertUser',req.session);
+            }
+        })
         req.session.save(function() {
             res.cookie('isLogin','001');
             res.redirect('/');
