@@ -14,6 +14,8 @@ import AplyList from './views/admin/AplyList.vue'
 import AplyPoster from './views/AplyPoster.vue'
 import Board from './views/Board.vue'
 import About from './views/About.vue'
+import FAQ from './views/FAQ.vue'
+import Youthvision from './views/Youthvision.vue'
 Vue.use(VueRouter);
 
 const routes = [
@@ -32,7 +34,7 @@ const routes = [
         components: {
             header: null,
             default: ConnectLog,
-            footer: null
+            footer: UserFooter
         }
     },
     {
@@ -41,7 +43,7 @@ const routes = [
         components: {
             header: UserHeader,
             default: User,
-            footer: null
+            footer: UserFooter
         }
     },
     {
@@ -68,7 +70,7 @@ const routes = [
         components: {
             header: UserHeader,
             default: MyAplyList,
-            footer: null
+            footer: UserFooter
         }
     },
     {
@@ -77,7 +79,7 @@ const routes = [
         components: {
             header: UserHeader,
             default: AplyList,
-            footer: null
+            footer: UserFooter
         }
     },
     {
@@ -86,7 +88,7 @@ const routes = [
         components: {
             header: UserHeader,
             default: AplyPoster,
-            footer: null
+            footer: UserFooter
         }
     },
     {
@@ -95,7 +97,7 @@ const routes = [
         components: {
             header: UserHeader,
             default: Board,
-            footer: null
+            footer: UserFooter
         }
     },
     {
@@ -126,6 +128,28 @@ const routes = [
         components: {
             header: UserHeader,
             default: NewsCast,
+            footer: UserFooter
+        },
+        meta: { unauthorized: true }
+        ,props: true
+    },
+    {
+        path: "/FAQ",
+        name: "FAQ",
+        components: {
+            header: UserHeader,
+            default: FAQ,
+            footer: UserFooter
+        },
+        meta: { unauthorized: true }
+        ,props: true
+    },
+    {
+        path: "/youthvision",
+        name: "YOUTHVISION",
+        components: {
+            header: UserHeader,
+            default: Youthvision,
             footer: UserFooter
         },
         meta: { unauthorized: true }

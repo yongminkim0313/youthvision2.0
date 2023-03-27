@@ -1,6 +1,6 @@
 <template>
     <v-card color="white">
-        <v-img src="../assets/about_top_bg.png" height="30vh" cover ></v-img>
+        <v-img src="../assets/about_top_bg.png" height="64" cover ></v-img>
         <v-card-title class="d-none d-sm-flex "><h2 class="mx-auto my-10">다음세대 부흥을 일으키는</h2></v-card-title>
         <v-card-title class="d-sm-none d-flex">다음세대 부흥을 일으키는</v-card-title>
         <v-card class="d-flex flex-wrap" flat>
@@ -51,9 +51,9 @@
                         <v-card-subtitle class="mx-auto white--text">유스비전 미니스트리 대표 장용성목사/선교사</v-card-subtitle>
                     </v-img>
                     <v-timeline dense>
-                        <v-slide-x-transition group hide-on-leave class="black--text">
+                        <v-transition group class="black--text">
                         <v-timeline-item color="black"  small v-for="item in items" :key="item.idx" v-show="item.show">{{ item.title }}</v-timeline-item>
-                        </v-slide-x-transition>
+                        </v-transition>
                     </v-timeline>
                 </v-card-text>
             </v-card>
@@ -107,7 +107,7 @@ Rev.Pastor.Missionary Jang Yong Sung -->
     methods : { 
         scrollCross:function(p){
             var _this = this;
-            if(p > 0.28){
+            if(p > 0.01){
                 for(var i = 0 ; i < this.items.length; i++){
                     (function(x){
                         setTimeout(() => _this.items[x].show = true, 500*x);

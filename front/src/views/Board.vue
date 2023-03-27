@@ -1,14 +1,14 @@
 <template>
   <v-card color="white">
-    <v-img src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" height="10vh" cover ></v-img>
+    <v-img src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" height="64" cover ></v-img>
     <v-card-title>테스트 게시판</v-card-title>
     <v-card-text>
-      <v-btn color="orange" elevation="5" @click="openNewBbs();" class="ml-10 mb-5" v-if="isAdmin">관리자 작성</v-btn>
-      <v-card elevation="16" max-width="85vw" class="mx-auto">
+      <v-btn color="orange" elevation="5" @click="openNewBbs();" class="mb-5" v-if="isAdmin">관리자 작성</v-btn>
+      <v-card elevation="16" max-width="100vw" class="mx-auto">
         <v-virtual-scroll :bench="benched" :items="bbs" height="60vh" item-height="64" >
           <template v-slot:default="{ item }">
             <v-scroll-y-transition>
-              <v-list-item :key="item.idx">
+              <v-list-item :key="item.idx" link>
                 <v-list-item-avatar @click="detailContents(item);">
                   <v-icon class="grey lighten-1" dark > mdi-message </v-icon>
                 </v-list-item-avatar>
@@ -82,7 +82,7 @@
                         <v-avatar> <v-img :src="item.thumbnailImageUrl"/> </v-avatar>
                       </template>
                       <v-card class="elevation-2 align-end">
-                        <v-card-subtitle class="pa-1"> {{ item.rgstDt }} </v-card-subtitle>
+                        <v-card-subtitle class="pa-1"> {{ item.rgstDt | formatDate}} </v-card-subtitle>
                         <v-card-text class="pb-0">{{ item.contents }}</v-card-text>
                         <v-card-actions class="pa-0">
                           <v-spacer></v-spacer>
