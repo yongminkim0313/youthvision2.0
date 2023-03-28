@@ -7,7 +7,7 @@
       </div>
   
       <v-card-actions>
-          <v-file-input show-size label="File input" @change="selectFile" v-model="fileInfos" ></v-file-input>
+          <v-file-input full-width show-size truncate-length="10" label="File input" @change="selectFile" v-model="fileInfos" ></v-file-input>
           <v-btn color="success" dark small @click="upload">
             업로드
             <v-icon right dark>mdi-cloud-upload</v-icon>
@@ -91,7 +91,7 @@
               _this.$emit('setAtchmnflId-child',data.atchmnflId);
               _this.tempImgId = data.atchmnflId
               _this.message = 'end upload!!'
-            }, 2000);
+            }, 500);
           });
         } else {
           alert("파일을 선택해주세요");

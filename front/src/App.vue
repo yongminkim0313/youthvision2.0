@@ -32,8 +32,8 @@
         </template>
         <v-card id="dropdown-menu">
           <template v-for="(menu, idx) in menuList">
-            <div class="list px-15 my-2" style="width:18vw;">
-              <div class="list-item my-2" link v-for="(sub,si) in menu.subMenu" :key="sub.subTitle" @click="goToPath(sub.path);"> 
+            <div class="px-15 my-2" style="width:18vw;">
+              <div class="my-2 menu-item" v-for="(sub,si) in menu.subMenu" :key="sub.subTitle" @click="goToPath(sub.path);"> 
                 <span>{{ sub.subTitle }}</span> 
               </div>
             </div>
@@ -188,7 +188,7 @@ body {padding:0;margin:0;box-sizing:border-box; font: 17px "NotoSans", sans-seri
   display:inline-flex;
   color: white;
   top: 64px;
-  background: linear-gradient(to right, #8ed973 0%, #8c62fc 45%,  #8ed973 100%);
+  background: linear-gradient(to right, #8ed9738d 0%, #8b62fc74 45%,  #8ed9736d 100%);
   background-size: 400% 400%; 
   animation: gradient 7s ease forwards infinite!important; 
 }
@@ -196,9 +196,65 @@ body {padding:0;margin:0;box-sizing:border-box; font: 17px "NotoSans", sans-seri
   display:none;
   width:100%; 
 }
+.menu-item{
+  cursor: pointer;
+}
 @keyframes gradient {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 00% 50%; }
+}
+p{
+  margin: 0 !important;
+}
+em{
+  font-style: italic !important;
+}
+.content {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+blockquote {
+    margin: 0;
+}
+
+blockquote p {
+    padding: 8px;
+    background: #eee;
+    border-radius: 5px;
+}
+
+blockquote p::before {
+    content: '\201C';
+}
+
+blockquote p::after {
+    content: '\201D';
+}
+.menubar .button {
+    font-weight: bold;
+    display: inline-flex;
+    background: transparent;
+    border: 0;
+    color: black;
+    padding: 0.2rem 0.5rem;
+    margin-right: 0.2rem;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.menubar .button:hover {
+    background-color: rgba(black, 0.05);
+    color: red;
+}
+.menubar .button .v-icon:hover {
+    background-color: rgba(black, 0.05);
+    color: red;
+}
+.menubar .is-active {
+    background-color: rgba(black, 0.1);
+}
+.ProseMirror {
+    border: dashed;
 }
 </style>

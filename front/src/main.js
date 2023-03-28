@@ -64,8 +64,9 @@ router.beforeEach(async (to,from, next) => { // router interceptor
 }
   axios.get('/auth/user/info') .then((res)=>{ 
     localStorage.setItem("kakaoId", res.data['kakaoId'])
-    localStorage.setItem("name", res.data['name'])
+    localStorage.setItem("name", res.data['nickname'])
     localStorage.setItem("auth", res.data['auth'])
+    localStorage.setItem("thumbnailImageUrl", res.data['thumbnailImageUrl'])
     console.log(res); 
     next();
   })

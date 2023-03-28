@@ -1,7 +1,7 @@
 <template>
   <v-card color="white">
     <v-img src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" height="64" cover ></v-img>
-    <v-card-title>테스트 게시판</v-card-title>
+    <v-card-title></v-card-title>
     <v-card-text>
       <v-btn color="orange" elevation="5" @click="openNewBbs();" class="mb-5" v-if="isAdmin">관리자 작성</v-btn>
       <v-card elevation="16" max-width="100vw" class="mx-auto">
@@ -54,8 +54,8 @@
               </v-list-item>
               <v-list-item>
                 <v-list-item-content>
-                  <v-list-item-subtitle v-if="!editMode">{{ showItem.contents }}</v-list-item-subtitle>
-                  <v-text-field v-if="editMode" label="내용" hide-details="auto" v-model="editItem.contents"></v-text-field>
+                  <v-card-text v-if="!editMode" v-html="showItem.contents">  </v-card-text>
+                  <editor-tiptap-vue v-if="editMode" menubar @editorContent="setBbsContents"></editor-tiptap-vue>
                   <v-img v-if="showItem.atchmnflId && !editMode" :src="'/api/image/'+showItem.atchmnflId" max-width="80vw">
                     <template v-slot:placeholder>
                       <v-row class="fill-height ma-0" align="center" justify="center" >
@@ -70,8 +70,11 @@
                   <div>
                     <v-btn plain max-width="300" class="mr-auto" @click="openReply = !openReply"> <v-icon left dark>mdi-message</v-icon> 댓글쓰기 </v-btn>
                   </div>
-                  <v-textarea autofocus solo id="textarea" v-if="openReply" name="input-7-4" :label="replyLabel" :disabled="!availableReply" v-model="replyItem.contents"></v-textarea>
-                  <v-btn outlined v-if="availableReply" @click="saveReply">등록</v-btn>
+                  <v-card v-if="openReply" flat class="d-flex">
+                    <v-avatar class="ma-2"> <v-img :src="thumbnailImageUrl" /> </v-avatar> 
+                    <v-textarea autofocus solo id="textarea" name="input-7-4" :label="replyLabel" :disabled="!availableReply" v-model="replyItem.contents"></v-textarea>
+                  </v-card>
+                  <v-btn outlined v-if="availableReply" @click="saveReply"> 등록</v-btn>
                 </v-list-item-content>
               </v-list-item>
               <v-list-item v-if="!editMode">
@@ -141,9 +144,10 @@
   </v-card>
 </template>
 <script>
+import EditorTiptapVue from '../components/EditorTiptap.vue'
 import FileUpload from '../components/Upload.vue'
 export default {
-  components: {FileUpload },
+  components: {FileUpload,EditorTiptapVue },
   data(){
       return {
         bbs:[ ],
@@ -163,6 +167,7 @@ export default {
         ,deleteItem:{}
         ,replyItem:{uppIdx:0, contents:'', atchmnflId:0}
         ,openReply: false
+        ,newContents:''
       }
   },
   computed: {
@@ -183,6 +188,9 @@ export default {
         }else{
           return '';
         }
+      },
+      thumbnailImageUrl(){
+        return localStorage.getItem('thumbnailImageUrl');
       }
     },
     created: function(){
@@ -219,6 +227,9 @@ export default {
       },
       setAtchmnflId: function(id){
         this.editItem.atchmnflId = id;
+      },
+      setBbsContents: function(contents){
+        this.editItem.contents = contents;
       },
       detailContents: function(item){
         this.editMode = false;

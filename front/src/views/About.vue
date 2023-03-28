@@ -24,9 +24,7 @@
                     <v-card-subtitle class="mx-5">유스비전 미니스트리 대표 장용성목사/선교사</v-card-subtitle>
                     <v-card flat>
                         <v-timeline dense>
-                            <v-slide-x-transition group hide-on-leave >
                             <v-timeline-item small v-for="item in items" :key="item.idx" v-show="item.show">{{ item.title }}</v-timeline-item>
-                            </v-slide-x-transition>
                         </v-timeline>
                     </v-card>
                 </v-card-text>
@@ -51,9 +49,7 @@
                         <v-card-subtitle class="mx-auto white--text">유스비전 미니스트리 대표 장용성목사/선교사</v-card-subtitle>
                     </v-img>
                     <v-timeline dense>
-                        <v-transition group class="black--text">
                         <v-timeline-item color="black"  small v-for="item in items" :key="item.idx" v-show="item.show">{{ item.title }}</v-timeline-item>
-                        </v-transition>
                     </v-timeline>
                 </v-card-text>
             </v-card>
