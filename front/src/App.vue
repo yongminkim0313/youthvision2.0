@@ -204,9 +204,6 @@ body {padding:0;margin:0;box-sizing:border-box; font: 17px "NotoSans", sans-seri
     50% { background-position: 100% 50%; }
     100% { background-position: 00% 50%; }
 }
-p{
-  margin: 0 !important;
-}
 em{
   font-style: italic !important;
 }

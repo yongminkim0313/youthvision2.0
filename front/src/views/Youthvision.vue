@@ -1,6 +1,10 @@
 <template>
     <v-card color="white">
-        <div id="faq_top"></div>
+        <v-img src="../assets/about_top_bg.png" height="64" cover ></v-img>
+        <v-card max-width="80vw" class="mx-auto">
+            <p class="font-weight-bold text-h4 text-sm-h3 text-center"> 유스비전을 소개합니다 </p>
+        </v-card>
+        <v-img src="../assets/camps/youthvisionInfo.svg"></v-img>
     </v-card>
 </template>
 <script>
@@ -8,17 +12,3 @@ export default {
     
 }
 </script>
-<style scoped>
-#faq_top{
-    position: relative;
-    padding-top: 64px;
-    background: linear-gradient(to right, #8ed973 0%, #8c62fc 45%,  #8ed973 100%);
-    background-size: 400% 400%; 
-    animation: gradient 7s ease forwards infinite!important;
-}
-@keyframes gradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 00% 50%; }
-}
-</style>
