@@ -116,8 +116,8 @@
           {
             title:'신청'
             ,subMenu:[
-              {subTitle:'캠프신청', path:'/board',icon:'mdi-human-capacity-increase'},
-              {subTitle:'브로셔신청', path:'/board',icon:'mdi-cart-variant'},
+              {subTitle:'캠프신청', path:'/aplyCamp',icon:'mdi-human-capacity-increase'},
+              {subTitle:'브로셔신청', path:'/aplyPoster',icon:'mdi-cart-variant'},
             ]
             ,icon:'mdi-send'
           },

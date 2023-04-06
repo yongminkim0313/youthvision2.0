@@ -1,53 +1,29 @@
 <template>
- <v-card
-    :loading="loading"
-    class="mx-auto pa-5 card-camp-aply"
-    max-width="920"
-  >
-  <template slot="progress">
-      <v-progress-linear
-        color="deep-purple"
-        height="10"
-        indeterminate
-      ></v-progress-linear>
-    </template>
-
-    <!-- <v-img height="250" src="https://modo-phinf.pstatic.net/20190417_275/1555469222917i4LfY_JPEG/mosacMoDVY.jpeg" ></v-img> -->
-      <!-- src="https://modo-phinf.pstatic.net/20190417_140/15554692250648Rq2Y_JPEG/mosa4Ri4kd.jpeg" -->
+ <v-card :loading="loading" >
+  <template slot="progress"> <v-progress-linear color="deep-purple" height="10" indeterminate ></v-progress-linear> </template>
+  
+  <v-img height="350" contain src="../assets/camps/joinus.png" ></v-img>
+  <!-- src="https://modo-phinf.pstatic.net/20190417_140/15554692250648Rq2Y_JPEG/mosa4Ri4kd.jpeg" -->
   <!-- <v-card-title>나의 신청 내역</v-card-title> -->
+  <v-alert border="right" colored-border type="error" elevation="2" >
+    현재 신청기간이 아닙니다.
+  </v-alert>
   <form>
     <v-container>
        <v-row><!--신청자이름, 직분 -->
         <v-divider class="ma-5"></v-divider>
         <v-col cols="12" md="12" class="d-flex flex-row">
-          <v-icon
-            large
-            color="green darken-2"
-          >
-            mdi-human
-          </v-icon>
+          <v-icon large color="green darken-2" > mdi-human </v-icon>
           <v-card-title>신청자 정보</v-card-title>
         </v-col>
         <v-col cols="12" md="6">
-          <v-text-field
-            v-model="aplyName"
-            ref="aplyName"
-            :error-messages="aplyNameErrors"
-            :counter="10"
-            label="신청자 이름"
-            required
+          <v-text-field v-model="aplyName" ref="aplyName" :error-messages="aplyNameErrors" :counter="10" label="신청자 이름" required
             @input="$v.aplyName.$touch()"
             @blur="$v.aplyName.$touch()"
           ></v-text-field>
         </v-col>
         <v-col cols="12" md="6">
-          <v-select
-            v-model="jikbunSe"
-            ref="jikbunSe"
-            :items="items"
-            :error-messages="jikbunSeErrors"
-            label="직분"
-            required
+          <v-select v-model="jikbunSe" ref="jikbunSe" :items="items" :error-messages="jikbunSeErrors" label="직분" required
             @change="$v.jikbunSe.$touch()"
             @blur="$v.jikbunSe.$touch()"
           ></v-select>
@@ -56,210 +32,115 @@
       <v-row><!--교회명,교단,목사님성함 -->
         <v-divider class="ma-5"></v-divider>
         <v-col cols="12" md="12" class="d-flex flex-row">
-          <v-icon
-            large
-            color="green darken-2"
-          >
-            mdi-church
-          </v-icon>
+          <v-icon large color="green darken-2" > mdi-church </v-icon>
           <v-card-title>교회정보</v-card-title>
         </v-col>
         <v-col cols="12" md="4">
-          <v-text-field
-            v-model="church"
-            ref="church"
-            :error-messages="churchErrors"
-            label="교회명 (ex:주님이꿈꾸신교회)"
-            required
+          <v-text-field v-model="church" ref="church" :error-messages="churchErrors" label="교회명 (ex:주님이꿈꾸신교회)" required
             @input="$v.church.$touch()"
             @blur="$v.church.$touch()"
           ></v-text-field>
         </v-col>
         <v-col cols="12" md="4">
-          <v-text-field
-            v-model="churchSe"
-            ref="churchSe"
-            :error-messages="churchSeErrors"
-            label="교단 (ex:기독교한국침례회)"
-            required
+          <v-text-field v-model="churchSe" ref="churchSe" :error-messages="churchSeErrors" label="교단 (ex:기독교한국침례회)" required
             @input="$v.churchSe.$touch()"
             @blur="$v.churchSe.$touch()"
           ></v-text-field>
         </v-col>
         <v-col cols="12" md="4">
-          <v-text-field
-            v-model="churchAdtr"
-            ref="churchAdtr"
-            :error-messages="churchAdtrErrors"
-            label="목사님 성함"
-            required
+          <v-text-field v-model="churchAdtr" ref="churchAdtr" :error-messages="churchAdtrErrors" label="목사님 성함" required
             @input="$v.churchAdtr.$touch()"
             @blur="$v.churchAdtr.$touch()"
           ></v-text-field>
-
         </v-col>
       </v-row>
       <v-row><!--교회주소-->
         <v-col cols="7" md="9" sm="6">
-          <v-text-field
-            v-model="churchAddr"
-            ref="churchAddr"
-            :error-messages="churchAddrErrors"
-            label="교회주소"
-            required
+          <v-text-field v-model="churchAddr" ref="churchAddr" :error-messages="churchAddrErrors" label="교회주소" required
             @input="$v.churchAddr.$touch()"
             @blur="$v.churchAddr.$touch()"
           ></v-text-field>
-
         </v-col>
         <v-col cols="5" md="3" sm="6">
           <v-btn @click="openAddrPop('churchAddr');">교회주소검색</v-btn>
-          
-
         </v-col>
         <v-col cols="12" md="12" class="pa-0">
           <div id="churchAddrDiv" ref="churchAddrPop" style="display:none;border:1px solid;width:100%;height:300px;margin:5px 0;position:relative">
           <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" @click="foldAddrPop('churchAddr')" alt="접기 버튼">
           </div>
-
         </v-col>
         <v-col cols="12" md="12">
-          <v-text-field
-            v-model="churchDtlAddr"
-            ref="churchDtlAddr"
-            :error-messages="churchDtlAddrErrors"
-            label="상세주소"
-            required
+          <v-text-field v-model="churchDtlAddr" ref="churchDtlAddr" :error-messages="churchDtlAddrErrors" label="상세주소" required
             @input="$v.churchDtlAddr.$touch()"
             @blur="$v.churchDtlAddr.$touch()"
           ></v-text-field>
-
         </v-col>
       </v-row>
       <v-row><!--연락처,Email-->
         <v-col cols="12" md="12" class="d-flex flex-row">
-          <v-icon
-            large
-            color="green darken-2"
-          >
-            mdi-email-box
-          </v-icon>
+          <v-icon large color="green darken-2" > mdi-email-box </v-icon>
           <v-card-title>연락처,E-MAIL 우편물주소</v-card-title>
         </v-col>
         <v-col cols="6" md="6">
-          <v-text-field
-            v-model="phone"
-            ref="phone"
-            :error-messages="phoneErrors"
-            label="연락처 (신청자, 인솔자 핸드폰 번호)"
-            required
+          <v-text-field v-model="phone" ref="phone" :error-messages="phoneErrors" label="연락처 (신청자, 인솔자 핸드폰 번호)" required
             @input="$v.phone.$touch()"
             @blur="$v.phone.$touch()"
           ></v-text-field>
-
         </v-col>
         <v-col cols="6" md="6">
-          <v-text-field
-            v-model="email"
-            ref="email"
-            :error-messages="emailErrors"
-            label="E-mail"
-            required
+          <v-text-field v-model="email" ref="email" :error-messages="emailErrors" label="E-mail" required
             @input="$v.email.$touch()"
             @blur="$v.email.$touch()"
           ></v-text-field>
-
         </v-col>
       </v-row>
       <v-row><!--우편물주소-->
         <v-col cols="7" md="9" sm="6">
           <v-checkbox v-model="sameAddr" label="교회주소와동일"></v-checkbox>
-          <v-text-field
-            v-model="fullAddress"
-            ref="fullAddress"
-            :error-messages="addressErrors"
-            label="우편물 주소"
-            required
+          <v-text-field v-model="fullAddress" ref="fullAddress" :error-messages="addressErrors" label="우편물 주소" required
             @input="$v.fullAddress.$touch()"
             @blur="$v.fullAddress.$touch()"
             :disabled="sameAddr"
           ></v-text-field>
-
         </v-col>
         <v-col cols="5" md="3" sm="6">
           <v-btn @click="openAddrPop();" v-if="!sameAddr">우편물 주소검색</v-btn>
-
         </v-col>
         <v-col cols="12" md="12" class="pa-0">
           <div id="addrDiv" ref="addrPop" style="display:none;border:1px solid;width:100%;height:300px;margin:5px 0;position:relative">
           <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" @click="foldAddrPop()" alt="접기 버튼">
           </div>
-
         </v-col>
         <v-col cols="12" md="12">
-          <v-text-field
-            v-model="detailAddress"
-            ref="detailAddress"
-            :error-messages="detailAddressErrors"
-            label="우편물 상세주소"
-            required
+          <v-text-field v-model="detailAddress" ref="detailAddress" :error-messages="detailAddressErrors" label="우편물 상세주소" required
             @input="$v.detailAddress.$touch()"
             @blur="$v.detailAddress.$touch()"
             :disabled="sameAddr"
           ></v-text-field>
-
         </v-col>
       </v-row>
       <v-row><!--기간(2박3일)-->
         <v-divider class="ma-5"></v-divider>
         <v-col cols="12" md="12" class="d-flex flex-row">
-          <v-icon
-            large
-            color="green darken-2"
-          >
-            mdi-calendar
-          </v-icon>
+          <v-icon large color="green darken-2" > mdi-calendar </v-icon>
           <v-card-title>캠프참여기간</v-card-title>
         </v-col>
         <v-col cols="12" md="12">
-          <v-radio-group
-            v-model="schdlSe"
-            row
-          >
-            <v-radio
-              label="2박3일"
-              value="2박3일"
-            ></v-radio>
-            <v-radio
-              label="1박2일"
-              value="1박2일"
-            ></v-radio>
-            <v-radio
-              label="무박2일"
-              value="무박2일"
-            ></v-radio>
+          <v-radio-group v-model="schdlSe" row >
+            <v-radio label="2박3일" value="2박3일" ></v-radio>
+            <v-radio label="1박2일" value="1박2일" ></v-radio>
+            <v-radio label="무박2일" value="무박2일" ></v-radio>
           </v-radio-group>
-          
         </v-col>
       </v-row>
       <v-row><!--유스비전 참석여부-->
         <v-divider class="ma-5"></v-divider>
         <v-col cols="12" md="12" class="d-flex flex-row">
-          <v-icon
-            large
-            color="green darken-2"
-          >
-            mdi-home-group
-          </v-icon>
+          <v-icon large color="green darken-2" > mdi-home-group </v-icon>
           <v-card-title>유스비전캠프 참석여부</v-card-title>
-
         </v-col>
         <v-col cols="12" md="12">
-          <v-chip-group
-            v-model="joinHisSe"
-            active-class="deep-purple accent-4 white--text"
-            column
-          >
+          <v-chip-group v-model="joinHisSe" active-class="deep-purple accent-4 white--text" column >
             <v-chip value="처음참석">유스비전캠프에 처음참석합니다</v-chip>
             <v-chip value="참석한적있음">지난 캠프에 참석한적이 있습니다</v-chip>
           </v-chip-group>
@@ -268,12 +149,7 @@
       <v-row><!--유스비전 알게된 경로-->
         <v-divider class="ma-5"></v-divider>
         <v-col cols="12" md="12" class="d-flex flex-row">
-          <v-icon
-            large
-            color="green darken-2"
-          >
-            mdi-youtube-tv
-          </v-icon>
+          <v-icon large color="green darken-2" > mdi-youtube-tv </v-icon>
           <v-card-title>유스비전캠프 알게된 경로</v-card-title>
         </v-col>
         <v-col cols="12" md="12">
@@ -287,84 +163,39 @@
       <v-row><!--인원선택-->
         <v-divider class="ma-5"></v-divider>
         <v-col cols="12" md="12" class="d-flex flex-row">
-          <v-icon
-            large
-            color="green darken-2"
-          >
-            mdi-counter
-          </v-icon>
+          <v-icon large color="green darken-2" > mdi-counter </v-icon>
           <v-card-title>참여인원</v-card-title>
-
         </v-col>
         <v-col cols="3" md="3" sm="4">
-          <v-select
-            v-model="campCnt.chodeung"
-            :items="cnt50"
-            attach
-            label="초등"
-          ></v-select>
+          <v-select v-model="campCnt.chodeung" :items="cnt50" attach label="초등" ></v-select>
         </v-col>
         <v-col cols="3" md="3" sm="4">
-          <v-select
-            v-model="campCnt.cheongsonyeon"
-            :items="cnt50"
-            attach
-            label="청소년"
-          ></v-select>
+          <v-select v-model="campCnt.cheongsonyeon" :items="cnt50" attach label="청소년" ></v-select>
         </v-col>
         <v-col cols="3" md="3" sm="4">
-          <v-select
-            v-model="campCnt.cheongnyeon"
-            :items="cnt50"
-            attach
-            label="청년"
-          ></v-select>
+          <v-select v-model="campCnt.cheongnyeon" :items="cnt50" attach label="청년" ></v-select>
         </v-col>
         <v-col cols="3" md="3" sm="4">
-          <v-select
-            v-model="campCnt.jangnyeon"
-            :items="cnt50"
-            attach
-            label="장년"
-          ></v-select>
+          <v-select v-model="campCnt.jangnyeon" :items="cnt50" attach label="장년" ></v-select>
         </v-col>
         <v-col cols="3" md="3" sm="4">
-          <v-select
-            v-model="campCnt.sayeogja"
-            :items="cnt50"
-            attach
-            label="사역자"
-          ></v-select>
+          <v-select v-model="campCnt.sayeogja" :items="cnt50" attach label="사역자" ></v-select>
         </v-col>
       </v-row>
       <v-row><!--참석인원변경안내-->
         <v-col cols="12" md="12">
           <v-divider class="ma-4"></v-divider>
-          <v-card-title>
-            * 참석인원 변경
-          </v-card-title>
+          <v-card-title> * 참석인원 변경 </v-card-title>
           <v-card-text>
             * 캠프 일주일 전, 최종명단, 회비완납과 함께 알려주시면 됩니다.
             <strong>(최종 참석자 명단은 캠프 1주일 전까지 메일로 보내주세요)</strong>
           </v-card-text>
-
         </v-col>
         <v-col cols="12" md="12" sm="12">
-          <v-select
-            v-model="bankNm"
-            :items="dpstList"
-            attach
-            label="입금은행"
-          >
-          </v-select>
+          <v-select v-model="bankNm" :items="dpstList" attach label="입금은행" > </v-select>
         </v-col>
         <v-col cols="12" md="12" sm="12">
-          <v-text-field
-            v-model="pyrNm"
-            ref="pyrNm"
-            :error-messages="pyrNmErrors"
-            label="입금자명"
-            required
+          <v-text-field v-model="pyrNm" ref="pyrNm" :error-messages="pyrNmErrors" label="입금자명" required
             @input="$v.pyrNm.$touch()"
             @blur="$v.pyrNm.$touch()"
           ></v-text-field>
@@ -372,20 +203,12 @@
       </v-row>
       <v-row><!--자동취소 동의-->
         <v-col>
-            <v-checkbox
-            v-model="checkbox"
-            label="신청후 선입금 3일내 확인되지 않을 시 자동취소(동의 체크)"
-            value="동의"
-          ></v-checkbox>
+            <v-checkbox v-model="checkbox" label="신청후 선입금 3일내 확인되지 않을 시 자동취소(동의 체크)" value="동의" ></v-checkbox>
         </v-col>
       </v-row>
       <v-row><!--숙소(동의선택) 동의-->
         <v-col>
-            <v-checkbox
-            v-model="checkboxUseRoom"
-            label="4인1실, 인원이 맞지 않을시 다른교회와 같이 쓰실 수 있습니다."
-            value="동의"
-          ></v-checkbox>
+            <v-checkbox v-model="checkboxUseRoom" label="4인1실, 인원이 맞지 않을시 다른교회와 같이 쓰실 수 있습니다." value="동의" ></v-checkbox>
         </v-col>
       </v-row>
       <v-row>
@@ -395,24 +218,13 @@
       </v-row>
       <v-row><!--신청하기버튼-->
         <v-col cols="12" md="12">
-          <v-btn
-            class="mr-4"
-            @click="submit"
-            color="primary"
-            elevation="14"
-            block
-          >
-            신청하기
-          </v-btn>
-
+          <v-btn class="mr-4" @click="submit" color="primary" elevation="14" block > 신청하기 </v-btn>
         </v-col>
       </v-row>
     </v-container>
-
   </form>
   </v-card>
 </template>
-
 <script>
   import { validationMixin } from 'vuelidate'
 import { email, maxLength, required } from 'vuelidate/lib/validators'
