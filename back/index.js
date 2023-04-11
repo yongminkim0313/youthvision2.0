@@ -163,9 +163,9 @@ app.post('/api/campAply',(req,res)=>{
         req.body['aplyTotAmt'] = 0;
         req.body['aplyPrgrs'] = '접수';
         req.body['aplyDt'] = common.getDate();
-        req.body['rgtrNm'] = req.session.name;
+        req.body['rgtrNm'] = req.session.nickname;
         req.body['rgtrDt'] = common.getDateTime();
-        req.body['updtNm'] = req.session.name;
+        req.body['updtNm'] = req.session.nickname;
         req.body['updtDt'] = common.getDateTime();
         req.body['kakaoId'] = req.session.kakaoId
         console.log(req.body);
@@ -264,7 +264,7 @@ app.get('/api/auth/logout', async(req, res) => {
     const accessToken = req.session.accessToken;
     console.log('accessToken::::::::',accessToken);
     req.session.kakaoId         = null
-    req.session.name            = null
+    req.session.nickname            = null
     req.session.email           = null
     req.session.auth            = 'guest'
     req.session.save(function() {

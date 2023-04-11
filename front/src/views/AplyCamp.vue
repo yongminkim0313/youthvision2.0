@@ -130,6 +130,7 @@
       <v-row><!--신청하기버튼-->
         <v-col cols="12" md="12">
           <v-textarea label="기타의견 및 메모사항" no-resize rows="2" v-model="memo" ></v-textarea>
+          <v-btn class="mr-4" v-if="isAdmin" @click="test" color="primary" elevation="14" block > 테스트하기 </v-btn>
           <v-btn class="mr-4" @click="submit" color="primary" elevation="14" block > 신청하기 </v-btn>
         </v-col>
       </v-row>
@@ -230,6 +231,10 @@
     }),
 
     computed: {
+      isAdmin(){
+        if(localStorage.getItem('auth')==="admin"){ return true; }
+        else{ return false; }
+      },
       checkboxErrors () {
         const errors = []
         if (!this.$v.checkbox.$dirty) return errors
@@ -378,6 +383,33 @@
       dialogSubmit: function(msg){
         console.log(msg);
         this.dlg=false;
+      },
+      test: function(){
+        this.aplyName = '김용민';
+        this.jikbunSe = '학생';
+        this.church = '주님이꿈꾸신교회';
+        this.churchSe = '침례교';
+        this.churchAdtr = '장용성목사님'
+        this.churchAddr = '인천광역시 강화군 화도면 문산리'
+        this.churchDtlAddr = '마니산 33'
+        this.schdlSe = '2박3일'
+        this.phone = '01074418548'
+        this.email = 'kimyongmin1@naver.com'
+        this.checkbox = true;
+        this.fullAddress = '인천광역시 강화군 화도면 문산리'
+        this.detailAddress = '마니산 33'
+        this.joinHisSe = '처음참석'
+        this.campCnt = {
+            chodeung: 0,
+            cheongsonyeon: 17,
+            cheongnyeon: 0,
+            jangnyeon: 0,
+            sayeogja: 0
+          }
+        this.pyrNm = '김용민'
+        this.checkboxUseRoom = '동의';
+        this.bankNm = '국민 172601-04-185856'
+        this.memo = '테스트 중입니다.......'
       },
       submit: function(msg) {
         console.log(msg);
