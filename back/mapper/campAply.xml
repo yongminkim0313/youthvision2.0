@@ -111,4 +111,14 @@
     memo = #{memo}
   where seq = #{seq}
   </update>
+
+   <update id="updateCampCnt">
+    update T_CM_CAMP_CNT set 
+      chodeung = #{chodeung}, 
+      cheongsonyeon = #{cheongsonyeon}, 
+      cheongnyeon = #{cheongnyeon}, 
+      jangnyeon = #{jangnyeon}, 
+      sayeogja = #{sayeogja}
+    where seq = #{seq}
+  </update>
 </mapper>

@@ -325,14 +325,13 @@
             </v-icon>
         </template>
         </v-data-table>
-        <v-btn @click="test">test</v-btn>
   </v-card>
 </template>
 <script>
 
 export default {
-  components: {
-  },
+  name:'AplyList',
+  components: { },
   data(){
       return {
         dialog:false,

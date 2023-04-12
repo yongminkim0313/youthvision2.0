@@ -393,7 +393,9 @@ app.put('/api/admin/aply/one', async(req, res)=>{
         res.status(400).json({msg: '관리자가 아닙니다'});
         return;
     } 
-
+    console.log(req.body);
+    db.setData('campAply','updateCampCnt', req.body.campCnt )
+    
     db.setData('campAply','updateAplyCamp', req.body )
     .then(function(row) {
         res.status(200).json({msg: '변경 성공'});

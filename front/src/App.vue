@@ -42,6 +42,8 @@
       </div>
       <v-spacer></v-spacer>
       <div class="area_util">
+        <v-btn v-if="isAdmin" text color="rgba(255,255,255,0)" class="pa-0"><span @click="goToAdmin" class="d-inline-block text-caption" :class="scrollTop?'black--text':'white--text'">관리자</span></v-btn>
+        <v-divider v-if="isAdmin" vertical inset class="mx-2" style="height:14px; border-color:rgba(150,150,150,0.5)"></v-divider>
         <v-btn v-if="!isLogin" text color="rgba(255,255,255,0)" class="pa-0"><span @click="kakaoLogin" class="d-inline-block text-caption" :class="scrollTop?'black--text':'white--text'">로그인</span></v-btn>
         <v-btn v-if="isLogin" text color="rgba(255,255,255,0)" class="pa-0"><span @click="kakaoLogout" class="d-inline-block text-caption" :class="scrollTop?'black--text':'white--text'">로그아웃</span></v-btn>
         <v-divider vertical inset class="mx-2" style="height:14px; border-color:rgba(150,150,150,0.5)"></v-divider>
@@ -74,7 +76,6 @@
                   <v-list-item-title>{{ sub.subTitle }}</v-list-item-title>
             </v-list-item>
           </v-list-group>
-
         </v-list-item-group>
 
       </v-list>
@@ -170,6 +171,9 @@
       },
       goToFAQ: function(){
         this.$router.push('/FAQ').catch(()=>{})
+      },
+      goToAdmin: function(){
+        this.$router.push('/admin').catch(()=>{})
       }
     }
   }

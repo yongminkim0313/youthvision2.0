@@ -1,7 +1,7 @@
 <template>
  <v-card :loading="loading">
   <template slot="progress"> <v-progress-linear color="deep-purple" height="10" indeterminate ></v-progress-linear> </template>
-  <v-img src="../assets/about_top_bg.png" height="64" cover d-print-none></v-img>
+  <v-img src="../assets/about_top_bg.png" height="64" cover class="d-print-none"></v-img>
   <v-card max-width="980" class="mx-auto d-print-none">
     <v-alert border="right" colored-border type="error" elevation="2" class="mx-5 my-3 ">
       현재는 신청기간이 아닙니다.

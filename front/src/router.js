@@ -10,12 +10,12 @@ import CampLive from './views/CampLive.vue'
 import NewsCast from './views/NewsCast.vue'
 import AplyCamp from './views/AplyCamp.vue'
 import MyAplyList from './views/MyAplyList.vue'
-import AplyList from './views/admin/AplyList.vue'
 import AplyPoster from './views/AplyPoster.vue'
 import Board from './views/Board.vue'
 import About from './views/About.vue'
 import FAQ from './views/FAQ.vue'
 import Youthvision from './views/Youthvision.vue'
+import Admin from './views/admin/Admin.vue'
 Vue.use(VueRouter);
 
 const routes = [
@@ -70,15 +70,6 @@ const routes = [
         components: {
             header: UserHeader,
             default: MyAplyList,
-            footer: UserFooter
-        }
-    },
-    {
-        path: "/aplyList",
-        name: "AplyList",
-        components: {
-            header: UserHeader,
-            default: AplyList,
             footer: UserFooter
         }
     },
@@ -150,6 +141,17 @@ const routes = [
         components: {
             header: UserHeader,
             default: Youthvision,
+            footer: UserFooter
+        },
+        meta: { unauthorized: true }
+        ,props: true
+    },
+    {
+        path: "/admin",
+        name: "Admin",
+        components: {
+            header: UserHeader,
+            default: Admin,
             footer: UserFooter
         },
         meta: { unauthorized: true }
