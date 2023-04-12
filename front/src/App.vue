@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-card class="mx-auto overflow-hidden" width="100%">
-    <v-app-bar fixed :color="scrollTop?'':'rgba(255,255,255,0)'" flat>
+    <v-app-bar fixed :color="scrollTop?'':'rgba(255,255,255,0)'" flat class="d-print-none">
       <v-toolbar-title class="d-inline-block text-overline" :class="scrollTop?'black--text':'white--text'" >
         <router-link to="/">
         <v-img alt="주꿈로고" class="d-inline-block" height="20px" width="20px" contain src="./assets/youthvision_logo.svg" transition="scale-transition"> </v-img>
@@ -53,7 +53,7 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="d-md-none d-lg-none d-xl-none" :color="scrollTop?'black':'white'"></v-app-bar-nav-icon>
     </v-app-bar>
 
-    <v-navigation-drawer v-model="drawer" fixed right temporary >
+    <v-navigation-drawer v-model="drawer" fixed right temporary class="d-print-none">
       <v-img src="./assets/camps/menubar_img.jpeg" height="300px" dark ></v-img>
       <v-list nav dense >
         <v-list-item-group v-model="group" active-class="deep-purple--text text--accent-4" >

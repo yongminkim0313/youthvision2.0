@@ -1,144 +1,189 @@
 <template>
- <v-card :loading="loading" >
+ <v-card :loading="loading">
   <template slot="progress"> <v-progress-linear color="deep-purple" height="10" indeterminate ></v-progress-linear> </template>
-  <v-img src="../assets/about_top_bg.png" height="64" cover ></v-img>
-  <v-img class="my-3" height="350" contain src="../assets/camps/joinus.png" ></v-img>
-  <!-- src="https://modo-phinf.pstatic.net/20190417_140/15554692250648Rq2Y_JPEG/mosa4Ri4kd.jpeg" -->
-  <!-- <v-card-title>나의 신청 내역</v-card-title> -->
-  <v-alert border="right" colored-border type="error" elevation="2" >
-    현재는 신청기간이 아닙니다.
-  </v-alert>
-  <form>
-    <v-container>
-      <v-expansion-panels accordion v-model="panel" multiple>
-        <v-expansion-panel>
-            <!--신청자이름, 직분 -->
+  <v-img src="../assets/about_top_bg.png" height="64" cover d-print-none></v-img>
+  <v-card max-width="980" class="mx-auto d-print-none">
+    <v-alert border="right" colored-border type="error" elevation="2" class="mx-5 my-3 ">
+      현재는 신청기간이 아닙니다.
+    </v-alert>
+    <v-img class="my-3 " height="350" contain src="../assets/camps/joinus.png"></v-img>
+    <!-- src="https://modo-phinf.pstatic.net/20190417_140/15554692250648Rq2Y_JPEG/mosa4Ri4kd.jpeg" -->
+    <!-- <v-card-title>나의 신청 내역</v-card-title> -->
+    <form>
+      <v-container  class="">
+        <v-expansion-panels accordion v-model="panel" multiple>
+          <v-expansion-panel>
+              <!--신청자이름, 직분 -->
+              <v-expansion-panel-header>
+                <v-card-title> <v-icon large color="green darken-2" > mdi-human </v-icon> 신청자 정보</v-card-title>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-text-field v-model="aplyName" ref="aplyName" :error-messages="aplyNameErrors" :counter="10" label="신청자 이름" required @input="$v.aplyName.$touch()" @blur="$v.aplyName.$touch()" ></v-text-field>
+                <v-select v-model="jikbunSe" ref="jikbunSe" :items="items" :error-messages="jikbunSeErrors" label="직분" required @change="$v.jikbunSe.$touch()" @blur="$v.jikbunSe.$touch()" ></v-select>
+              </v-expansion-panel-content>
+          </v-expansion-panel>
+          <v-expansion-panel>
             <v-expansion-panel-header>
-              <v-card-title> <v-icon large color="green darken-2" > mdi-human </v-icon> 신청자 정보</v-card-title>
+              <v-card-title> <v-icon large color="green darken-2" > mdi-church </v-icon> 교회정보</v-card-title>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <v-text-field v-model="aplyName" ref="aplyName" :error-messages="aplyNameErrors" :counter="10" label="신청자 이름" required @input="$v.aplyName.$touch()" @blur="$v.aplyName.$touch()" ></v-text-field>
-              <v-select v-model="jikbunSe" ref="jikbunSe" :items="items" :error-messages="jikbunSeErrors" label="직분" required @change="$v.jikbunSe.$touch()" @blur="$v.jikbunSe.$touch()" ></v-select>
+              <v-text-field v-model="church" ref="church" :error-messages="churchErrors" label="교회명 (ex:주님이꿈꾸신교회)" required @input="$v.church.$touch()" @blur="$v.church.$touch()" ></v-text-field>
+              <v-text-field v-model="churchSe" ref="churchSe" :error-messages="churchSeErrors" label="교단 (ex:기독교한국침례회)" required @input="$v.churchSe.$touch()" @blur="$v.churchSe.$touch()" ></v-text-field>
+              <v-text-field v-model="churchAdtr" ref="churchAdtr" :error-messages="churchAdtrErrors" label="목사님 성함" required @input="$v.churchAdtr.$touch()" @blur="$v.churchAdtr.$touch()" ></v-text-field>
+              <!--교회주소-->
+              <v-text-field v-model="churchAddr" ref="churchAddr" :error-messages="churchAddrErrors" label="교회주소" required @input="$v.churchAddr.$touch()" @blur="$v.churchAddr.$touch()" ></v-text-field>
+              <v-btn @click="openAddrPop('churchAddr');">교회주소검색</v-btn>
+              <div id="churchAddrDiv" ref="churchAddrPop" style="display:none;border:1px solid;width:100%;height:300px;margin:5px 0;position:relative">
+                <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" @click="foldAddrPop('churchAddr')" alt="접기 버튼">
+              </div>
+              <v-text-field v-model="churchDtlAddr" ref="churchDtlAddr" :error-messages="churchDtlAddrErrors" label="상세주소" required @input="$v.churchDtlAddr.$touch()" @blur="$v.churchDtlAddr.$touch()" ></v-text-field>
             </v-expansion-panel-content>
-        </v-expansion-panel>
-        <v-expansion-panel>
-          <v-expansion-panel-header>
-            <v-card-title> <v-icon large color="green darken-2" > mdi-church </v-icon> 교회정보</v-card-title>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
-            <v-text-field v-model="church" ref="church" :error-messages="churchErrors" label="교회명 (ex:주님이꿈꾸신교회)" required @input="$v.church.$touch()" @blur="$v.church.$touch()" ></v-text-field>
-            <v-text-field v-model="churchSe" ref="churchSe" :error-messages="churchSeErrors" label="교단 (ex:기독교한국침례회)" required @input="$v.churchSe.$touch()" @blur="$v.churchSe.$touch()" ></v-text-field>
-            <v-text-field v-model="churchAdtr" ref="churchAdtr" :error-messages="churchAdtrErrors" label="목사님 성함" required @input="$v.churchAdtr.$touch()" @blur="$v.churchAdtr.$touch()" ></v-text-field>
-            <!--교회주소-->
-            <v-text-field v-model="churchAddr" ref="churchAddr" :error-messages="churchAddrErrors" label="교회주소" required @input="$v.churchAddr.$touch()" @blur="$v.churchAddr.$touch()" ></v-text-field>
-            <v-btn @click="openAddrPop('churchAddr');">교회주소검색</v-btn>
-            <div id="churchAddrDiv" ref="churchAddrPop" style="display:none;border:1px solid;width:100%;height:300px;margin:5px 0;position:relative">
-              <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" @click="foldAddrPop('churchAddr')" alt="접기 버튼">
-            </div>
-            <v-text-field v-model="churchDtlAddr" ref="churchDtlAddr" :error-messages="churchDtlAddrErrors" label="상세주소" required @input="$v.churchDtlAddr.$touch()" @blur="$v.churchDtlAddr.$touch()" ></v-text-field>
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-        <!--연락처,Email-->
-        <v-expansion-panel>
-          <v-expansion-panel-header>
-            <v-card-title> <v-icon large color="green darken-2" > mdi-email-box </v-icon> 연락처,E-MAIL 우편물주소</v-card-title>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
-            <v-text-field v-model="phone" ref="phone" :error-messages="phoneErrors" label="연락처 (신청자, 인솔자 핸드폰 번호)" required @input="$v.phone.$touch()" @blur="$v.phone.$touch()" > </v-text-field>
-            <v-text-field v-model="email" ref="email" :error-messages="emailErrors" label="E-mail" required @input="$v.email.$touch()" @blur="$v.email.$touch()" ></v-text-field>
-            <!--우편물주소-->
-            <v-checkbox v-model="sameAddr" label="교회주소와동일"></v-checkbox>
-            <v-text-field v-model="fullAddress" ref="fullAddress" :error-messages="addressErrors" label="우편물 주소" required @input="$v.fullAddress.$touch()" @blur="$v.fullAddress.$touch()" :disabled="sameAddr" ></v-text-field>
-            <v-btn @click="openAddrPop();" v-if="!sameAddr">우편물 주소검색</v-btn>
-            <div id="addrDiv" ref="addrPop" style="display:none;border:1px solid;width:100%;height:300px;margin:5px 0;position:relative">
-              <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" @click="foldAddrPop()" alt="접기 버튼">
-            </div>
-            <v-text-field v-model="detailAddress" ref="detailAddress" :error-messages="detailAddressErrors" label="우편물 상세주소" required @input="$v.detailAddress.$touch()" @blur="$v.detailAddress.$touch()" :disabled="sameAddr" ></v-text-field>
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-        <!--기간(2박3일)-->
-        <v-expansion-panel>
-          <v-expansion-panel-header>
-            <v-card-title> <v-icon large color="green darken-2" > mdi-calendar </v-icon> 캠프참여기간</v-card-title>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
-            <v-radio-group v-model="schdlSe" row >
-            <v-radio label="2박3일" value="2박3일" ></v-radio>
-            <v-radio label="1박2일" value="1박2일" ></v-radio>
-            <v-radio label="무박2일" value="무박2일" ></v-radio>
-          </v-radio-group>
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-        <!--유스비전 참석여부-->
-        <v-expansion-panel>
-          <v-expansion-panel-header>
-            <v-card-title> <v-icon large color="green darken-2" > mdi-home-group </v-icon> 유스비전캠프 참석여부</v-card-title>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
-            <v-chip-group v-model="joinHisSe" active-class="deep-purple accent-4 white--text" column >
-              <v-chip value="처음참석">유스비전캠프에 처음참석합니다</v-chip>
-              <v-chip value="참석한적있음">지난 캠프에 참석한적이 있습니다</v-chip>
-            </v-chip-group>
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-        <!--유스비전 알게된 경로-->
-        <v-expansion-panel>
-          <v-expansion-panel-header>
-            <v-card-title> <v-icon large color="green darken-2" > mdi-youtube-tv </v-icon> 유스비전캠프 알게된 경로</v-card-title>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
-            <v-chip-group v-model="joinPathSe" column multiple >
-              <v-chip filter outlined v-for="path in paths" :key="path.text" :value="path.text" >
-                {{path.text}}
-              </v-chip>
-            </v-chip-group>
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-        <!--인원선택-->
-        <v-expansion-panel>
-          <v-expansion-panel-header>
-            <v-card-title> <v-icon large color="green darken-2" > mdi-counter </v-icon> 참여인원</v-card-title>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
-          <v-select v-model="campCnt.chodeung" :items="cnt50" attach label="초등" ></v-select>
-          <v-select v-model="campCnt.cheongsonyeon" :items="cnt50" attach label="청소년" ></v-select>
-          <v-select v-model="campCnt.cheongnyeon" :items="cnt50" attach label="청년" ></v-select>
-          <v-select v-model="campCnt.jangnyeon" :items="cnt50" attach label="장년" ></v-select>
-          <v-select v-model="campCnt.sayeogja" :items="cnt50" attach label="사역자" ></v-select>
-          <v-card-title> * 참석인원 변경 </v-card-title>
-          <v-card-text>
-            * 캠프 일주일 전, 최종명단, 회비완납과 함께 알려주시면 됩니다.
-            <strong>(최종 참석자 명단은 캠프 1주일 전까지 메일로 보내주세요)</strong>
-          </v-card-text>
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-        <v-expansion-panel>
-          <v-expansion-panel-header>
-            <v-card-title><v-icon large color="green darken-2">mdi-account-credit-card-outline</v-icon>결제</v-card-title>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
-            <v-select v-model="bankNm" :items="dpstList" attach label="입금은행" > </v-select>
-            <v-text-field v-model="pyrNm" ref="pyrNm" :error-messages="pyrNmErrors" label="입금자명" required
-            @input="$v.pyrNm.$touch()"
-            @blur="$v.pyrNm.$touch()"
-            ></v-text-field>
-            <v-checkbox v-model="checkbox" label="신청후 선입금 3일내 확인되지 않을 시 자동취소(동의 체크)" value="동의" ></v-checkbox>
-            <v-checkbox v-model="checkboxUseRoom" label="4인1실, 인원이 맞지 않을시 다른교회와 같이 쓰실 수 있습니다." value="동의" ></v-checkbox>
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-      </v-expansion-panels>
-      <v-row><!--신청하기버튼-->
-        <v-col cols="12" md="12">
-          <v-textarea label="기타의견 및 메모사항" no-resize rows="2" v-model="memo" ></v-textarea>
-          <v-btn class="mr-4" v-if="isAdmin" @click="test" color="primary" elevation="14" block > 테스트하기 </v-btn>
-          <v-btn class="mr-4" @click="submit" color="primary" elevation="14" block > 신청하기 </v-btn>
-        </v-col>
-      </v-row>
-    </v-container>
-  </form>
-  <v-dialog v-model="dlg" max-width="700">
-    <aply-contents :aplyContents="summary" @submitAply="submit"></aply-contents>
+          </v-expansion-panel>
+          <!--연락처,Email-->
+          <v-expansion-panel>
+            <v-expansion-panel-header>
+              <v-card-title> <v-icon large color="green darken-2" > mdi-email-box </v-icon> 연락처,E-MAIL 우편물주소</v-card-title>
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <v-text-field v-model="phone" ref="phone" :error-messages="phoneErrors" label="연락처 (신청자, 인솔자 핸드폰 번호)" required @input="$v.phone.$touch()" @blur="$v.phone.$touch()" > </v-text-field>
+              <v-text-field v-model="email" ref="email" :error-messages="emailErrors" label="E-mail" required @input="$v.email.$touch()" @blur="$v.email.$touch()" ></v-text-field>
+              <!--우편물주소-->
+              <v-checkbox v-model="sameAddr" label="교회주소와동일"></v-checkbox>
+              <v-text-field v-model="fullAddress" ref="fullAddress" :error-messages="addressErrors" label="우편물 주소" required @input="$v.fullAddress.$touch()" @blur="$v.fullAddress.$touch()" :disabled="sameAddr" ></v-text-field>
+              <v-btn @click="openAddrPop();" v-if="!sameAddr">우편물 주소검색</v-btn>
+              <div id="addrDiv" ref="addrPop" style="display:none;border:1px solid;width:100%;height:300px;margin:5px 0;position:relative">
+                <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" @click="foldAddrPop()" alt="접기 버튼">
+              </div>
+              <v-text-field v-model="detailAddress" ref="detailAddress" :error-messages="detailAddressErrors" label="우편물 상세주소" required @input="$v.detailAddress.$touch()" @blur="$v.detailAddress.$touch()" :disabled="sameAddr" ></v-text-field>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+          <!--기간(2박3일)-->
+          <v-expansion-panel>
+            <v-expansion-panel-header>
+              <v-card-title> <v-icon large color="green darken-2" > mdi-calendar </v-icon> 캠프참여기간</v-card-title>
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <v-radio-group v-model="schdlSe" row >
+              <v-radio label="2박3일" value="2박3일" ></v-radio>
+              <v-radio label="1박2일" value="1박2일" ></v-radio>
+              <v-radio label="무박2일" value="무박2일" ></v-radio>
+            </v-radio-group>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+          <!--유스비전 참석여부-->
+          <v-expansion-panel>
+            <v-expansion-panel-header>
+              <v-card-title> <v-icon large color="green darken-2" > mdi-home-group </v-icon> 유스비전캠프 참석여부</v-card-title>
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <v-chip-group v-model="joinHisSe" active-class="deep-purple accent-4 white--text" column >
+                <v-chip value="처음참석">유스비전캠프에 처음참석합니다</v-chip>
+                <v-chip value="참석한적있음">지난 캠프에 참석한적이 있습니다</v-chip>
+              </v-chip-group>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+          <!--유스비전 알게된 경로-->
+          <v-expansion-panel>
+            <v-expansion-panel-header>
+              <v-card-title> <v-icon large color="green darken-2" > mdi-youtube-tv </v-icon> 유스비전캠프 알게된 경로</v-card-title>
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <v-chip-group v-model="joinPathSe" column multiple >
+                <v-chip filter outlined v-for="path in paths" :key="path.text" :value="path.text" >
+                  {{path.text}}
+                </v-chip>
+              </v-chip-group>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+          <!--인원선택-->
+          <v-expansion-panel>
+            <v-expansion-panel-header>
+              <v-card-title> <v-icon large color="green darken-2" > mdi-counter </v-icon> 참여인원</v-card-title>
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+            <v-select v-model="campCnt.chodeung" :items="cnt50" attach label="초등" ></v-select>
+            <v-select v-model="campCnt.cheongsonyeon" :items="cnt50" attach label="청소년" ></v-select>
+            <v-select v-model="campCnt.cheongnyeon" :items="cnt50" attach label="청년" ></v-select>
+            <v-select v-model="campCnt.jangnyeon" :items="cnt50" attach label="장년" ></v-select>
+            <v-select v-model="campCnt.sayeogja" :items="cnt50" attach label="사역자" ></v-select>
+            <v-card-title> * 참석인원 변경 </v-card-title>
+            <v-card-text>
+              * 캠프 일주일 전, 최종명단, 회비완납과 함께 알려주시면 됩니다.
+              <strong>(최종 참석자 명단은 캠프 1주일 전까지 메일로 보내주세요)</strong>
+            </v-card-text>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+          <v-expansion-panel>
+            <v-expansion-panel-header>
+              <v-card-title><v-icon large color="green darken-2">mdi-account-credit-card-outline</v-icon>결제</v-card-title>
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <v-select v-model="bankNm" :items="dpstList" attach label="입금은행" > </v-select>
+              <v-text-field v-model="pyrNm" ref="pyrNm" :error-messages="pyrNmErrors" label="입금자명" required
+              @input="$v.pyrNm.$touch()"
+              @blur="$v.pyrNm.$touch()"
+              ></v-text-field>
+              <v-checkbox v-model="checkbox" label="신청후 선입금 3일내 확인되지 않을 시 자동취소(동의 체크)" value="동의" ></v-checkbox>
+              <v-checkbox v-model="checkboxUseRoom" label="4인1실, 인원이 맞지 않을시 다른교회와 같이 쓰실 수 있습니다." value="동의" ></v-checkbox>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
+        <!--신청하기버튼-->
+        <v-textarea label="기타의견 및 메모사항" no-resize rows="2" v-model="memo" ></v-textarea>
+        <v-card-actions>
+            <v-btn v-if="isAdmin" @click="test" color="primary" elevation="14" > 테스트하기 </v-btn>
+            <v-spacer></v-spacer>
+            <v-btn @click="printAply" color="primary" elevation="14" > 출력하기 </v-btn>
+            <v-spacer></v-spacer>
+            <v-btn @click="submit" color="primary" elevation="14" > 신청하기 </v-btn>
+        </v-card-actions>
+      </v-container>
+    </form>
+  </v-card>
+  <v-dialog v-model="dlg" max-width="700" class="d-print-none">
+    <aply-contents :aplyContents="summary" @submitAply="dialogCmd"></aply-contents>
   </v-dialog>
+      <!--출력용-->
+  <v-card class="d-print-block d-none" elevation="0">
+    <v-card-title>캠프신청출력</v-card-title>
+    <v-card-text class="pa-1">
+      <v-simple-table dense>
+        <template v-slot:default>
+          <tbody>
+            <tr> <th>신청자이름:</th> <td>{{aplyName}}</td> </tr>
+            <tr> <th>직분:</th> <td>{{jikbunSe}}</td> </tr>
+            <tr> <th>교회명:</th> <td>{{church}}</td> </tr>
+            <tr> <th>교단:</th> <td>{{churchSe}}</td> </tr>
+            <tr> <th>목사님성함:</th> <td>{{churchAdtr}}</td> </tr>
+            <tr> <th>교회주소:</th> <td>{{churchAddr}} {{churchDtlAddr}}</td> </tr>
+            <tr> <th>캠프참여기간:</th> <td>{{schdlSe}}</td> </tr>
+            <tr> <th>연락처:</th> <td>{{phone}}</td> </tr>
+            <tr> <th>e-mail:</th> <td>{{email}}</td> </tr>
+            <tr> <th>우편물주소:</th> <td>{{fullAddress}} {{detailAddress}}</td> </tr>
+            <tr> <th>유스비전캠프 참여여부:</th> <td>{{joinHisSe}}</td> </tr>
+            <tr>
+              <th>유스비전캠프 알게된 경로:</th> <td> <span v-for="path in joinPathSe" :key="path" :value="path"> {{path}} </span></td>
+            </tr>
+            <tr>
+              <th>참여인원:</th>
+              <td> 
+                  <span v-if="campCnt.chodeung"> {{ '초등:'+campCnt.chodeung}} </span>
+                  <span v-if="campCnt.cheongsonyeon"> {{ '청소년:'+campCnt.cheongsonyeon}} </span>
+                  <span v-if="campCnt.cheongnyeon"> {{ '청년:'+campCnt.cheongnyeon}} </span>
+                  <span v-if="campCnt.jangnyeon"> {{ '장년:'+campCnt.jangnyeon}} </span>
+                  <span v-if="campCnt.sayeogja"> {{ '사역자:'+campCnt.sayeogja}} </span>
+              </td>
+            </tr>
+            <tr> <th>결제은행:</th> <td> {{bankNm}}</td> </tr>
+            <tr> <th>입금자명:</th> <td> {{pyrNm}}</td> </tr>
+            <tr> <th colspan="2">신청후 선입금 3일내 확인되지 않을 시 자동취소(동의 체크): {{ checkbox }}</th> </tr>
+            <tr> <th colspan="2">4인1실, 인원이 맞지 않을시 다른교회와 같이 쓰실 수 있습니다: {{ checkboxUseRoom }}</th> </tr>
+            <tr> <th>기타메모:</th> <td> {{memo}}</td> </tr>
+          </tbody>
+        </template>
+    </v-simple-table>
+  </v-card-text>
+</v-card>
 </v-card>
 </template>
 <script>
@@ -380,9 +425,16 @@
       }
     },
     methods: {
-      dialogSubmit: function(msg){
+      dialogCmd: function(msg){
         console.log(msg);
-        this.dlg=false;
+        if(msg=='close'){
+          this.dlg=false;
+        }else if(msg == 'aply'){
+          this.submit();
+        }
+      },
+      printAply: function(){
+        window.print();
       },
       test: function(){
         this.aplyName = '김용민';
@@ -395,16 +447,17 @@
         this.schdlSe = '2박3일'
         this.phone = '01074418548'
         this.email = 'kimyongmin1@naver.com'
-        this.checkbox = true;
+        this.checkbox = '동의';
         this.fullAddress = '인천광역시 강화군 화도면 문산리'
         this.detailAddress = '마니산 33'
         this.joinHisSe = '처음참석'
+        this.joinPathSe = ["인터넷 홍보(youtube, instar, facebook)", "포스터, 브로셔","지인소개 및 소문"]
         this.campCnt = {
-            chodeung: 0,
-            cheongsonyeon: 17,
-            cheongnyeon: 0,
-            jangnyeon: 0,
-            sayeogja: 0
+            chodeung: 1,
+            cheongsonyeon: 2,
+            cheongnyeon: 3,
+            jangnyeon: 4,
+            sayeogja: 5
           }
         this.pyrNm = '김용민'
         this.checkboxUseRoom = '동의';
@@ -412,11 +465,6 @@
         this.memo = '테스트 중입니다.......'
       },
       submit: function(msg) {
-        console.log(msg);
-        if(msg=='close'){
-          this.dlg=false;
-          return;
-        }
         var aplyContents = {
           seq: this.seq,
           aplyName: this.aplyName,

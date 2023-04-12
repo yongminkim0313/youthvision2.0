@@ -1,5 +1,5 @@
 <template>
-    <v-footer padless dark>
+    <v-footer padless dark class="d-print-none">
         <v-card-text class="d-flex justify-center">
           <v-btn class="mx-4 white--text" icon @click="facebook()">
             <v-icon size="24px"> mdi-facebook </v-icon>
