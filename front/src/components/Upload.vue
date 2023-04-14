@@ -29,7 +29,7 @@
   
   export default {
     name: "file-upload",
-    props: {atchmnflId: Number},
+    props: {atchmnflId: Number, imageSn: Number},
     data() {
       return {
         currentFile: null,
@@ -80,6 +80,7 @@
           });
           
           _this.$socket.on("endData", (data) => {
+            data.imageSn = _this.imageSn;
             console.log(data);
             _this.progress = data.Percent;
             fileReader = null;
@@ -88,7 +89,7 @@
               _this.progress = 100; 
               _this.currentFile = null; 
               _this.fileInfos = [];
-              _this.$emit('setAtchmnflId-child',data.atchmnflId);
+              _this.$emit('setAtchmnflId-child',data);
               _this.tempImgId = data.atchmnflId
               _this.message = 'end upload!!'
             }, 500);

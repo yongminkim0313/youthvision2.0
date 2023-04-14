@@ -52,6 +52,13 @@ module.exports = (app, winston) => {
         });
     
         socket.on('Upload', (data) => {
+            var l = socket.handshake.query['isLogin'];
+            console.log('Upload start!!', l)
+            if(l != 'true'){
+                console.log('로그인이 필요합니다.')
+                socket.emit('error', { 'msg': '로그인이 필요합니다.' });
+                return;
+            }
             var Name = data.Name;
             Files[Name].Downloaded += data.Data.length;
             Files[Name].Data += data.Data;

@@ -347,6 +347,7 @@ app.post('/api/user/aply/poster', async(req,res)=>{
 })
 
 app.post('/api/admin/aply/excel', async(req, res) => {
+    console.log('/api/admin/aply/excel');
     const excelService = require('./services/excelService');
     try{
         var aplyList        = await db.getList('campAply','selectCampAply', {})
@@ -401,7 +402,16 @@ app.put('/api/admin/aply/one', async(req, res)=>{
         res.status(200).json({msg: '변경 성공'});
     })
 })
-
+app.delete('/api/admin/aply/one', async(req, res)=>{
+    if(req.session.auth != "admin"){
+        res.status(400).json({msg: '관리자가 아닙니다'});
+        return;
+    } 
+    db.setData('campAply','deleteAplyCamp', req.body )
+    .then(function(row) {
+        res.status(200).json({msg: '변경 성공'});
+    })
+})
 app.post('/api/admin/message/send', async(req,res) => {
     const {body: {uuid, args,templateId},session: {accessToken}} = req;
 
@@ -541,6 +551,44 @@ app.post('/api/bbs/reply', async(req,res) =>{
 app.get('/api/bbs/reply', async(req,res) =>{
     var bbsReply = await db.getList('bbs','selectBbsReply', req.query);
     res.status(200).json(bbsReply);
+})
+app.get('/api/admin/userList', async(req,res)=>{
+    if(req.session.auth != 'admin'){
+        console.log('관리자가 아닙니다.')
+        res.status(200).json([]);
+        return; 
+    }
+    db.getList('user','selectUserList',req.session)
+    .then((row)=>{
+        console.log('selectUserList', row);
+        res.status(200).json(row);
+    })
+})
+app.get('/api/admin/carousel', async(req,res)=>{
+    db.getList('cmm','selectCarousel',{})
+    .then((row)=>{
+        res.status(200).json(row);
+    })
+})
+app.post('/api/admin/carousel', async(req,res) =>{
+    const { body: { imageSn, atchmnflId } } = req;
+    console.log('merge (inser, update)', req.body);
+    /** merge (inser, update) */
+    if(imageSn){ //update
+        db.setData('cmm','updateCarousel', req.body )
+        .then(function(row) {
+            res.status(200).json({msg: 'update success!!'});
+        })
+    }else{//insert
+        db.getData('cmm','selectCarouselMax',{})
+        .then((row)=>{
+            req.body.imageSn = row.maxImageSn;
+            db.setData('cmm','insertCarousel', req.body )
+            .then((row)=>{
+                res.status(200).json('insert success');
+            })
+        })
+    }
 })
 app.listen(process.env.SERVER_PORT,()=>{
     logger.info(`server start! port:${process.env.SERVER_PORT}`)

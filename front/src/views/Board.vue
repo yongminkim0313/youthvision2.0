@@ -225,8 +225,8 @@ export default {
           _this.selectBbs();
         })
       },
-      setAtchmnflId: function(id){
-        this.editItem.atchmnflId = id;
+      setAtchmnflId: function(data){
+        this.editItem.atchmnflId = data.atchmnflId;
       },
       setBbsContents: function(contents){
         this.editItem.contents = contents;

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper namespace="cmm">  
+  <select id="selectCarousel">
+    select image_sn, atchmnfl_id from T_CM_CAROUSEL
+  </select>
+  <insert id="insertCarousel">
+  insert into T_CM_CAROUSEL (
+    image_sn, atchmnfl_id, rgst_dt, rgst_id 
+  ) values (
+    #{imageSn}, #{atchmnflId}, now(), #{kakaoId} 
+  )
+  </insert>
+  <select id="selectCarouselMax">
+    select nvl(max(image_sn),0)+1 as maxImageSn from T_CM_CAROUSEL
+  </select>
+  <update id="updateCarousel">
+    update T_CM_CAROUSEL set
+        atchmnfl_id = #{atchmnflId}
+    where image_sn = #{imageSn}
+  </update>
+</mapper>

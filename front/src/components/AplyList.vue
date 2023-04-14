@@ -1,46 +1,11 @@
 <template>
   <v-card elevation="0">
-    
-    <v-card elevation="0" class="mx-auto">
-        <v-card-title>
-            <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details ></v-text-field>
-            <v-btn color="warning" elevation="2" @click="excelDown();">
-              엑셀다운로드
-            </v-btn>
-        </v-card-title>
-      </v-card>
-      <!-- <v-dialog v-model="calDialog" max-width="650px">
-          <v-card>
-            <v-card-actions class="d-flex justify-center">
-              <v-btn icon class="ma-2" @click="prev()" >
-            <v-icon>mdi-chevron-left</v-icon>
+        <v-card-actions>
+          <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details ></v-text-field>
+          <v-btn color="warning" elevation="2" @click="excelDown();">
+            엑셀다운로드
           </v-btn>
-          {{yyyymm}}
-          <v-btn icon class="ma-2" @click="next()" >
-            <v-icon>mdi-chevron-right</v-icon>
-          </v-btn>
-            </v-card-actions>
-        </v-card>
-        <v-layout wrap>
-          <v-calendar ref="calendar" v-model="today" :end="today" color="primary" :events="events" :event-height="20" :event-more="false" @click:event="showEvent">
-          </v-calendar>
-          <v-menu v-model="selectedOpen" :close-on-content-click="false" :activator="selectedElement" offset-x >
-            <v-card color="grey lighten-4" min-width="350px" flat >
-              <v-toolbar :color="selectedEvent.color" dark >
-                <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
-              </v-toolbar>
-              <v-card-text>
-                <span v-html="selectedEvent.details"></span>
-              </v-card-text>
-              <v-card-actions>
-                <v-btn text color="secondary" @click="selectedOpen = false" >
-                  닫기
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-menu>
-        </v-layout>
-      </v-dialog> -->
+        </v-card-actions>
         <v-data-table fixed-header dense :headers="headers" :items="aplyList" item-key="seq" :search="search" hide-default-footer
             :disable-items-per-page="true" :footer-props="{ 'items-per-page-options': [50, -1] }" :loading = "loading" loading-text="로딩중 기다려주세요~" disable-sort >
         <template v-slot:top>
@@ -513,10 +478,10 @@ export default {
     },
     getAplyAll(){
       var _this = this;
-      _this.loading = true;
       this.$axios.get('/api/admin/aply/all')
       .then((result)=>{
         _this.aplyList = result.data;
+        _this.loading = false;
         for(var idx in result.data){
           this.events.push({ 
               start: result.data[idx].aplyDt , 
@@ -542,7 +507,6 @@ export default {
           })
         })
       })
-      _this.loading = false;
     },
     diffTime (time) { 
       // const today = this.$moment();
@@ -588,7 +552,6 @@ export default {
             a.download = filename;
             a.click();
           }, 100);
-          this.$awn.success('엑셀 다운로드를 완료하였습니다.');
       })
     },
       editItem (item) {
@@ -626,7 +589,6 @@ export default {
       //   })
       // },
       submit () {
-        this.loading = true
         Object.assign(this.aplyList[this.editedIndex], this.editedItem);
         this.$axios.put('/api/admin/aply/one',this.editedItem)
         .then((result)=>{

@@ -53,21 +53,20 @@ router.beforeEach(async (to,from, next) => { // router interceptor
   //   'tmprCookie' : Vue.$cookies.get('tmpr_cookie')
   // }
   // axios.post('/api/conectLog',conectLog)
-  console.log('socket is complate')
-  if(!Vue.prototype.$socket){
-    const isLogin = localStorage.getItem("kakaoId")!='undefined'
-    const kakaoId = isLogin?localStorage.getItem("kakaoId"):'';
-    Vue.prototype.$socket = io(process.env.VUE_APP_SOCKET_URL,{
-        autoConnect: true,
-        query: {isLogin, kakaoId},
-    });
-}
   axios.get('/auth/user/info') .then((res)=>{ 
     localStorage.setItem("kakaoId", res.data['kakaoId'])
     localStorage.setItem("name", res.data['nickname'])
     localStorage.setItem("auth", res.data['auth'])
     localStorage.setItem("thumbnailImageUrl", res.data['thumbnailImageUrl'])
     console.log(res); 
+    if(!Vue.prototype.$socket){ 
+      const isLogin = localStorage.getItem("kakaoId")!='undefined'
+      const kakaoId = isLogin?localStorage.getItem("kakaoId"):'';
+      Vue.prototype.$socket = io(process.env.VUE_APP_SOCKET_URL,{
+          autoConnect: true,
+          query: {isLogin, kakaoId},
+      });
+    }
     next();
   })
 })

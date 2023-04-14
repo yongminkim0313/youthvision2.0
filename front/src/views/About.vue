@@ -23,9 +23,18 @@
                     </h5>
                     <v-card-subtitle class="mx-5">유스비전 미니스트리 대표 장용성목사/선교사</v-card-subtitle>
                     <v-card flat>
-                        <v-timeline dense>
-                            <v-timeline-item small v-for="item in items" :key="item.idx" v-show="item.show">{{ item.title }}</v-timeline-item>
-                        </v-timeline>
+                        <v-list>
+                            <v-list-item-group v-model="model">
+                                <v-list-item v-for="(item, i) in items" :key="i" style="min-height:35px;">
+                                    <v-list-item-icon class="ma-1">
+                                        <v-icon> mdi-cross </v-icon>
+                                    </v-list-item-icon>
+                                    <v-list-item-content  class="pa-2">
+                                        {{ item.title }}
+                                    </v-list-item-content>
+                                </v-list-item>
+                            </v-list-item-group>
+                        </v-list>
                     </v-card>
                 </v-card-text>
             </v-card>
@@ -48,9 +57,18 @@
                         </h5>
                         <v-card-subtitle class="mx-auto white--text">유스비전 미니스트리 대표 장용성목사/선교사</v-card-subtitle>
                     </v-img>
-                    <v-timeline dense>
-                        <v-timeline-item color="black"  small v-for="item in items" :key="item.idx" v-show="item.show">{{ item.title }}</v-timeline-item>
-                    </v-timeline>
+                    <v-list>
+                        <v-list-item-group v-model="model">
+                            <v-list-item v-for="(item, i) in items" :key="i" style="min-height:35px;">
+                                <v-list-item-icon class="ma-1">
+                                    <v-icon> mdi-cross </v-icon>
+                                </v-list-item-icon>
+                                <v-list-item-content  class="pa-2">
+                                    {{ item.title }}
+                                </v-list-item-content>
+                            </v-list-item>
+                        </v-list-item-group>
+                    </v-list>
                 </v-card-text>
             </v-card>
         </v-card>
@@ -90,27 +108,12 @@ Rev.Pastor.Missionary Jang Yong Sung -->
             {idx:13, title:"+해외 목회자성장대회 강사(필리핀,일본 등)",show:false},
             {idx:14, title:"+목회자자녀 영성캠프 강사",show:false},
             {idx:15, title:"+[저서] 사명자여 일어나라(2016)",show:false}
-        ]
-
+        ],
+        model:1,
     }},
     created() { 
-        var _this = this;
-        this.$eventBus.$on('scrollValue', function(p){
-            console.log('about',p);
-            _this.scrollCross(p);
-        })
     },
     methods : { 
-        scrollCross:function(p){
-            var _this = this;
-            if(p > 0.01){
-                for(var i = 0 ; i < this.items.length; i++){
-                    (function(x){
-                        setTimeout(() => _this.items[x].show = true, 500*x);
-                    })(i);
-                }
-            }
-        },
     }
   }
   </script>

@@ -19,6 +19,7 @@
     "firestore-store": "^2.0.2",
     "mariadb": "^3.0.1",
     "mybatis-mapper": "^0.6.8",
+    "node-excel-export": "^1.4.4",
     "socket.io": "^4.5.2",
     "uuid": "^9.0.0",
     "winston": "^3.8.1",

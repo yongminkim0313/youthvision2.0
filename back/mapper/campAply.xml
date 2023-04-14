@@ -12,6 +12,7 @@
       nvl((select sum(brochure_cnt) from T_CM_APLY_POSTER where email = T_CM_APLY_CAMP.email),0) as brochure_cnt,
       nvl((select sum(poster_cnt) from T_CM_APLY_POSTER where email = T_CM_APLY_CAMP.email),0) as poster_cnt
     from T_CM_APLY_CAMP
+    where delyn='N'
   </select>
 
   <select id="selectCampAplyToPoster">
@@ -121,4 +122,8 @@
       sayeogja = #{sayeogja}
     where seq = #{seq}
   </update>
+
+  <delete id="deleteAplyCamp">
+    update T_CM_APLY_CAMP set delyn = 'Y' where seq = #{seq}
+  </delete>
 </mapper>
