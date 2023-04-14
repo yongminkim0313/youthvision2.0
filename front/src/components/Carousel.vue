@@ -31,6 +31,7 @@
                   </v-list-item-content>
                   <v-list-item-action>
                     <file-upload @setAtchmnflId-child="setAtchmnflId" :imageSn="item.imageSn"></file-upload>
+                    <v-btn @click="deleteCarousel(item)">삭제</v-btn>
                   </v-list-item-action>
                 </v-list-item>
               </v-list-item-group>
@@ -83,6 +84,15 @@ export default {
       this.items.push(
         { imageSn: null, atchmnflId: null}
       )
+    },
+    deleteCarousel: function(data){
+      var _this = this;
+      console.log(data);
+      this.$axios.delete('/api/admin/carousel/'+data.imageSn)
+      .then((data)=>{
+        console.log(data);
+        _this.getImageList();
+       })
     }
   }
 }

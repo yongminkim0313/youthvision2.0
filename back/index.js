@@ -590,6 +590,14 @@ app.post('/api/admin/carousel', async(req,res) =>{
         })
     }
 })
+app.delete('/api/admin/carousel/:imageSn',(req,res)=>{
+    const {params : { imageSn }} = req;
+    db.setData('cmm','deleteCarousel',{imageSn:imageSn})
+    .then((row)=>{
+        console.log('/api/admin/carousel', row);
+        res.status(200).send('delete!!');
+    })
+})
 app.listen(process.env.SERVER_PORT,()=>{
     logger.info(`server start! port:${process.env.SERVER_PORT}`)
 })
