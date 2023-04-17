@@ -64,6 +64,9 @@
                     </template>
                   </v-img>
                 </v-list-item-content>
+                <v-list-item-action>
+                  <v-btn @click="downloadFile">파일다운로드</v-btn>
+                </v-list-item-action>
               </v-list-item>
               <v-list-item v-if="!editMode">
                 <v-list-item-content>
@@ -275,6 +278,34 @@ export default {
         if (idx > -1) this.reply.splice(idx, 1);
         _this.deleteItem={};
       },
+      downloadFile: async function(){
+        var atchmnflId = this.showItem['atchmnflId'];
+        console.log(atchmnflId);
+        //const response = await fetch('/api/download/'+atchmnflId);
+        this.$axios({
+            url: '/api/download/'+atchmnflId, // 파일 다운로드 요청 URL
+            method: "GET", // 혹은 'POST'
+            responseType: "blob", // 응답 데이터 타입 정의
+        }).then((response) => {
+          const disposition = response.headers["content-disposition"];
+          const fileName = decodeURI( disposition .match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/)[1] .replace(/['"]/g, "") );
+          // 다운로드(서버에서 전달 받은 데이터) 받은 바이너리 데이터를 blob으로 변환합니다.
+          const blob = new Blob([response.data]);
+          // blob을 사용해 객체 URL을 생성합니다.
+          const fileObjectUrl = window.URL.createObjectURL(blob);
+          // blob 객체 URL을 설정할 링크를 만듭니다.
+          const link = document.createElement("a");
+          link.href = fileObjectUrl;
+          link.style.display = "none";
+          link.download = fileName;
+          // 링크를 body에 추가하고 강제로 click 이벤트를 발생시켜 파일 다운로드를 실행시킵니다.
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          // 다운로드가 끝난 리소스(객체 URL)를 해제합니다.
+          window.URL.revokeObjectURL(fileObjectUrl);
+        });     
+      }
     }
   }
 </script>

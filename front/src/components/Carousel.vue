@@ -9,14 +9,15 @@
       </v-carousel>
       <v-dialog v-model="carouselEditDialog" max-width="700" class="d-print-none">
         <v-card>
-          <v-card-title>CAROUSEL 등록</v-card-title>
+          <v-card-title>CAROUSEL 등록 {{ mode }}</v-card-title>
           <v-card-actions>
             <v-btn @click="addCarousel">추가</v-btn>
+            <file-upload @setAtchmnflId-child="setAtchmnflId" :imageSn="imageSn" v-if="imageSn"></file-upload>
           </v-card-actions>
           <v-card-text>
             <v-list>
               <v-list-item-group v-model="model">
-                <v-list-item v-for="(item, i) in items" :key="i" >
+                <v-list-item v-for="(item, i) in items" :key="i" @click="imageSn = i+1">
                   <v-list-item-icon>
                     {{ item.imageSn }}
                   </v-list-item-icon>
@@ -30,7 +31,6 @@
                     </v-img>
                   </v-list-item-content>
                   <v-list-item-action>
-                    <file-upload @setAtchmnflId-child="setAtchmnflId" :imageSn="item.imageSn"></file-upload>
                     <v-btn @click="deleteCarousel(item)">삭제</v-btn>
                   </v-list-item-action>
                 </v-list-item>
@@ -50,21 +50,25 @@ export default {
     return {
       carouselEditDialog: false,
       items:[],
-      model:1
+      imageSn:0,
+      model:1,
+      mode:''
     }
   },
   created: function(){
     this.getImageList();
   },
   computed:{
-      isLogin(){
-          if(this.$cookies.get('isLogin')==="001"){ return true; }
-          else{ return false; }
-      },
       isAdmin(){
           if(this.$cookies.get('auth')==="admin"){ return true; }
           else{ return false; }
-      }
+      },
+  },
+  watch:{
+    imageSn: function(is){
+      var g = this.items.findIndex(function(x){return x.imageSn==is});
+      this.mode = g > -1 ? '이미지 수정':'이미지 추가';
+    }
   },
   methods:{
     getImageList: function(){
@@ -81,12 +85,11 @@ export default {
       })
     },
     addCarousel: function(){
-      this.items.push(
-        { imageSn: null, atchmnflId: null}
-      )
+      this.imageSn = this.items.length+1;
     },
     deleteCarousel: function(data){
       var _this = this;
+      _this.imageSn = 0;
       console.log(data);
       this.$axios.delete('/api/admin/carousel/'+data.imageSn)
       .then((data)=>{

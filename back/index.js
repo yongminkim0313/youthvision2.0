@@ -573,22 +573,22 @@ app.get('/api/admin/carousel', async(req,res)=>{
 app.post('/api/admin/carousel', async(req,res) =>{
     const { body: { imageSn, atchmnflId } } = req;
     console.log('merge (inser, update)', req.body);
-    /** merge (inser, update) */
-    if(imageSn){ //update
-        db.setData('cmm','updateCarousel', req.body )
-        .then(function(row) {
-            res.status(200).json({msg: 'update success!!'});
-        })
-    }else{//insert
-        db.getData('cmm','selectCarouselMax',{})
-        .then((row)=>{
-            req.body.imageSn = row.maxImageSn;
+    db.getData('cmm','selectCarouselCnt',req.body)
+    .then((row)=>{
+        console.log(row);
+        /** merge (inser, update) */
+        if(row.cnt){ //update
+            db.setData('cmm','updateCarousel', req.body )
+            .then(function(row) {
+                res.status(200).json({msg: 'update success!!'});
+            })
+        }else{//insert
             db.setData('cmm','insertCarousel', req.body )
             .then((row)=>{
                 res.status(200).json('insert success');
             })
-        })
-    }
+        }
+    })
 })
 app.delete('/api/admin/carousel/:imageSn',(req,res)=>{
     const {params : { imageSn }} = req;
@@ -597,6 +597,28 @@ app.delete('/api/admin/carousel/:imageSn',(req,res)=>{
         console.log('/api/admin/carousel', row);
         res.status(200).send('delete!!');
     })
+})
+app.get('/api/download/:id', async(req,res, next)=>{
+    try{
+        var atchmnfl = await db.getData('bbs','selectAtchmnfl', {atchmnflId: req.params.id, atchmnflSn: 1 });
+        var ext;
+        if(atchmnfl){
+            var f = atchmnfl.atchmnflNm;
+            var l = f.length;
+            var dot = f.lastIndexOf('.');
+            ext = f.substring(dot+1, l).toLowerCase();
+        }else{
+            console.log("없는 파일 입니다.")
+            res.send('파일이 존재하지 않습니다.');
+            return;
+        }
+        var filePath = path.join(__dirname, atchmnfl.atchmnflPath);
+        res.download(filePath);
+    }catch(err){
+        console.log(err);
+        logger.error(err);
+        next(err);
+    }
 })
 app.listen(process.env.SERVER_PORT,()=>{
     logger.info(`server start! port:${process.env.SERVER_PORT}`)
