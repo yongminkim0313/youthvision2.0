@@ -492,7 +492,7 @@ export default {
             });
         }
 
-        this.$axios.post('/api/talk/friends')
+        this.$axios.get('/api/admin/talk/friends')
         .then((result)=>{
           console.log(result);
           const {data:{elements}} = result;

@@ -43,6 +43,7 @@
               <v-spacer></v-spacer>
               <v-toolbar-items>
                 <v-btn dark text @click="saveNewBbs();" v-if="editMode"> 저장 </v-btn>
+                <v-btn v-if="isAdmin" icon @click="editBbs(showItem)"><v-icon color="grey lighten-1">mdi-note-edit</v-icon></v-btn>
               </v-toolbar-items>
             </v-toolbar>
             <v-list three-line subheader >
@@ -55,24 +56,20 @@
               <v-list-item>
                 <v-list-item-content>
                   <v-card-text v-if="!editMode" v-html="showItem.contents">  </v-card-text>
-                  <editor-tiptap-vue v-if="editMode" menubar @editorContent="setBbsContents"></editor-tiptap-vue>
-                  <v-img v-if="showItem.atchmnflId && !editMode" :src="'/api/image/'+showItem.atchmnflId" max-width="90vw" max-height="90vh">
-                    <template v-slot:placeholder>
-                      <v-row class="fill-height ma-0" align="center" justify="center" >
-                        <v-progress-circular indeterminate color="grey lighten-5" ></v-progress-circular>
-                      </v-row>
-                    </template>
-                  </v-img>
+                  <editor-tiptap-vue v-if="editMode" menubar @editorContent="setBbsContents" :description="newContents" ></editor-tiptap-vue>
+                  <v-img v-if="showItem.atchmnflId" :src="'/api/image/'+showItem.atchmnflId" max-width="90vw" max-height="90vh"> </v-img>
                 </v-list-item-content>
+              </v-list-item>
+              
+              <v-list-item v-if="!editMode">
                 <v-list-item-action>
-                  <v-btn @click="downloadFile">파일다운로드</v-btn>
+                  <v-btn v-if="showItem.atchmnflId" @click="downloadFile(showItem.atchmnflNm)">파일다운로드</v-btn>
+                  <v-btn plain max-width="300" class="mr-auto" @click="openReply = !openReply"> <v-icon left dark>mdi-message</v-icon> 댓글쓰기 </v-btn>
                 </v-list-item-action>
               </v-list-item>
-              <v-list-item v-if="!editMode">
+              
+              <v-list-item>
                 <v-list-item-content>
-                  <div>
-                    <v-btn plain max-width="300" class="mr-auto" @click="openReply = !openReply"> <v-icon left dark>mdi-message</v-icon> 댓글쓰기 </v-btn>
-                  </div>
                   <v-card v-if="openReply" flat class="d-flex">
                     <v-avatar class="ma-2"> <v-img :src="thumbnailImageUrl" /> </v-avatar> 
                     <v-textarea autofocus solo id="textarea" name="input-7-4" :label="replyLabel" :disabled="!availableReply" v-model="replyItem.contents"></v-textarea>
@@ -80,6 +77,7 @@
                   <v-btn outlined v-if="availableReply" @click="saveReply"> 등록</v-btn>
                 </v-list-item-content>
               </v-list-item>
+
               <v-list-item v-if="!editMode">
                 <v-list-item-content>
                   <v-timeline dense align-top v-for="item in reply" :key="item.idx"> 
@@ -93,6 +91,7 @@
                         <v-card-actions class="pa-0">
                           <v-spacer></v-spacer>
                           <v-btn v-if="isAdmin" icon @click="deleteBbsReply(item)"><v-icon color="grey lighten-1">mdi-delete</v-icon></v-btn>
+                          <v-btn v-if="isAdmin" icon @click="editBbsReply(item)"><v-icon color="grey lighten-1">mdi-file-edit</v-icon></v-btn>
                         </v-card-actions>
                       </v-card>
                     </v-timeline-item>
@@ -161,11 +160,7 @@ export default {
         sound: false,
         widgets: false,
         editMode:false,
-        editItem:{
-          title: '',
-          contents: '',
-          atchmnflId: 0,
-        }
+        editItem:{ title: '', contents: '', atchmnflId: 0, }
         ,showItem:{}
         ,deleteItem:{}
         ,replyItem:{uppIdx:0, contents:'', atchmnflId:0}
@@ -201,8 +196,14 @@ export default {
     },
     methods:{
       openNewBbs: function(){
-        this.editMode = true;
+        this.editMode = false;
         this.dialog = true;
+        this.$nextTick(() => {
+          this.editItem = {idx: 0, title:'', contents:'', atchmnflId:0};
+          this.showItem = {idx: 0, title:'', contents:'', atchmnflId:0};
+          this.newContents = '';
+          this.editMode = true;
+        });
       },
       selectBbsReply: function(){
         var _this = this;
@@ -278,7 +279,7 @@ export default {
         if (idx > -1) this.reply.splice(idx, 1);
         _this.deleteItem={};
       },
-      downloadFile: async function(){
+      downloadFile: async function(fileNm){
         var atchmnflId = this.showItem['atchmnflId'];
         console.log(atchmnflId);
         //const response = await fetch('/api/download/'+atchmnflId);
@@ -288,7 +289,7 @@ export default {
             responseType: "blob", // 응답 데이터 타입 정의
         }).then((response) => {
           const disposition = response.headers["content-disposition"];
-          const fileName = decodeURI( disposition .match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/)[1] .replace(/['"]/g, "") );
+          //const fileName = decodeURI( disposition .match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/)[1] .replace(/['"]/g, "") );
           // 다운로드(서버에서 전달 받은 데이터) 받은 바이너리 데이터를 blob으로 변환합니다.
           const blob = new Blob([response.data]);
           // blob을 사용해 객체 URL을 생성합니다.
@@ -297,7 +298,7 @@ export default {
           const link = document.createElement("a");
           link.href = fileObjectUrl;
           link.style.display = "none";
-          link.download = fileName;
+          link.download = fileNm;
           // 링크를 body에 추가하고 강제로 click 이벤트를 발생시켜 파일 다운로드를 실행시킵니다.
           document.body.appendChild(link);
           link.click();
@@ -305,6 +306,14 @@ export default {
           // 다운로드가 끝난 리소스(객체 URL)를 해제합니다.
           window.URL.revokeObjectURL(fileObjectUrl);
         });     
+      },
+      editBbs: function(showItem){
+        this.editMode = true;
+        this.editItem = showItem;
+        this.newContents = showItem.contents;
+      },
+      editBbsReply: function(){
+
       }
     }
   }

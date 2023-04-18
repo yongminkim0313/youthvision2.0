@@ -35,10 +35,7 @@ app.use(session({
     secret: 'youthvision-kr',
     resave: false,
     saveUninitialized: false, 
-    cookie: {
-        secure: false,
-        maxAge : 1000* 60 * 60 
-    }
+    cookie: { secure: false, maxAge : 1000* 60 * 60 }
 }));
 
 function logErrors(err, req, res, next) {
@@ -59,28 +56,85 @@ function errorHandler(err, req, res, next) {
 app.use(logErrors);
 app.use(clientErrorHandler);
 app.use(errorHandler);
-  
 require('./modules/socketConfig')(app,logger);
+
+const adminUrlCheck = function(req,trueCallback,falseCallback){
+    var url = req.url, auth= req.session.auth;
+    if(url.indexOf('/admin') > -1 && auth != "admin"){
+        return falseCallback();
+    }
+    return trueCallback();
+}
+/************************* [Start] get, post, put, delte api 설정 **********************/
 app.get('*', (req, res, next) => {
-    if(req.url.indexOf('/auth') >-1 || req.url.indexOf('/api') >-1){
+    logger.info('url: ' +req.url + ' body: '+ JSON.stringify(req.body)+ ' params: '+JSON.stringify(req.params) +' method: '+ req.method+ ' kakaoId: '+req.session.kakaoId+' auth: '+ req.session.auth);
+    if(req.url.indexOf('/auth/kakao/callback') > -1){
         next();
         return;
-    }else{
-        res.sendFile(path.join(__dirname, '/public/index.html'));
     }
-});
+    if(req.url.indexOf('/api') > -1){
+        adminUrlCheck(req, 
+            function(){ next(); },
+            function(){ res.status(400).json({msg: '관리자가 아닙니다'}); }
+            )
+        }else{
+            adminUrlCheck(req, 
+                function(){ res.sendFile(path.join(__dirname, '/public/index.html')) },
+                function(){ new Error('관리자가 아닙니다'); }
+                )
+            }
+        });
 app.post('*', (req, res, next) => {
-    const kakaoId = req.session.kakaoId;
-    console.log('req.method: ', req.method, 'req.session.kakaoId: ', kakaoId);
-    if(!kakaoId){
-        console.log('로그인 상태가 아닙니다.');
+    logger.info('url: ' +req.url + ' body: '+ JSON.stringify(req.body)+ ' params: '+JSON.stringify(req.params) +' method: '+ req.method+ ' kakaoId: '+req.session.kakaoId+' auth: '+ req.session.auth);
+    if(!req.session.kakaoId){
+        logger.warn('로그인 상태가 아닙니다.')
         res.status(500).send({ error: '로그인 상태가 아닙니다.' });
         return;
     }else{
-        req.body['kakaoId'] = kakaoId; //카카오아이디 추가
-        next();
+        adminUrlCheck(req, 
+            function(){ 
+                req.body['kakaoId'] = req.session.kakaoId; //카카오아이디 추가
+                next();
+            },
+            function(){ res.status(400).json({msg: '관리자가 아닙니다'}); }
+            )
+        }
+    });
+    app.put('*', (req, res, next) => {
+        logger.info('url: ' +req.url + ' body: '+ JSON.stringify(req.body)+ ' params: '+JSON.stringify(req.params) +' method: '+ req.method+ ' kakaoId: '+req.session.kakaoId+' auth: '+ req.session.auth);
+        if(!req.session.kakaoId && !(req.url.indexOf('/cnt') > -1)){
+            logger.warn('로그인 상태가 아닙니다.')
+            res.status(500).send({ error: '로그인 상태가 아닙니다.' });
+            return;
+        }else{
+            adminUrlCheck(req, 
+                function(){ 
+                    req.body['kakaoId'] = req.session.kakaoId; //카카오아이디 추가
+                    next();
+                },
+                function(){ res.status(400).json({msg: '관리자가 아닙니다'}); }
+            )
+        }
+    });
+    app.delete('*', (req, res, next) => {
+        logger.info('url: ' +req.url + ' body: '+ JSON.stringify(req.body)+ ' params: '+JSON.stringify(req.params) +' method: '+ req.method+ ' kakaoId: '+req.session.kakaoId+' auth: '+ req.session.auth);
+        if(!req.session.kakaoId){
+            logger.warn('로그인 상태가 아닙니다.')
+            res.status(500).send({ error: '로그인 상태가 아닙니다.' });
+            return;
+        }else{
+            adminUrlCheck(req, 
+            function(){ 
+                req.body['kakaoId'] = req.session.kakaoId; //카카오아이디 추가
+                next();
+            },
+            function(){ res.status(400).json({msg: '관리자가 아닙니다'}); }
+        )
     }
 });
+/************************* [End] get, post, put, delte api 설정 **********************/
+
+
 app.get('/api/conectLog/key', (req, res) =>{
     get(ref(fireDB,'posts/common/connectLog/'))
     .then((snapshot)=>{
@@ -92,7 +146,6 @@ app.get('/api/conectLog/key', (req, res) =>{
         }
     });
 })
-
 app.get('/api/conectLog', (req, res) =>{
     get(ref(fireDB,'posts/common/connectLog/'+req.query.dt))
     .then((snapshot)=>{
@@ -104,7 +157,6 @@ app.get('/api/conectLog', (req, res) =>{
         }
     });
 })
-
 app.post('/api/conectLog', (req, res) =>{
     db.setData('conectLog', 'insertConectLog', req.body)
     .then(function(row) {
@@ -113,12 +165,9 @@ app.post('/api/conectLog', (req, res) =>{
     .catch(err=>{
         res.status(400).json(Error(err))
     });
-
     set(ref(fireDB,'posts/common/connectLog/'+common.getDate()+'/'+req.body.conectDt),req.body);
 })
-
 app.get('/api/campAply',(req,res)=>{
-    console.log('res.query',req.query);
     db.getList('campAply','selectCampAply', req.body)
     .then(function(row) {
         res.status(200).json(row);
@@ -126,37 +175,23 @@ app.get('/api/campAply',(req,res)=>{
     .catch(err=>{
         res.status(400).json(Error(err))
     });
-
 })
-// APLY GET start
 app.get('/api/campAply/one',(req,res)=>{
-    console.log('res.query',req.query);
     db.getData('campAply','selectCampAplyOne', req.query)
     .then(function(row) { res.status(200).json(row); })
     .catch(err=>{ res.status(400).json(Error(err)) });
 })
-
 app.get('/api/joinPathSe/one',(req,res)=>{
-    console.log('res.query',req.query);
     db.getList('campAply','selectJoinPathSe', req.query)
     .then(function(row) { res.status(200).json(row); })
     .catch(err=>{ res.status(400).json(Error(err)) });
 })
-
 app.get('/api/campCnt/one',(req,res)=>{
-    console.log('res.query',req.query);
     db.getData('campAply','selectCampCnt', req.query)
     .then(function(row) { res.status(200).json(row); })
     .catch(err=>{ res.status(400).json(Error(err)) }); 
 });
-// APLY GET end
-
-
 app.post('/api/campAply',(req,res)=>{
-    if(!req.session.kakaoId){
-        res.status(200).json({code: -1, msg:'세션이 만료되었습니다. 재 로그인 하시기 바랍니다.'});
-        return;
-    }
     db.getData('campAply','selectMaxSeq', {})
     .then(function(row) { 
         req.body['seq'] = row.seq+1;
@@ -181,29 +216,13 @@ app.post('/api/campAply',(req,res)=>{
         
         var joinPathSe = req.body['joinPathSe'];
         console.log('joinPathSe', joinPathSe);
-        if(joinPathSe[0]){
-            db.setData('campAply','insertJoinPathSe', {seq: req.body['seq'], path: joinPathSe[0]})
-            .then(function(row) {console.log(row)})
+        for(var i = 0 ; i < joinPathSe.length ; i++){
+            if(joinPathSe[i]){
+                db.setData('campAply','insertJoinPathSe', {seq: req.body['seq'], path: joinPathSe[i]})
+                .then(function(row) {console.log(row)})
+            }
         }
-        if(joinPathSe[1]){
-            db.setData('campAply','insertJoinPathSe', {seq: req.body['seq'], path: joinPathSe[1]})
-            .then(function(row) {console.log(row)})
-        }
-        if(joinPathSe[2]){
-            db.setData('campAply','insertJoinPathSe', {seq: req.body['seq'], path: joinPathSe[2]})
-            .then(function(row) {console.log(row)})
-        }
-        if(joinPathSe[3]){
-            db.setData('campAply','insertJoinPathSe', {seq: req.body['seq'], path: joinPathSe[3]})
-            .then(function(row) {console.log(row)})
-        }
-        if(joinPathSe[4]){
-            db.setData('campAply','insertJoinPathSe', {seq: req.body['seq'], path: joinPathSe[4]})
-            .then(function(row) {console.log(row)})
-        }
-
         res.status(200).json({code: 0, msg:'success! '});
-        
     })
 
 })
@@ -222,7 +241,6 @@ app.get('/auth/kakao/callback', async(req, res) => {
         const access_token = response.data.access_token;
         const refresh_token = response.data.refresh_token;
         const userInfo = await kakao.getUserInfo(access_token);
-        console.log(userInfo);
         req.session.kakaoId           = userInfo.data.id
         req.session.nickname          = userInfo.data.kakao_account.profile.nickname
         req.session.accessToken       = `${access_token}`;
@@ -230,8 +248,8 @@ app.get('/auth/kakao/callback', async(req, res) => {
         req.session.email             = userInfo.data.kakao_account.email;
         req.session.thumbnailImageUrl = userInfo.data.kakao_account.profile.thumbnail_image_url;
         req.session.gender            = userInfo.data.kakao_account.gender;
+        logger.info(req.session.kakaoId+' '+req.session.nickname+' '+req.session.email+' '+req.session.gender+' '+req.session.thumbnailImageUrl)
         var adminList = ['cnalgus1004@naver.com','kimyongmin1@kakao.com','yjcm00@hanmail.net'];
-        console.log(userInfo.data.kakao_account.email);
         if(adminList.indexOf(userInfo.data.kakao_account.email) > -1){
             req.session.auth = 'admin';
             res.cookie('auth','admin');
@@ -239,8 +257,6 @@ app.get('/auth/kakao/callback', async(req, res) => {
             req.session.auth = 'user';
             res.cookie('auth','user');
         }
-        // logger.info(userInfo.data);
-        // set(ref(fireDB,`posts/common/kakaologin/${userInfo.data.id}`),userInfo.data);
         db.getData('user','selectUser',req.session)
         .then((row)=>{
             console.log('selectUser', row);
@@ -250,19 +266,13 @@ app.get('/auth/kakao/callback', async(req, res) => {
                 db.setData('user','insertUser',req.session);
             }
         })
-        req.session.save(function() {
-            res.cookie('isLogin','001');
-            res.redirect('/');
-        });
-
+        req.session.save(function() { res.cookie('isLogin','001'); res.redirect('/'); });
     } catch (err) {
         logger.error("/auth/kakao/callback Error >>" + err);
     }
 });
 
 app.get('/api/auth/logout', async(req, res) => {
-    const accessToken = req.session.accessToken;
-    console.log('accessToken::::::::',accessToken);
     req.session.kakaoId         = null
     req.session.nickname            = null
     req.session.email           = null
@@ -275,14 +285,11 @@ app.get('/api/auth/logout', async(req, res) => {
 });
 
 app.post('/auth/myKakaoMsgAgree', async(req,res) => { //동의항목 가져오기
-    const accessToken = req.session.accessToken;
-    console.log('accessToken::::::::',accessToken);
-
-    var result = await kakao.agree(accessToken);    
+    var result = await kakao.agree(req.session.accessToken);    
     res.status(200).json({result: result});
 });
 
-app.get('/auth/user/info', (req,res)=>{
+app.get('/api/auth/user/info', (req,res)=>{
     res.status(200).json(req.session);
 })
 
@@ -298,12 +305,6 @@ app.get('/api/youtube', (req, res) => {
 });
 
 app.get('/api/admin/aply/all', async (req, res)=>{
-    logger.info(req.session.auth);
-    if(req.session.auth != 'admin'){
-        console.log('관리자가 아닙니다.')
-        res.status(200).json([]);
-        return; 
-    }
     var aplyList        = await db.getList('campAply','selectCampAply', {})
     var aplyCampCnt     = await db.getList('campAply','selectCampCnt', {})
     var aplyPathSe      = await db.getList('campAply','selectPathSe', {})
@@ -325,29 +326,15 @@ app.get('/api/admin/aply/all', async (req, res)=>{
     res.status(200).json(aplyList);
 })
 app.get('/api/user/aply/poster',async(req, res)=>{
-    if(!req.session) return;
     var aplyList = await db.getList('campAply','selectCampAplyToPoster', req.session);
     res.status(200).json(aplyList);
 })
-
 app.post('/api/user/aply/poster', async(req,res)=>{
-    var aplyContents = {
-        brochureCnt: req.body['brochureCnt'],
-        posterCnt: req.body['posterCnt'],
-        aplyName: req.body['aplyName'],
-        church: req.body['church'],
-        addr: req.body['addr'],
-        dtlAddr: req.body['dtlAddr'],
-        phone: req.body['phone'],
-        email: req.body['email'],
-      }
-    db.setData('campAply','insertAplyPoster', aplyContents )
+    db.setData('campAply','insertAplyPoster', req.body )
     .then(function(row) {console.log(row)})
     res.status(200).json({msg:'success'});
 })
-
 app.post('/api/admin/aply/excel', async(req, res) => {
-    console.log('/api/admin/aply/excel');
     const excelService = require('./services/excelService');
     try{
         var aplyList        = await db.getList('campAply','selectCampAply', {})
@@ -376,13 +363,7 @@ app.post('/api/admin/aply/excel', async(req, res) => {
 });
 
 app.put('/api/admin/aply/one/prgrs', async(req, res)=>{
-    if(req.session.auth != "admin"){
-        res.status(400).json({msg: '관리자가 아닙니다'});
-        return;
-    } 
-
     const { body: { aplyPrgrs, seq } } = req;
-    console.log(aplyPrgrs, seq);
     db.setData('campAply','updateAplyCampPrgrs', {aplyPrgrs:aplyPrgrs, seq:seq} )
     .then(function(row) {
         res.status(200).json({msg: '접수상태 변경 성공'});
@@ -390,23 +371,13 @@ app.put('/api/admin/aply/one/prgrs', async(req, res)=>{
 })
 
 app.put('/api/admin/aply/one', async(req, res)=>{
-    if(req.session.auth != "admin"){
-        res.status(400).json({msg: '관리자가 아닙니다'});
-        return;
-    } 
-    console.log(req.body);
     db.setData('campAply','updateCampCnt', req.body.campCnt )
-    
     db.setData('campAply','updateAplyCamp', req.body )
     .then(function(row) {
         res.status(200).json({msg: '변경 성공'});
     })
 })
 app.delete('/api/admin/aply/one', async(req, res)=>{
-    if(req.session.auth != "admin"){
-        res.status(400).json({msg: '관리자가 아닙니다'});
-        return;
-    } 
     db.setData('campAply','deleteAplyCamp', req.body )
     .then(function(row) {
         res.status(200).json({msg: '변경 성공'});
@@ -414,7 +385,6 @@ app.delete('/api/admin/aply/one', async(req, res)=>{
 })
 app.post('/api/admin/message/send', async(req,res) => {
     const {body: {uuid, args,templateId},session: {accessToken}} = req;
-
     try {
         const response = await axios({
             method: "post",
@@ -429,23 +399,15 @@ app.post('/api/admin/message/send', async(req,res) => {
                     template_args : args
                 }
         });
-        console.log('response::',response.data);
         res.status(200).json(response.data);
     } catch (err) {
         logger.error("Error >>" + err);
         console.log(err);
         res.status(401).json(err);
     }
-    
 })
 
-app.post('/api/talk/friends', async(req,res) => {
-    logger.info(req.session.auth);
-    if(req.session.auth != 'admin'){
-        console.log('관리자가 아닙니다.')
-        res.status(200).json([]);
-        return; 
-    }
+app.get('/api/admin/talk/friends', async(req,res) => {
     const accessToken = req.session.accessToken;
     try {
         const response = await axios({
@@ -453,41 +415,45 @@ app.post('/api/talk/friends', async(req,res) => {
             url: "https://kapi.kakao.com/v1/api/talk/friends", // 서버
             headers: { 'Authorization': `Bearer ${accessToken}` }, // 요청 헤더 설정
         });
-
-        console.log('response::',response.data);
         res.status(200).json(response.data);
     } catch (err) {
         logger.error("Error >>" + err);
         res.status(401).json(err);
     }
-    
 })
-
 app.get('/api/user/aply/camp/one', async(req,res) => {
-    console.log(req.session);
     if(!req.session.kakaoId) return;
-    var aply = await db.getData('campAply','selectCampAplyOne', req.session);
-    res.status(200).json(aply);
+    db.getData('campAply','selectCampAplyOne', req.session)
+    .then((row)=>{
+        res.status(200).json(aply);
+    })
 })
-
 app.get('/api/bbs', async(req,res) =>{
-    var bbs = await db.getList('bbs','selectBbs', {});
-    res.status(200).json(bbs);
+    db.getList('bbs','selectBbs', {})
+    .then((row)=>{
+        res.status(200).json(row);
+    })
 })
-
 app.post('/api/bbs', async(req,res) =>{
-    console.log('/api/bbs',req.body)
-    var bbs = await db.setData('bbs','insertBbs', req.body);
-    res.status(200).json('success');
+    db.getData('bbs','selectBbsCnt',req.body)
+   .then((row)=>{
+    if(row.cnt < 1){
+        db.setData('bbs','insertBbs', req.body)
+        .then((row)=>{
+            res.status(200).json('success');
+        })
+    }else{
+        db.setData('bbs','updateBbs', req.body)
+        .then((row)=>{
+            res.status(200).json('success');
+        })
+    }
+   })
 })
-
 app.get('/api/download/:id', async(req, res, next) => {
     try{
         var atchmnfl = await db.getData('bbs','selectAtchmnfl', {atchmnflId: req.params.id, atchmnflSn: 1 });
-        console.log(atchmnfl);
         var filePath = path.join(__dirname, atchmnfl.atchmnflPath);
-    
-        console.log(filePath);
         res.download(filePath, atchmnfl.atchmnflNm,
             (err) => {
                 if (err) { res.send({ error : err, msg   : "Problem downloading the file" }) }
@@ -514,9 +480,7 @@ app.get('/api/image/:id', async(req,res, next)=>{
             res.send('image xx');
             return;
         }
-
         var imgExtList = ['jpg','png','jpeg'];
-        console.log(imgExtList.indexOf(ext));
         if(imgExtList.indexOf(ext) > -1){
             var filePath = path.join(__dirname, atchmnfl.atchmnflPath);
             res.sendFile(filePath);
@@ -526,45 +490,36 @@ app.get('/api/image/:id', async(req,res, next)=>{
             return;
         }
     }catch(err){
-        console.log(err);
-        logger.error(err);
-        next(err);
+        next(new Error(err));
     }
 })
 app.put('/api/bbs/cnt',(req,res)=>{
-    const { body:{idx} } = req;
-    db.setData('bbs','updateBbsClickCnt',{idx:idx});
+    db.setData('bbs','updateBbsClickCnt',req.body);
     res.status(200).send('cnt +1');
 })
 app.delete('/api/bbs/:idx',(req,res)=>{
-    const {params : { idx }} = req;
-    console.log(req.session);
-    logger.info('delete : ' + idx );
-    db.setData('bbs','deleteBbs',{idx:idx});
+    db.setData('bbs','deleteBbs',req.params);
     res.status(200).send('delete!! '+idx);
 })
 app.post('/api/bbs/reply', async(req,res) =>{
-    console.log('/api/bbs/reply',req.body)
-    var bbs = await db.setData('bbs','insertBbsReply', req.body);
-    res.status(200).json('success');
+    db.setData('bbs','insertBbsReply', req.body)
+    .then((row)=>{
+        res.status(200).json('success');
+    })
 })
 app.get('/api/bbs/reply', async(req,res) =>{
-    var bbsReply = await db.getList('bbs','selectBbsReply', req.query);
-    res.status(200).json(bbsReply);
-})
-app.get('/api/admin/userList', async(req,res)=>{
-    if(req.session.auth != 'admin'){
-        console.log('관리자가 아닙니다.')
-        res.status(200).json([]);
-        return; 
-    }
-    db.getList('user','selectUserList',req.session)
+    db.getList('bbs','selectBbsReply', req.query)
     .then((row)=>{
-        console.log('selectUserList', row);
         res.status(200).json(row);
     })
 })
-app.get('/api/admin/carousel', async(req,res)=>{
+app.get('/api/admin/userList', async(req,res)=>{
+    db.getList('user','selectUserList',req.session)
+    .then((row)=>{
+        res.status(200).json(row);
+    })
+})
+app.get('/api/carousel', async(req,res)=>{
     db.getList('cmm','selectCarousel',{})
     .then((row)=>{
         res.status(200).json(row);
@@ -572,10 +527,8 @@ app.get('/api/admin/carousel', async(req,res)=>{
 })
 app.post('/api/admin/carousel', async(req,res) =>{
     const { body: { imageSn, atchmnflId } } = req;
-    console.log('merge (inser, update)', req.body);
     db.getData('cmm','selectCarouselCnt',req.body)
     .then((row)=>{
-        console.log(row);
         /** merge (inser, update) */
         if(row.cnt){ //update
             db.setData('cmm','updateCarousel', req.body )
@@ -594,7 +547,6 @@ app.delete('/api/admin/carousel/:imageSn',(req,res)=>{
     const {params : { imageSn }} = req;
     db.setData('cmm','deleteCarousel',{imageSn:imageSn})
     .then((row)=>{
-        console.log('/api/admin/carousel', row);
         res.status(200).send('delete!!');
     })
 })

@@ -52,7 +52,7 @@
         <v-btn text color="rgba(255,255,255,0)" class="pa-0"><span class="d-inline-block text-caption" :class="scrollTop?'black--text':'white--text'" @click="goToFAQ()">FAQ</span></v-btn>
       </div>
       <!-- <v-spacer></v-spacer> -->
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="d-md-none d-lg-none d-xl-none" :color="scrollTop?'black':'white'"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="d-md-none d-lg-none d-xl-none" :color="scrollTop?'black':'white'" style="text-shadow: 2px 2px 2px gray;"></v-app-bar-nav-icon>
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" fixed right temporary class="d-print-none">
@@ -257,5 +257,8 @@ blockquote p::after {
 }
 .ProseMirror {
     border: dashed;
+}
+.text-caption{
+  text-shadow: 2px 2px 2px gray;
 }
 </style>

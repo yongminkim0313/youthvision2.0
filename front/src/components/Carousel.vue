@@ -72,7 +72,7 @@ export default {
   },
   methods:{
     getImageList: function(){
-      this.$axios.get('/api/admin/carousel')
+      this.$axios.get('/api/carousel')
       .then((result)=>{
         this.items = result.data; 
       })

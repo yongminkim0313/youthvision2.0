@@ -11,6 +11,9 @@
     and a.upp_idx = 0
   </select>
 
+  <select id="selectBbsCnt">
+    select count(1) as cnt from T_CM_BBS a where a.idx = #{idx}
+  </select>
 
   <insert id="insertBbs">
   insert into T_CM_BBS(
@@ -19,6 +22,13 @@
     0, #{title}, #{contents}, 0, #{atchmnflId}, now(), #{kakaoId}
   )
   </insert>
+  <update id="updateBbs">
+  update T_CM_BBS set
+    title = #{title},
+    contents = #{contents},
+    atchmnfl_id = #{atchmnflId}
+  where idx = #{idx}
+  </update>
   <update id="updateBbsClickCnt">
   update T_CM_BBS set
     click_cnt = click_cnt+1

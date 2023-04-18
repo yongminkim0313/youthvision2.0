@@ -15,8 +15,10 @@ Vue.prototype.APP_URL = process.env.VUE_APP_API_URL;
 Vue.use(vueCookies);
 axios.interceptors.response.use((res)=>res,(err)=>{
   const {response:{data:{error}}} = err;
-  console.log('error message : ', error);
-  alert(error);
+  if(error){
+    alert(error);
+    console.log('error message : ', error);
+  } 
   throw err;
 })
 Vue.prototype.$axios = axios;
@@ -53,7 +55,8 @@ router.beforeEach(async (to,from, next) => { // router interceptor
   //   'tmprCookie' : Vue.$cookies.get('tmpr_cookie')
   // }
   // axios.post('/api/conectLog',conectLog)
-  axios.get('/auth/user/info') .then((res)=>{ 
+  axios.get('/api/auth/user/info') 
+  .then((res)=>{ 
     localStorage.setItem("kakaoId", res.data['kakaoId'])
     localStorage.setItem("name", res.data['nickname'])
     localStorage.setItem("auth", res.data['auth'])
@@ -66,10 +69,23 @@ router.beforeEach(async (to,from, next) => { // router interceptor
           autoConnect: true,
           query: {isLogin, kakaoId},
       });
+
+      Vue.prototype.$socket.on("disconnect", () => {
+        console.log('disconnect');
+        localStorage.clear();
+        Vue.prototype.$cookies.clear();
+        location.href=this.APP_URL+"/api/auth/logout";
+      });
     }
     next();
   })
+  .catch((err)=>{
+    alert('사용자정보를 가져올수 없습니다.')
+    console.log('사용자정보를 가져올수 없습니다.');
+  })
 })
+
+
 
 export function formatDate(value) {
   const date = new Date(value);

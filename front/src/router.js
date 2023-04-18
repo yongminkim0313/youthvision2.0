@@ -93,17 +93,6 @@ const routes = [
         ,props: true
     },
     {
-        path: "/campLive",
-        name: "CampLive",
-        components: {
-            header: UserHeader,
-            default: CampLive,
-            footer: UserFooter
-        },
-        meta: { unauthorized: true }
-        ,props: true
-    },
-    {
         path: "/newsCast",
         name: "NewsCast",
         components: {

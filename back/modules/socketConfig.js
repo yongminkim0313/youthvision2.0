@@ -4,13 +4,7 @@ const fs = require('fs');
 const { v4 } = require('uuid')
 
 module.exports = (app, winston) => {
-    const options = {
-        maxHttpBufferSize: 1e8,
-        cors: {
-            origin: '*',
-        },
-        cookie: true
-    }; //1e6: 1MB
+    const options = { maxHttpBufferSize: 1e8, cors: { origin: '*', }, cookie: true }; //1e6: 1MB
     const server = require('http').createServer(app);
     const io = require('socket.io')(server, options);
     server.listen(4000);
