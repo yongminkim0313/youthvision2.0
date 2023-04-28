@@ -3,9 +3,9 @@
   <template slot="progress"> <v-progress-linear color="deep-purple" height="10" indeterminate ></v-progress-linear> </template>
   <v-img src="../assets/about_top_bg.png" height="64" cover class="d-print-none"></v-img>
   <v-card max-width="980" class="mx-auto d-print-none">
-    <v-alert border="right" colored-border type="error" elevation="2" class="mx-5 my-3 ">
+    <!-- <v-alert border="right" colored-border type="error" elevation="2" class="mx-5 my-3 ">
       현재는 신청기간이 아닙니다.
-    </v-alert>
+    </v-alert> -->
     <v-img class="my-3 " height="350" contain src="../assets/camps/joinus.png"></v-img>
     <!-- src="https://modo-phinf.pstatic.net/20190417_140/15554692250648Rq2Y_JPEG/mosa4Ri4kd.jpeg" -->
     <!-- <v-card-title>나의 신청 내역</v-card-title> -->

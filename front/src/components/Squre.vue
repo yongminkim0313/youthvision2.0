@@ -15,15 +15,21 @@
         </v-img>
     </div>
     <div class="d-none d-md-flex align-self-center">
-        <v-img class="img-card-md ml-10 rounded-xl elevation-5" src="../assets/camps/card001.jpeg" cover>
-            <v-card-text class="white--text text-subtitle-1">무너진 다윗의 장막을 일으키리</v-card-text>
-        </v-img>
-        <v-img class="img-card-md ml-10 rounded-xl elevation-5" src="../assets/camps/card002.jpeg" cover>
-            <v-card-text class="white--text text-subtitle-1">다음세대가 희망이다</v-card-text>
-        </v-img>
-        <v-img class="img-card-md ml-10 rounded-xl elevation-5" src="../assets/camps/card003.jpeg" cover>
-            <v-card-text class="white--text text-subtitle-1">주님오실길을 예비하라</v-card-text>
-        </v-img>
+        <router-link to="/aplyCamp">
+            <v-img class="img-card-md ml-10 rounded-xl elevation-5" src="../assets/camps/card001.jpeg" cover>
+                <v-card-text class="white--text text-subtitle-1">무너진 다윗의 장막을 일으키리</v-card-text>
+            </v-img>
+        </router-link>
+        <router-link to="/aplyCamp">
+            <v-img class="img-card-md ml-10 rounded-xl elevation-5" src="../assets/camps/card002.jpeg" cover>
+                <v-card-text class="white--text text-subtitle-1">다음세대가 희망이다</v-card-text>
+            </v-img>
+        </router-link>
+        <router-link to="/aplyCamp">
+            <v-img class="img-card-md ml-10 rounded-xl elevation-5" src="../assets/camps/card003.jpeg" cover>
+                <v-card-text class="white--text text-subtitle-1">주님오실길을 예비하라</v-card-text>
+            </v-img>
+        </router-link>
     </div>
 </v-card>
 </template>

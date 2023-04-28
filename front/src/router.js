@@ -20,7 +20,7 @@ Vue.use(VueRouter);
 const routes = [
     {
         path: "/",
-        name: "Home",
+        name: "홈",
         components: {
             default: Home,
             footer: UserFooter
@@ -36,7 +36,7 @@ const routes = [
     },
     {
         path: "/aplyCamp",
-        name: "AplyCamp",
+        name: "캠프신청",
         components: {
             default: AplyCamp,
             footer: UserFooter
@@ -44,7 +44,7 @@ const routes = [
     },
     {
         path: "/campLive",
-        name: "CampLive",
+        name: "캠프라이브",
         components: {
             default: CampLive,
             footer: UserFooter
@@ -52,7 +52,7 @@ const routes = [
     },
     {
         path: "/myAplyList",
-        name: "MyAplyList",
+        name: "나의신청정보",
         components: {
             default: MyAplyList,
             footer: UserFooter
@@ -60,7 +60,7 @@ const routes = [
     },
     {
         path: "/aplyPoster",
-        name: "AplyPoster",
+        name: "포스터신청",
         components: {
             default: AplyPoster,
             footer: UserFooter
@@ -68,7 +68,7 @@ const routes = [
     },
     {
         path: "/board",
-        name: "Board",
+        name: "게시판",
         components: {
             default: Board,
             footer: UserFooter
@@ -76,7 +76,7 @@ const routes = [
     },
     {
         path: "/about",
-        name: "About",
+        name: "초대의글",
         components: {
             default: About,
             footer: UserFooter
@@ -86,7 +86,7 @@ const routes = [
     },
     {
         path: "/newsCast",
-        name: "NewsCast",
+        name: "뉴스캐스트",
         components: {
             default: NewsCast,
             footer: UserFooter
@@ -106,7 +106,7 @@ const routes = [
     },
     {
         path: "/youthvision",
-        name: "YOUTHVISION",
+        name: "유스비전 소개",
         components: {
             default: Youthvision,
             footer: UserFooter
@@ -116,7 +116,7 @@ const routes = [
     },
     {
         path: "/admin",
-        name: "Admin",
+        name: "관리자페이지",
         components: {
             default: Admin,
             footer: UserFooter

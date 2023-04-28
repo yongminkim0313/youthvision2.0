@@ -36,6 +36,7 @@ Vue.directive('scroll', {
 });
 
 router.beforeEach(async (to,from, next) => { // router interceptor
+  document.title = 'YOUTHVISION | '+to.name;
   var todayFm = common.getDateTime();
   var ua = new UAParser()
   if(!Vue.$cookies.get('tmpr_cookie')) Vue.$cookies.set('tmpr_cookie',v4(),0, null, null, null, 'Strict');
