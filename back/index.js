@@ -39,7 +39,7 @@ app.use(session({
 }));
 
 function logErrors(err, req, res, next) {
-    console.error(err.stack);
+    console.error('logErrors'+err.stack);
     next(err);
 }
 function clientErrorHandler(err, req, res, next) {
@@ -252,10 +252,8 @@ app.get('/auth/kakao/callback', async(req, res) => {
         var adminList = ['cnalgus1004@naver.com','kimyongmin1@kakao.com','yjcm00@hanmail.net'];
         if(adminList.indexOf(userInfo.data.kakao_account.email) > -1){
             req.session.auth = 'admin';
-            res.cookie('auth','admin');
         }else{
             req.session.auth = 'user';
-            res.cookie('auth','user');
         }
         db.getData('user','selectUser',req.session)
         .then((row)=>{
@@ -266,22 +264,17 @@ app.get('/auth/kakao/callback', async(req, res) => {
                 db.setData('user','insertUser',req.session);
             }
         })
-        req.session.save(function() { res.cookie('isLogin','001'); res.redirect('/'); });
+        req.session.save(function() {res.redirect('/'); });
     } catch (err) {
         logger.error("/auth/kakao/callback Error >>" + err);
     }
 });
 
 app.get('/api/auth/logout', async(req, res) => {
-    req.session.kakaoId         = null
-    req.session.nickname            = null
-    req.session.email           = null
-    req.session.auth            = 'guest'
-    req.session.save(function() {
-        res.cookie('isLogin','002');
-        res.cookie('auth','guest')
-        res.redirect('/');
-    });
+    kakao.logout(req.session.accessToken);
+    req.session.destroy();
+    res.clearCookie("sid");
+    res.redirect('/');
 });
 
 app.post('/auth/myKakaoMsgAgree', async(req,res) => { //동의항목 가져오기
@@ -460,37 +453,34 @@ app.get('/api/download/:id', async(req, res, next) => {
             }
         );
     }catch(err){
-        console.log(err);
         logger.error(err);
         next(err);
     }
 });
 
 app.get('/api/image/:id', async(req,res, next)=>{
-    try{
-        var atchmnfl = await db.getData('bbs','selectAtchmnfl', {atchmnflId: req.params.id, atchmnflSn: 1 });
-        var ext;
-        if(atchmnfl){
-            var f = atchmnfl.atchmnflNm;
-            var l = f.length;
-            var dot = f.lastIndexOf('.');
-            ext = f.substring(dot+1, l).toLowerCase();
-        }else{
-            console.log("없는 파일 입니다.")
-            res.send('image xx');
-            return;
-        }
-        var imgExtList = ['jpg','png','jpeg'];
-        if(imgExtList.indexOf(ext) > -1){
+    var atchmnfl = await db.getData('bbs','selectAtchmnfl', {atchmnflId: req.params.id, atchmnflSn: 1 });
+    var ext;
+    if(atchmnfl){
+        var f = atchmnfl.atchmnflNm;
+        var l = f.length;
+        var dot = f.lastIndexOf('.');
+        ext = f.substring(dot+1, l).toLowerCase();
+    }else{
+        console.log("없는 파일 입니다.")
+        res.send('image xx');
+        return;
+    }
+    var imgExtList = ['jpg','png','jpeg'];
+    if(imgExtList.indexOf(ext) > -1){
             var filePath = path.join(__dirname, atchmnfl.atchmnflPath);
-            res.sendFile(filePath);
-        }else{
-            console.log("이미지 파일이 아닙니다.")
-            res.send('no image');
-            return;
-        }
-    }catch(err){
-        next(new Error(err));
+            res.sendFile(filePath,{},function(err){
+                if(err)res.status(err.status).end();
+            })
+    }else{
+        console.log("이미지 파일이 아닙니다.")
+        res.send('no image');
+        return;
     }
 })
 app.put('/api/bbs/cnt',(req,res)=>{
@@ -567,10 +557,76 @@ app.get('/api/download/:id', async(req,res, next)=>{
         var filePath = path.join(__dirname, atchmnfl.atchmnflPath);
         res.download(filePath);
     }catch(err){
-        console.log(err);
         logger.error(err);
         next(err);
     }
+})
+app.get('/api/video', async(req,res)=>{
+    db.getList('cmm','selectVideo',{})
+    .then((row)=>{
+        res.status(200).json(row);
+    })
+})
+app.post('/api/admin/video', async(req,res) =>{
+    const { body: { videoSn, atchmnflId } } = req;
+    db.getData('cmm','selectVideoCnt',req.body)
+    .then((row)=>{
+        /** merge (inser, update) */
+        if(row.cnt){ //update
+            db.setData('cmm','updateVideo', req.body )
+            .then(function(row) {
+                res.status(200).json({msg: 'update success!!'});
+            })
+        }else{//insert
+            db.setData('cmm','insertVideo', req.body )
+            .then((row)=>{
+                res.status(200).json('insert success');
+            })
+        }
+    })
+})
+app.delete('/api/admin/Video/:videoSn',(req,res)=>{
+    const {params : { videoSn }} = req;
+    db.setData('cmm','deleteVideo',{videoSn:videoSn})
+    .then((row)=>{
+        res.status(200).send('delete!!');
+    })
+})
+app.get('/api/user/banner', async(req,res)=>{
+    db.getData('cmm','selectBannerToday',{})
+    .then((row)=>{
+        res.status(200).json(row);
+    })
+})
+app.get('/api/admin/banner', async(req,res)=>{
+    db.getList('cmm','selectBanner',{})
+    .then((row)=>{
+        res.status(200).json(row);
+    })
+})
+app.post('/api/admin/banner', async(req,res) =>{
+    db.getData('cmm','selectBannerCnt',req.body)
+    .then((row)=>{
+        /** merge (inser, update) */
+        if(row.cnt){ //update
+            db.setData('cmm','updateBanner', req.body )
+            .then(function(row) {
+                res.status(200).json({msg: 'update success!!'});
+            })
+        }else{//insert
+            db.setData('cmm','insertBanner', req.body )
+            .then((row)=>{
+                res.status(200).json('insert success');
+            })
+        }
+    })
+})
+app.delete('/api/admin/banner/:bannerId',(req,res)=>{
+    const {params : { bannerId }} = req;
+    db.setData('cmm','deleteBanner',{bannerId:bannerId})
+    .then((row)=>{
+        res.status(200).send('delete!!');
+    })
 })
 app.listen(process.env.SERVER_PORT,()=>{
     logger.info(`server start! port:${process.env.SERVER_PORT}`)

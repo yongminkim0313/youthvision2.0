@@ -21,4 +21,70 @@
   <delete id="deleteCarousel">
     delete from T_CM_CAROUSEL where image_sn = #{imageSn} 
   </delete>
+
+
+    <select id="selectVideo">
+    select video_sn, atchmnfl_id from T_CM_VIDEO
+  </select>
+  <insert id="insertVideo">
+  insert into T_CM_VIDEO (
+    video_sn, atchmnfl_id, rgst_dt, rgst_id 
+  ) values (
+    #{videoSn}, #{atchmnflId}, now(), #{kakaoId} 
+  )
+  </insert>
+  <select id="selectVideoCnt">
+    select count(1) as cnt from T_CM_VIDEO where video_sn = #{videoSn}
+  </select>
+  <update id="updateVideo">
+    update T_CM_VIDEO set
+        atchmnfl_id = #{atchmnflId}
+    where video_sn = #{videoSn}
+  </update>
+  <delete id="deleteVideo">
+    delete from T_CM_VIDEO where video_sn = #{videoSn} 
+  </delete>
+
+
+  <select id="selectBanner">
+    select banner_id, banner_title, banner_contents, banner_begin_de, banner_end_de, atchmnfl_id, rgst_dt, rgst_id 
+    from T_CM_BANNER 
+    where delyn = 'N'
+  </select>
+  <select id="selectBannerToday">
+    select banner_id, banner_title, banner_contents, banner_begin_de, banner_end_de, atchmnfl_id, rgst_dt, rgst_id 
+    from T_CM_BANNER 
+    where delyn = 'N'
+    and  date_format(now(),'%Y%m%d') <![CDATA[>=]]> banner_begin_de
+    and  date_format(now(),'%Y%m%d') <![CDATA[<=]]> banner_end_de
+    order by banner_id desc
+  </select>
+  <select id="selectBannerOne">
+    select A.banner_id, A.banner_title, A.banner_contents, A.banner_begin_de, A.banner_end_de, A.atchmnfl_id, A.rgst_dt, A.rgst_id,
+          B.atchmnfl_nm 
+    from T_CM_BANNER A
+    left outer join T_CM_ATCHMNFL B on A.atchmnfl_id = B.atchmnfl_id
+    where banner_id = #{bannerId}
+  </select>
+  <select id="selectBannerCnt">
+    select count(1) as cnt from T_CM_BANNER where banner_id = #{bannerId}
+  </select>
+  <insert id="insertBanner">
+    insert into T_CM_BANNER
+      ( banner_title, banner_contents, banner_begin_de, banner_end_de, atchmnfl_id, rgst_dt, rgst_id )
+    values
+      ( #{bannerTitle}, #{bannerContents}, #{bannerBeginDe}, #{bannerEndDe}, #{atchmnflId}, now(), #{kakaoId} )
+  </insert>
+  <update id="updateBanner">
+    update T_CM_BANNER set
+      banner_title = #{bannerTitle},
+      banner_contents = #{bannerContents},
+      banner_begin_de = #{bannerBeginDe},
+      banner_end_de = #{bannerEndDe},
+      atchmnfl_id = #{atchmnflId}
+    where banner_id = #{bannerId}
+  </update>
+  <delete id="deleteBanner">
+    update T_CM_BANNER set delyn = 'Y' where banner_id = #{bannerId}
+  </delete>
 </mapper>

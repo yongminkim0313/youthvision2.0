@@ -3,8 +3,14 @@
       <v-btn v-if="isAdmin" style="position:absolute; z-index:999;" class="mt-10 ml-5" icon><v-icon @click="carouselEditDialog=true;">mdi-image-multiple</v-icon></v-btn>
       <v-carousel :continuous="true" :cycle="true" :show-arrows="true" hide-delimiter-background reverse-transition="fade-transition"
         transition="fade-transition" style="width:100%;" height="90vh" >
-        <v-carousel-item v-for="item in items" :key="item.imageSn">
-            <v-img style="height:100%" :src="'/api/image/'+item.atchmnflId"></v-img>
+        <v-carousel-item eager v-for="item in items" :key="item.imageSn">
+            <v-img eager style="height:100%" :src="'/api/image/'+item.atchmnflId">
+              <template v-slot:placeholder>
+                <v-row class="fill-height ma-0" align="center" justify="center" >
+                  <v-progress-circular indeterminate color="grey lighten-5" ></v-progress-circular>
+                </v-row>
+              </template>
+            </v-img>
         </v-carousel-item>
       </v-carousel>
       <v-dialog v-model="carouselEditDialog" max-width="700" class="d-print-none">
@@ -46,23 +52,18 @@
 import FileUpload from '../components/Upload.vue'
 export default {
   components: {FileUpload },
+  props: { isAdmin: Boolean },
   data () {
     return {
       carouselEditDialog: false,
       items:[],
       imageSn:0,
       model:1,
-      mode:''
+      mode:'',
     }
   },
   created: function(){
     this.getImageList();
-  },
-  computed:{
-      isAdmin(){
-          if(this.$cookies.get('auth')==="admin"){ return true; }
-          else{ return false; }
-      },
   },
   watch:{
     imageSn: function(is){

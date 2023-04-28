@@ -26,27 +26,6 @@ exports.getDateTime = function(){
 
 }
 
-var getCookies = function(req){
-    const { headers: { cookie } } = req;
-    if (cookie) {
-        const values = cookie.split(';').reduce((res, item) => {
-            const data = item.trim().split('=');
-            return { ...res, [data[0]]: data[1] };
-        }, {});
-        return values;
-    }
-    return null;
-}
-
-exports.getCookies = function(req){
-    return getCookies(req);
-}
-exports.getPrmanentCookie = function(req){
-    var values = getCookies(req);
-    if(values.prmanent_cookie) return values.prmanent_cookie;
-    return null;
-}
-
 exports.getAddDate =function(b){
     var d = new Date();
     d.setDate(d.getDate()+b);

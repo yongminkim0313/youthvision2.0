@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 // import HelloWorld from './components/HelloWorld'
-import UserHeader from './components/UserHeader'
+// import UserHeader from './components/UserHeader'
 import UserFooter from './components/UserFooter'
 import Home from './views/Home.vue'
 import ConnectLog from './components/ConnectLog.vue'
@@ -22,7 +22,6 @@ const routes = [
         path: "/",
         name: "Home",
         components: {
-            header: UserHeader,
             default: Home,
             footer: UserFooter
         }
@@ -31,7 +30,6 @@ const routes = [
         path: "/connectLog",
         name: "ConnectLog",
         components: {
-            header: null,
             default: ConnectLog,
             footer: UserFooter
         }
@@ -40,7 +38,6 @@ const routes = [
         path: "/aplyCamp",
         name: "AplyCamp",
         components: {
-            header: UserHeader,
             default: AplyCamp,
             footer: UserFooter
         }
@@ -49,7 +46,6 @@ const routes = [
         path: "/campLive",
         name: "CampLive",
         components: {
-            header: UserHeader,
             default: CampLive,
             footer: UserFooter
         }
@@ -58,7 +54,6 @@ const routes = [
         path: "/myAplyList",
         name: "MyAplyList",
         components: {
-            header: UserHeader,
             default: MyAplyList,
             footer: UserFooter
         }
@@ -67,7 +62,6 @@ const routes = [
         path: "/aplyPoster",
         name: "AplyPoster",
         components: {
-            header: UserHeader,
             default: AplyPoster,
             footer: UserFooter
         }
@@ -76,7 +70,6 @@ const routes = [
         path: "/board",
         name: "Board",
         components: {
-            header: UserHeader,
             default: Board,
             footer: UserFooter
         }
@@ -85,7 +78,6 @@ const routes = [
         path: "/about",
         name: "About",
         components: {
-            header: UserHeader,
             default: About,
             footer: UserFooter
         },
@@ -96,7 +88,6 @@ const routes = [
         path: "/newsCast",
         name: "NewsCast",
         components: {
-            header: UserHeader,
             default: NewsCast,
             footer: UserFooter
         },
@@ -107,7 +98,6 @@ const routes = [
         path: "/FAQ",
         name: "FAQ",
         components: {
-            header: UserHeader,
             default: FAQ,
             footer: UserFooter
         },
@@ -118,7 +108,6 @@ const routes = [
         path: "/youthvision",
         name: "YOUTHVISION",
         components: {
-            header: UserHeader,
             default: Youthvision,
             footer: UserFooter
         },
@@ -129,7 +118,6 @@ const routes = [
         path: "/admin",
         name: "Admin",
         components: {
-            header: UserHeader,
             default: Admin,
             footer: UserFooter
         },

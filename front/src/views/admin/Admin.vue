@@ -30,6 +30,15 @@
                     <v-expansion-panel-content>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
+                
+                <v-expansion-panel>
+                    <v-expansion-panel-header>
+                        <v-card-title> <v-icon large color="green darken-2" > mdi-arrange-send-backward </v-icon> 배너 관리</v-card-title>
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <BannerList></BannerList>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
 
             </v-expansion-panels>
         </v-card>
@@ -38,8 +47,9 @@
 <script>
 import AplyList from '../../components/AplyList.vue';
 import UserList from '../../components/UserList.vue';
+import BannerList from '../../components/BannerList.vue';
 export default {
-    components:{AplyList,UserList},
+    components:{AplyList,UserList,BannerList},
     data: () => ({
         panel: [],
         loading: false,

@@ -2,7 +2,7 @@
     <v-container fluid class="pa-0">
       <!-- <div style="position:fixed; color: aqua; display: inline-block; z-index: 9999;">{{ scrollYpos }}</div> -->
       <section>
-        <Carousel></Carousel>
+        <Carousel :isAdmin="userInfo.auth=='admin'"></Carousel>
       </section>
       <section>
         <Cross></Cross>
@@ -12,7 +12,7 @@
         <Squre></Squre>
       </section>
       <section>
-        <YouthvisionMovie></YouthvisionMovie>
+        <YouthvisionMovie :isAdmin="userInfo.auth=='admin'"></YouthvisionMovie>
       </section>
     </v-container>
 </template>
@@ -24,9 +24,10 @@ import Squre from '@/components/Squre.vue';
 import YouthvisionMovie from '@/components/YouthvisionMovie.vue';
   export default {
       components: {Carousel, Cross, Squre, YouthvisionMovie},
+      props:{userInfo:Object},
       name: "Home",
         data: () => {
-            return { scrollYpos: 0};
+            return { };
         },
         created() { },
         destroyed() { },

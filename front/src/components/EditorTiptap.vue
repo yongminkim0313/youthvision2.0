@@ -74,7 +74,11 @@ export default {
             editor: null,
         };
     },
-
+    watch:{
+        description: function(val){
+            this.editor.setContent(val)
+        }
+    },
     mounted() {
         this.editor = new Editor({
             editable: !this.readOnly,

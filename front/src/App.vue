@@ -46,8 +46,8 @@
         <v-divider v-if="isAdmin" vertical inset class="mx-2" style="height:14px; border-color:rgba(150,150,150,0.5)"></v-divider>
         <v-btn v-if="!isLogin" text color="rgba(255,255,255,0)" class="pa-0"><span @click="kakaoLogin" class="d-inline-block text-caption" :class="scrollTop?'black--text':'white--text'">로그인</span></v-btn>
         <v-btn v-if="isLogin" text color="rgba(255,255,255,0)" class="pa-0"><span @click="kakaoLogout" class="d-inline-block text-caption" :class="scrollTop?'black--text':'white--text'">로그아웃</span></v-btn>
-        <v-divider vertical inset class="mx-2" style="height:14px; border-color:rgba(150,150,150,0.5)"></v-divider>
-        <v-btn text color="rgba(255,255,255,0)" class="pa-0"><span class="d-inline-block text-caption" :class="scrollTop?'black--text':'white--text'">문의하기</span></v-btn>
+        <!-- <v-divider vertical inset class="mx-2" style="height:14px; border-color:rgba(150,150,150,0.5)"></v-divider> -->
+        <!-- <v-btn text color="rgba(255,255,255,0)" class="pa-0"><span @click="quest" class="d-inline-block text-caption" :class="scrollTop?'black--text':'white--text'">문의하기</span></v-btn> -->
         <v-divider vertical inset class="mx-2" style="height:14px; border-color:rgba(150,150,150,0.5)"></v-divider>
         <v-btn text color="rgba(255,255,255,0)" class="pa-0"><span class="d-inline-block text-caption" :class="scrollTop?'black--text':'white--text'" @click="goToFAQ()">FAQ</span></v-btn>
       </div>
@@ -82,21 +82,47 @@
     </v-navigation-drawer>
 
     <v-card-text class="pa-0">
-      <router-view name="default"></router-view>
+      <router-view name="default" :userInfo="userInfo"></router-view>
     </v-card-text>
   </v-card>
-    <v-main>
-    </v-main>
-    <router-view name="footer"></router-view>
+  <v-btn @click="dialog=true">배너다시보기</v-btn>  
+  <router-view name="footer"></router-view>
+    
+    <v-dialog v-model="dialog" max-width="600px">
+      <v-card>
+        <v-card-title class="text-h5">
+          {{banner.bannerTitle}}
+        </v-card-title>
+        <v-card-text> 
+          <v-img v-if="banner.atchmnflId" :src="'/api/image/'+banner.atchmnflId" max-width="50vw" max-height="50vh"> 
+            <template v-slot:placeholder>
+                <v-row class="fill-height ma-0" align="center" justify="center" >
+                  <v-progress-circular indeterminate color="grey lighten-5" ></v-progress-circular>
+                </v-row>
+              </template>
+          </v-img>
+          <span v-html="banner.bannerContents"></span>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn @click="closeBanner(banner.bannerId)">하루동안 보지않기</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn @click="closeBanner(banner.bannerId)">닫기</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
   </v-app>
 </template>
 <script>
   export default {
     name:'App',
     data(){ return { 
+        dialog: false,
+        banner:{},
         drawer: false,
         group: null,
         scrollTop: false,
+        userInfo: {},
         menuList:[
           {
             title:'소개'
@@ -131,20 +157,19 @@
             ,icon:'mdi-form-select'
           },
         ],
-    }; },
+        isLogin: false,
+        isAdmin: false
+    }; 
+  },
     created() {
         window.addEventListener("scroll", this.isTop);
-        console.log(this.isLogin);
-    },
-    computed:{
-        isLogin(){
-            if(this.$cookies.get('isLogin')==="001"){ return true; }
-            else{ return false; }
-        },
-        isAdmin(){
-            if(this.$cookies.get('auth')==="admin"){ return true; }
-            else{ return false; }
-        }
+        var _this = this;
+        this.$eventBus.$on('userInfo',function(sess){
+          _this.userInfo = sess;
+          _this.isLogin = sess.isLogin;
+          _this.isAdmin = sess.auth == 'admin'
+        })
+        this.selectBanner();
     },
     methods:{
       isTop:function(){
@@ -153,6 +178,21 @@
         }else{
           this.scrollTop=true;
         }
+      },
+      quest: function(){
+        alert('준비중입니다.');
+      },
+      selectBanner: function(){
+        this.$axios.get('api/user/banner')
+        .then((result)=>{
+          if(result.data){
+            this.banner = result.data;
+            const cookieBannerId = this.$cookies.get("banner");
+            if(cookieBannerId !=this.banner.bannerId){
+              this.dialog = true;
+            }
+          }
+        })
       },
       kakaoLogin: function() {
         location.href = 'https://kauth.kakao.com/oauth/authorize?'
@@ -174,6 +214,13 @@
       },
       goToAdmin: function(){
         this.$router.push('/admin').catch(()=>{})
+      },
+      closeBanner: function(bannerId){
+        this.$cookies.set("banner", bannerId, 60*60*24*1);
+        this.dialog = false;
+      },
+      clearBannerCookie: function(){
+        this.$cookies.remove("banner");
       }
     }
   }

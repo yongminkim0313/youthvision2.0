@@ -23,6 +23,7 @@ axios.interceptors.response.use((res)=>res,(err)=>{
 })
 Vue.prototype.$axios = axios;
 Vue.prototype.$common = common;
+Vue.prototype.$eventBus = new Vue();
 Vue.directive('scroll', {
   inserted: function (el, binding) {
       let f = function (evt) {
@@ -57,21 +58,18 @@ router.beforeEach(async (to,from, next) => { // router interceptor
   // axios.post('/api/conectLog',conectLog)
   axios.get('/api/auth/user/info') 
   .then((res)=>{ 
-    localStorage.setItem("kakaoId", res.data['kakaoId'])
-    localStorage.setItem("name", res.data['nickname'])
-    localStorage.setItem("auth", res.data['auth'])
-    localStorage.setItem("thumbnailImageUrl", res.data['thumbnailImageUrl'])
-    console.log(res); 
+    res.data['isLogin'] = res.data['kakaoId']?true:false;
+    //console.log(res.data); 
+    Vue.prototype.$eventBus.$emit('userInfo',res.data)
     if(!Vue.prototype.$socket){ 
-      const isLogin = localStorage.getItem("kakaoId")!='undefined'
-      const kakaoId = isLogin?localStorage.getItem("kakaoId"):'';
       Vue.prototype.$socket = io(process.env.VUE_APP_SOCKET_URL,{
           autoConnect: true,
-          query: {isLogin, kakaoId},
+          query: res.data,
       });
 
       Vue.prototype.$socket.on("disconnect", () => {
         console.log('disconnect');
+        Vue.prototype.$eventBus.$emit('userInfo',{isLogin : false, auth : 'guest'})
         localStorage.clear();
         Vue.prototype.$cookies.clear();
         location.href=this.APP_URL+"/api/auth/logout";
@@ -80,6 +78,7 @@ router.beforeEach(async (to,from, next) => { // router interceptor
     next();
   })
   .catch((err)=>{
+    console.log(err);
     alert('사용자정보를 가져올수 없습니다.')
     console.log('사용자정보를 가져올수 없습니다.');
   })
@@ -106,7 +105,6 @@ Vue.filter('formatDate',formatDate);
 
 new Vue({ router, vuetify, render: h => h(App) }).$mount('#app')
 
-Vue.prototype.$eventBus = new Vue();
 // 디바운싱: 이벤트가 맨 마지막에만 발생하도록!
 let timer;
 window.addEventListener("scroll", () => {   

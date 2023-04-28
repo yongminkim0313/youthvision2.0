@@ -57,7 +57,13 @@
                 <v-list-item-content>
                   <v-card-text v-if="!editMode" v-html="showItem.contents">  </v-card-text>
                   <editor-tiptap-vue v-if="editMode" menubar @editorContent="setBbsContents" :description="newContents" ></editor-tiptap-vue>
-                  <v-img v-if="showItem.atchmnflId" :src="'/api/image/'+showItem.atchmnflId" max-width="90vw" max-height="90vh"> </v-img>
+                  <v-img v-if="showItem.atchmnflId" :src="'/api/image/'+showItem.atchmnflId" max-width="90vw" max-height="90vh"> 
+                    <template v-slot:placeholder>
+                        <v-row class="fill-height ma-0" align="center" justify="center" >
+                          <v-progress-circular indeterminate color="grey lighten-5" ></v-progress-circular>
+                        </v-row>
+                      </template>
+                  </v-img>
                 </v-list-item-content>
               </v-list-item>
               
@@ -150,6 +156,7 @@ import EditorTiptapVue from '../components/EditorTiptap.vue'
 import FileUpload from '../components/Upload.vue'
 export default {
   components: {FileUpload,EditorTiptapVue },
+  props:{userInfo:Object},
   data(){
       return {
         bbs:[ ],
@@ -170,8 +177,7 @@ export default {
   },
   computed: {
       isAdmin(){
-        if(localStorage.getItem('auth')==="admin"){ return true; }
-        else{ return false; }
+        return this.userInfo.auth=='admin';
       },
       availableReply(){
         if(localStorage.getItem('kakaoId')!='null' && this.openReply){
