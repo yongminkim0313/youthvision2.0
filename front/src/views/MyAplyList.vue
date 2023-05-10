@@ -82,14 +82,14 @@
           </v-col>
           <v-col cols="12" md="6" sm="12" v-if="myPosterList.length == 0">
             <v-card :loading="posterLoading" class="mx-auto" max-width="374">
-              <v-img contain src="../assets/camps/2023_winter/brocher1.jpeg" class="white--text align-end" max-height="252px"></v-img>
+              <!-- <v-img contain src="../assets/camps/2023_winter/brocher1.jpeg" class="white--text align-end" max-height="252px"></v-img>
               <v-img contain src="../assets/camps/2023_winter/brocher2.jpeg" class="white--text align-end" max-height="252px">
                 <v-card-title class="text-no-wrap secondary">브로셔</v-card-title>
-              </v-img>
+              </v-img> -->
               <v-divider class="pa-2"></v-divider>
-              <v-img contain src="../assets/camps/2023_winter/poster1.jpeg" class="white--text align-end" max-height="504px">
+              <!-- <v-img contain src="../assets/camps/2023_winter/poster1.jpeg" class="white--text align-end" max-height="504px">
                 <v-card-title class="text-no-wrap secondary">포스터</v-card-title>
-              </v-img>
+              </v-img> -->
               <v-card-actions>
                 <v-btn color="blue" elevation="5" @click="aplyPoster();" class="mx-auto" outlined>포스터 신청하러가기</v-btn>
               </v-card-actions>
@@ -107,25 +107,26 @@ export default {
   name: 'MyAplyList',
   components: { },
   data(){return {
-    campLoading: true,
-    posterLoading: true,
+    campLoading: false,
+    posterLoading: false,
     myAplyList: [],
     myPosterList: [],
   }},
   created() {
-    // this.getUserAply();
+    this.getUserAply();
     // this.getPosterAply();
   },
   methods : {
     getUserAply(){
-      this.axios.get('/user/aply')
+      this.campLoading = true;
+      this.$axios.get('/api/user/aply/camp/one')
       .then((result)=>{
         this.myAplyList = result.data;
         this.campLoading = false;
       })
     },
     getPosterAply(){
-      this.axios.get('/user/poster')
+      this.$axios.get('/api/user/poster')
       .then((result)=>{
         this.myPosterList = result.data;
         this.posterLoading = false;

@@ -8,7 +8,13 @@ const pool = mariadb.createPool({
     port: process.env.PORT,
     user: process.env.DATABASE_USER,
     password: process.env.PASSWORD,
-    database: process.env.DATABASE
+    database: process.env.DATABASE,
+    logger: {
+        // network: (msg) => logger.silly(msg),
+        // query: (msg) => logger.info(msg),
+        error: (err) => logger.error(err),
+      },
+      bigIntAsNumber:true,
 });
 
 async function test() {

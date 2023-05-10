@@ -72,7 +72,6 @@ router.beforeEach(async (to,from, next) => { // router interceptor
         console.log('disconnect');
         Vue.prototype.$eventBus.$emit('userInfo',{isLogin : false, auth : 'guest'})
         localStorage.clear();
-        Vue.prototype.$cookies.clear();
         location.href=this.APP_URL+"/api/auth/logout";
       });
     }

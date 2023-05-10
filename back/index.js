@@ -418,7 +418,7 @@ app.get('/api/user/aply/camp/one', async(req,res) => {
     if(!req.session.kakaoId) return;
     db.getData('campAply','selectCampAplyOne', req.session)
     .then((row)=>{
-        res.status(200).json(aply);
+        res.status(200).json(row);
     })
 })
 app.get('/api/bbs', async(req,res) =>{
@@ -628,6 +628,13 @@ app.delete('/api/admin/banner/:bannerId',(req,res)=>{
         res.status(200).send('delete!!');
     })
 })
+app.get('/api/user/myAply', async (req,res)=>{
+    var {acnt} = await db.getData('campAply','selectCampAplyCnt',{kakaoId: req.session.kakaoId?req.session.kakaoId:0});
+    var {pcnt} = await db.getData('campAply','selectPosterAplyCnt',{kakaoId: req.session.kakaoId?req.session.kakaoId:0});
+    console.log(acnt,pcnt);
+    res.status(200).json({ acnt: Number(acnt) , pcnt:Number(pcnt)})
+})
+
 app.listen(process.env.SERVER_PORT,()=>{
     logger.info(`server start! port:${process.env.SERVER_PORT}`)
 })

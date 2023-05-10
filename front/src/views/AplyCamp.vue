@@ -58,7 +58,7 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
           <!--기간(2박3일)-->
-          <v-expansion-panel>
+          <!-- <v-expansion-panel>
             <v-expansion-panel-header>
               <v-card-title> <v-icon large color="green darken-2" > mdi-calendar </v-icon> 캠프참여기간</v-card-title>
             </v-expansion-panel-header>
@@ -69,7 +69,7 @@
               <v-radio label="무박2일" value="무박2일" ></v-radio>
             </v-radio-group>
             </v-expansion-panel-content>
-          </v-expansion-panel>
+          </v-expansion-panel> -->
           <!--유스비전 참석여부-->
           <v-expansion-panel>
             <v-expansion-panel-header>
@@ -124,7 +124,7 @@
               @blur="$v.pyrNm.$touch()"
               ></v-text-field>
               <v-checkbox v-model="checkbox" label="신청후 선입금 3일내 확인되지 않을 시 자동취소(동의 체크)" value="동의" ></v-checkbox>
-              <v-checkbox v-model="checkboxUseRoom" label="4인1실, 인원이 맞지 않을시 다른교회와 같이 쓰실 수 있습니다." value="동의" ></v-checkbox>
+              <v-checkbox v-model="checkboxUseRoom" label="3인1실, 인원이 맞지 않을시 다른교회와 같이 쓰실 수 있습니다." value="동의" ></v-checkbox>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -156,7 +156,7 @@
             <tr> <th>교단:</th> <td>{{churchSe}}</td> </tr>
             <tr> <th>목사님성함:</th> <td>{{churchAdtr}}</td> </tr>
             <tr> <th>교회주소:</th> <td>{{churchAddr}} {{churchDtlAddr}}</td> </tr>
-            <tr> <th>캠프참여기간:</th> <td>{{schdlSe}}</td> </tr>
+            <!-- <tr> <th>캠프참여기간:</th> <td>{{schdlSe}}</td> </tr> -->
             <tr> <th>연락처:</th> <td>{{phone}}</td> </tr>
             <tr> <th>e-mail:</th> <td>{{email}}</td> </tr>
             <tr> <th>우편물주소:</th> <td>{{fullAddress}} {{detailAddress}}</td> </tr>
@@ -177,7 +177,7 @@
             <tr> <th>결제은행:</th> <td> {{bankNm}}</td> </tr>
             <tr> <th>입금자명:</th> <td> {{pyrNm}}</td> </tr>
             <tr> <th colspan="2">신청후 선입금 3일내 확인되지 않을 시 자동취소(동의 체크): {{ checkbox }}</th> </tr>
-            <tr> <th colspan="2">4인1실, 인원이 맞지 않을시 다른교회와 같이 쓰실 수 있습니다: {{ checkboxUseRoom }}</th> </tr>
+            <tr> <th colspan="2">3인1실, 인원이 맞지 않을시 다른교회와 같이 쓰실 수 있습니다: {{ checkboxUseRoom }}</th> </tr>
             <tr> <th>기타메모:</th> <td> {{memo}}</td> </tr>
           </tbody>
         </template>

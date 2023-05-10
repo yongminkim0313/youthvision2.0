@@ -29,48 +29,41 @@
           <v-tooltip left>
             <template v-slot:activator="{ on, attrs }">
               <v-expand-transition>
-                <v-btn fab left class="v-btn--kakaochanel kakaoLogin" @click="kakaoChanel()" v-bind="attrs" v-on="on" v-show="btn">
-                <v-img width="56px" height="56px" contain :src="require('../assets/kakao_chanel.png')"></v-img>
-              </v-btn>
+                <v-btn fab left class="v-btn--kakaochanel kakaoLogin" @click="myAplyList" v-bind="attrs" v-on="on" v-show="btn">
+                <!-- <v-img width="56px" height="56px" contain :src="require('../assets/kakao_chanel.png')"></v-img> -->
+                신청내역
+                </v-btn>
               </v-expand-transition>
             </template>
             <span>유스비전카카오채널</span>
           </v-tooltip>
-          <v-tooltip left>
-            <template v-slot:activator="{ on, attrs }">
-              <v-expand-transition>
-                <v-btn fab left class="v-btn--kakaomessage kakaoLogin" @click="kakaoChanelChat()" v-bind="attrs" v-on="on" v-show="btn">
-                  <v-icon class="kakaoText--text">mdi-message-outline</v-icon>
-                </v-btn>
-              </v-expand-transition>
-            </template>
-            <span>유스비전카카오채널챗</span>
-          </v-tooltip>
-          <v-tooltip left>
-            <template v-slot:activator="{ on, attrs }">
-              <v-expand-transition>
-                <v-btn fab left class="v-btn--kakaoshare kakaoLogin" @click="kakaoshare()" v-bind="attrs" v-on="on" v-show="btn">
-                  <v-icon class="kakaoText--text">mdi-share-variant</v-icon>
-                </v-btn>
-              </v-expand-transition>
-            </template>
-            <span>유스비전카카오공유</span>
-          </v-tooltip>
-    
   </v-footer>
 </template>
 <script>
   export default {
     data: () => ({
       btn:false,
+      myAply:false,
     }),
     created(){
-      if(this.$route.name=='Home') this.btn=true;
-      else this.btn=false;
+      var _this = this;
+      this.$axios.get('/api/user/myAply')
+        .then((result)=>{
+          var {data:{acnt,pcnt}} = result;
+          console.log(acnt,pcnt);
+          if(acnt+pcnt > 0){
+            _this.myAply = true;
+          }
+          if(this.$route.name == '홈' && this.myAply){
+            this.btn=true;
+          }else{
+            this.btn=false;
+          }
+        });
     },
     watch:{
       $route(r){
-        if(r.name == 'Home'){
+        if(r.name == '홈' && this.myAply){
           this.btn=true;
         }else{
           this.btn=false;
@@ -102,6 +95,9 @@
         Kakao.Channel.chat({
           channelPublicId: '_xclMYb' // 카카오톡 채널 홈 URL에 명시된 id로 설정합니다.
         });
+      },
+      myAplyList: function(){
+        this.$router.push('/myAplyList')
       }
 
     }

@@ -1,7 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import HelloWorld from './components/HelloWorld'
-// import UserHeader from './components/UserHeader'
 import UserFooter from './components/UserFooter'
 import Home from './views/Home.vue'
 import ConnectLog from './components/ConnectLog.vue'
@@ -60,7 +58,7 @@ const routes = [
     },
     {
         path: "/aplyPoster",
-        name: "포스터신청",
+        name: "포스터신청",
         components: {
             default: AplyPoster,
             footer: UserFooter

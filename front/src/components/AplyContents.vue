@@ -22,8 +22,8 @@
                     <th>교회주소:</th> <td>{{aplyContents.churchAddr}} {{aplyContents.churchDtlAddr}}</td>
                   </tr>
                   <tr>
-                    <th>캠프참여기간:</th> <td>{{aplyContents.schdlSe}}</td>
-                    <th>연락처:</th> <td>{{aplyContents.phone}}</td>
+                    <!-- <th>캠프참여기간:</th> <td>{{aplyContents.schdlSe}}</td> -->
+                    <th>연락처:</th> <td colspan="3">{{aplyContents.phone}}</td>
                   </tr>
                   <tr>
                     <th>e-mail:</th> <td>{{aplyContents.email}}</td>
@@ -63,7 +63,7 @@
                     <th colspan="4">신청후 선입금 3일내 확인되지 않을 시 자동취소(동의 체크): {{ aplyContents.checkbox }}</th>
                   </tr>
                   <tr>
-                    <th colspan="4">4인1실, 인원이 맞지 않을시 다른교회와 같이 쓰실 수 있습니다: {{ aplyContents.checkboxUseRoom }}</th>
+                    <th colspan="4">3인1실, 인원이 맞지 않을시 다른교회와 같이 쓰실 수 있습니다: {{ aplyContents.checkboxUseRoom }}</th>
                   </tr>
                   <tr>
                     <th>기타메모:</th> <td colspan="3"> {{aplyContents.memo}}</td>
@@ -159,7 +159,7 @@
                     <th colspan="2">신청후 선입금 3일내 확인되지 않을 시 자동취소(동의 체크): {{ aplyContents.checkbox }}</th>
                   </tr>
                   <tr>
-                    <th colspan="2">4인1실, 인원이 맞지 않을시 다른교회와 같이 쓰실 수 있습니다: {{ aplyContents.checkboxUseRoom }}</th>
+                    <th colspan="2">3인1실, 인원이 맞지 않을시 다른교회와 같이 쓰실 수 있습니다: {{ aplyContents.checkboxUseRoom }}</th>
                   </tr>
                   <tr>
                     <th>기타메모:</th> <td> {{aplyContents.memo}}</td>

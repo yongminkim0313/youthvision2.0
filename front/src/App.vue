@@ -85,7 +85,7 @@
       <router-view name="default" :userInfo="userInfo"></router-view>
     </v-card-text>
   </v-card>
-  <v-btn @click="dialog=true">배너다시보기</v-btn>  
+  <v-btn class="d-print-none" @click="dialog=true">배너다시보기</v-btn>  
   <router-view name="footer"></router-view>
     
     <v-dialog v-model="dialog" max-width="600px">
@@ -94,7 +94,7 @@
           {{banner.bannerTitle}}
         </v-card-title>
         <v-card-text> 
-          <v-img v-if="banner.atchmnflId" :src="'/api/image/'+banner.atchmnflId" max-width="50vw" max-height="50vh"> 
+          <v-img v-if="banner.atchmnflId" :src="'/api/image/'+banner.atchmnflId" contain max-width="50vw" max-height="50vh"> 
             <template v-slot:placeholder>
                 <v-row class="fill-height ma-0" align="center" justify="center" >
                   <v-progress-circular indeterminate color="grey lighten-5" ></v-progress-circular>
@@ -106,7 +106,7 @@
         <v-card-actions>
           <v-btn @click="closeBanner(banner.bannerId)">하루동안 보지않기</v-btn>
           <v-spacer></v-spacer>
-          <v-btn @click="closeBanner(banner.bannerId)">닫기</v-btn>
+          <v-btn @click="closeBanner(0)">닫기</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -145,6 +145,7 @@
             ,subMenu:[
               {subTitle:'캠프신청', path:'/aplyCamp',icon:'mdi-human-capacity-increase'},
               {subTitle:'브로셔신청', path:'/aplyPoster',icon:'mdi-cart-variant'},
+              {subTitle:'나의신청정보', path:'/myAplyList',icon:'mdi-cart-variant'},
             ]
             ,icon:'mdi-send'
           },
