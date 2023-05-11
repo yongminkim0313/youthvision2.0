@@ -23,12 +23,19 @@
     from T_CM_APLY_CAMP
     where kakao_id = #{kakaoId}
   </select>
-
-  <select id='selectCampCnt'>
+  
+  <select id='selectCampCntAll'>
     select seq, chodeung, cheongsonyeon, cheongnyeon, jangnyeon, sayeogja from T_CM_CAMP_CNT
   </select>
 
-  <select id='selectPathSe'>
+  <select id='selectCampCnt'>
+    select A.seq, A.chodeung, A.cheongsonyeon, A.cheongnyeon, A.jangnyeon, A.sayeogja 
+    from T_CM_CAMP_CNT A
+      inner join T_CM_APLY_CAMP B on A.seq = B.seq
+    where B.kakao_id = #{kakaoId}
+  </select>
+
+  <select id='selectPathSeAll'>
     select seq, path from T_CM_JOIN_PATH_SE
   </select>
 
@@ -43,9 +50,13 @@
               '장년:',jangnyeon,'명 ',
               '사역자:',sayeogja,'명') 
         from T_CM_CAMP_CNT 
-        where seq = T_CM_APLY_CAMP.seq) as CAMP_CNT
+        where seq = T_CM_APLY_CAMP.seq) as "campCnt"
     from T_CM_APLY_CAMP
     where kakao_id = #{kakaoId}
+  </select>
+  
+  <select id="selectCampAplyCntSeq">
+    select count(*) as cnt from T_CM_APLY_CAMP where seq = #{seq}
   </select>
 
   <select id="selectCampAplyCnt">
@@ -56,13 +67,20 @@
   </select>
 
   <select id="selectJoinPathSe">
-    select seq, path from T_CM_JOIN_PATH_SE where seq = #{seq}
+    select A.seq, A.path 
+    from T_CM_JOIN_PATH_SE A
+      inner join T_CM_APLY_CAMP B on A.seq = B.seq
+    where B.kakao_id = #{kakaoId}
   </select>
 
   <insert id="insertJoinPathSe">
     insert into T_CM_JOIN_PATH_SE ( seq, path )
     values (#{seq}, #{path})
   </insert>
+
+  <delete id="deleteJoinPathSe">
+    delete from T_CM_JOIN_PATH_SE where seq = #{seq}
+  </delete>
 
   <insert id="insertCampCnt">
     insert into T_CM_CAMP_CNT (seq, chodeung, cheongsonyeon, cheongnyeon, jangnyeon, sayeogja)
@@ -100,9 +118,11 @@
     aply_prgrs = #{aplyPrgrs}
   where seq = #{seq}
   </update>
-   <update id="updateAplyCamp">
+   <update id="updateCampAply">
   update T_CM_APLY_CAMP set
     aply_name = #{aplyName}, 
+    aply_dt = #{aplyDt},
+    aply_prgrs = #{aplyPrgrs},
     jikbun_se = #{jikbunSe}, 
     church_adtr = #{churchAdtr}, 
     church_addr = #{churchAddr},
@@ -116,7 +136,9 @@
     detail_address = #{detailAddress},
     pyr_nm = #{pyrNm}, 
     bank_nm = #{bankNm},  
-    memo = #{memo}
+    memo = #{memo},
+    updt_nm = #{updtNm}, 
+    updt_dt = #{updtDt}
   where seq = #{seq}
   </update>
 

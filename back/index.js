@@ -74,7 +74,7 @@ app.get('*', (req, res, next) => {
     }
     if(req.url.indexOf('/api') > -1){
         adminUrlCheck(req, 
-            function(){ next(); },
+            function(){ req.query['kakaoId'] = req.session.kakaoId; next(); },
             function(){ res.status(400).json({msg: '관리자가 아닙니다'}); }
             )
         }else{
@@ -191,29 +191,26 @@ app.get('/api/campCnt/one',(req,res)=>{
     .then(function(row) { res.status(200).json(row); })
     .catch(err=>{ res.status(400).json(Error(err)) }); 
 });
-app.post('/api/campAply',(req,res)=>{
-    db.getData('campAply','selectMaxSeq', {})
-    .then(function(row) { 
-        req.body['seq'] = row.seq+1;
+app.post('/api/campAply',async (req,res)=>{
+    var {cnt} = await db.getData('campAply','selectCampAplyCntSeq',req.body)
+    if( cnt > 0){/** update */
         req.body['aplyTotAmt'] = 0;
         req.body['aplyPrgrs'] = '접수';
         req.body['aplyDt'] = common.getDate();
-        req.body['rgtrNm'] = req.session.nickname;
-        req.body['rgtrDt'] = common.getDateTime();
         req.body['updtNm'] = req.session.nickname;
         req.body['updtDt'] = common.getDateTime();
         req.body['kakaoId'] = req.session.kakaoId
-        console.log(req.body);
         
-        db.setData('campAply','insertCampAply', req.body)
+        db.setData('campAply','updateCampAply', req.body)
         .then(function(row) {console.log(row)})
         .catch(err=>{ res.status(400).json(Error(err)) });
-        
-        req.body['campCnt'].seq = row.seq+1;;
-        db.setData('campAply','insertCampCnt', req.body['campCnt'])
+    
+        db.setData('campAply','updateCampCnt', req.body['campCnt'])
         .then(function(row) {console.log(row)})
         .catch(err=>{ res.status(400).json(Error(err)) });
-        
+
+        var result = await db.setData('campAply','deleteJoinPathSe',req.body);
+
         var joinPathSe = req.body['joinPathSe'];
         console.log('joinPathSe', joinPathSe);
         for(var i = 0 ; i < joinPathSe.length ; i++){
@@ -222,11 +219,45 @@ app.post('/api/campAply',(req,res)=>{
                 .then(function(row) {console.log(row)})
             }
         }
+
         res.status(200).json({code: 0, msg:'success! '});
-    })
-
+    }else{/** insert */
+        db.getData('campAply','selectMaxSeq', {})
+        .then(function(row) { 
+            req.body['seq'] = row.seq+1;
+            req.body['aplyTotAmt'] = 0;
+            req.body['aplyPrgrs'] = '접수';
+            req.body['aplyDt'] = common.getDate();
+            req.body['rgtrNm'] = req.session.nickname;
+            req.body['rgtrDt'] = common.getDateTime();
+            req.body['updtNm'] = req.session.nickname;
+            req.body['updtDt'] = common.getDateTime();
+            req.body['kakaoId'] = req.session.kakaoId
+            console.log(req.body);
+        
+            db.setData('campAply','insertCampAply', req.body)
+            .then(function(row) {console.log(row)})
+            .catch(err=>{ res.status(400).json(Error(err)) });
+        
+            req.body['campCnt'].seq = row.seq+1;;
+            db.setData('campAply','insertCampCnt', req.body['campCnt'])
+            .then(function(row) {console.log(row)})
+            .catch(err=>{ res.status(400).json(Error(err)) });
+        
+            var joinPathSe = req.body['joinPathSe'];
+            console.log('joinPathSe', joinPathSe);
+            for(var i = 0 ; i < joinPathSe.length ; i++){
+                if(joinPathSe[i]){
+                    db.setData('campAply','insertJoinPathSe', {seq: req.body['seq'], path: joinPathSe[i]})
+                    .then(function(row) {console.log(row)})
+                }
+            }
+            res.status(200).json({code: 0, msg:'success! '});
+        })
+    }
+            
 })
-
+        
 app.get('/auth/kakao/callback', async(req, res) => {
     const { headers: { cookie } } = req;
     if (cookie) {
@@ -299,8 +330,8 @@ app.get('/api/youtube', (req, res) => {
 
 app.get('/api/admin/aply/all', async (req, res)=>{
     var aplyList        = await db.getList('campAply','selectCampAply', {})
-    var aplyCampCnt     = await db.getList('campAply','selectCampCnt', {})
-    var aplyPathSe      = await db.getList('campAply','selectPathSe', {})
+    var aplyCampCnt     = await db.getList('campAply','selectCampCntAll', {})
+    var aplyPathSe      = await db.getList('campAply','selectPathSeAll', {})
     aplyList.forEach((aply) => {
         var a = aplyCampCnt.find((el, idx, arr)=>{
             return el.seq == aply.seq;
@@ -331,8 +362,8 @@ app.post('/api/admin/aply/excel', async(req, res) => {
     const excelService = require('./services/excelService');
     try{
         var aplyList        = await db.getList('campAply','selectCampAply', {})
-        var aplyCampCnt     = await db.getList('campAply','selectCampCnt', {})
-        var aplyPathSe      = await db.getList('campAply','selectPathSe', {})
+        var aplyCampCnt     = await db.getList('campAply','selectCampCntAll', {})
+        var aplyPathSe      = await db.getList('campAply','selectPathSeAll', {})
         aplyList.forEach((aply) => {
             var a = aplyCampCnt.find((el, idx, arr)=>{
                 return el.seq == aply.seq;
@@ -365,7 +396,7 @@ app.put('/api/admin/aply/one/prgrs', async(req, res)=>{
 
 app.put('/api/admin/aply/one', async(req, res)=>{
     db.setData('campAply','updateCampCnt', req.body.campCnt )
-    db.setData('campAply','updateAplyCamp', req.body )
+    db.setData('campAply','updateCampAply', req.body )
     .then(function(row) {
         res.status(200).json({msg: '변경 성공'});
     })
@@ -415,11 +446,8 @@ app.get('/api/admin/talk/friends', async(req,res) => {
     }
 })
 app.get('/api/user/aply/camp/one', async(req,res) => {
-    if(!req.session.kakaoId) return;
-    db.getData('campAply','selectCampAplyOne', req.session)
-    .then((row)=>{
-        res.status(200).json(row);
-    })
+    var campAply = await db.getList('campAply','selectCampAplyOne', req.session)
+    res.status(200).json(campAply);
 })
 app.get('/api/bbs', async(req,res) =>{
     db.getList('bbs','selectBbs', {})
@@ -473,10 +501,19 @@ app.get('/api/image/:id', async(req,res, next)=>{
     }
     var imgExtList = ['jpg','png','jpeg'];
     if(imgExtList.indexOf(ext) > -1){
-            var filePath = path.join(__dirname, atchmnfl.atchmnflPath);
+        var filePath = path.join(__dirname, atchmnfl.atchmnflPath);
+        fs.access(filePath, fs.F_OK, (err) => {
+            if (err) {
+                var noImage = path.join(__dirname, '/uploadFile/no-image-icon.png');
+                res.sendFile(noImage,{},function(err){
+                    if(err)res.status(err.status).end();
+                })
+                return
+            }
             res.sendFile(filePath,{},function(err){
                 if(err)res.status(err.status).end();
             })
+        })
     }else{
         console.log("이미지 파일이 아닙니다.")
         res.send('no image');

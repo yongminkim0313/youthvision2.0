@@ -135,7 +135,7 @@
             <v-spacer></v-spacer>
             <v-btn @click="printAply" color="primary" elevation="14" > 출력하기 </v-btn>
             <v-spacer></v-spacer>
-            <v-btn @click="submit" color="primary" elevation="14" > 신청하기 </v-btn>
+          <v-btn @click="submit" color="primary" elevation="14" > {{mode='edit'?'수정하기':'신청하기'}} </v-btn>
         </v-card-actions>
       </v-container>
     </form>
@@ -401,7 +401,11 @@
       console.log(this);
     },
     mounted: function(){
-      // this.load();
+      var {mode} = this.$route.query;
+      console.log(this.$route.query);
+      if(mode == 'edit'){
+        this.load();
+      }
     },
     watch:{
       churchAddr: function(val){
@@ -527,7 +531,7 @@
           if(data.code == -1) {alert(data.msg);return;}
           if(data.code == 0) alert('신청되었습니다.');
           this.$router.push({
-            name: "Home",
+            name: "홈",
             query: { },
           });
         })
@@ -606,7 +610,7 @@
       load(){
         var _this = this;
 
-        this.$axios.get('/api/campAply/one',{params:{seq : 2}})
+        this.$axios.get('/api/campAply/one',{})
         .then(({data})=>{
           console.log(data)
             var aplyData = data;
@@ -630,15 +634,18 @@
             _this.checkboxUseRoom = aplyData.checkboxUseRoom;
             _this.bankNm = aplyData.bankNm;
             _this.memo = aplyData.memo;
+            
+            if(aplyData.churchAddr == aplyData.fullAddress && aplyData.churchDtlAddr == aplyData.detailAddress){
+              _this.sameAddr = true;
+            }
         });
-        
-        this.$axios.get('/api/joinPathSe/one',{params:{seq : 2}})
+        this.$axios.get('/api/joinPathSe/one',{})
         .then(({data})=>{ 
           for(var i in data){ 
             _this.joinPathSe.push(data[i].path);
           }
         });
-        this.$axios.get('/api/campCnt/one',{params:{seq : 2}})
+        this.$axios.get('/api/campCnt/one',{})
         .then(({data})=>{ 
           _this.campCnt = data;
         });

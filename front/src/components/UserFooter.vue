@@ -35,7 +35,7 @@
                 </v-btn>
               </v-expand-transition>
             </template>
-            <span>유스비전카카오채널</span>
+            <span>유스비전캠프 신청내역 화면이동</span>
           </v-tooltip>
   </v-footer>
 </template>
