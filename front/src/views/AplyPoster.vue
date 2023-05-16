@@ -1,21 +1,22 @@
 <template>
-  <v-card width="800" class="mx-auto" elevation="5">
-    
+  <v-card>
+    <v-img src="../assets/about_top_bg.png" height="64" cover class="d-print-none"></v-img>
     <v-container fluid>
       <v-row class="pa-2">
           <v-container fluid>
             <v-row>
-              <v-col cols="12" md="6" sm="12">
+              <v-col cols="12" md="6">
                 <v-card>
                   <v-card-title>브로셔</v-card-title>
-                  <v-img src="../assets/camps/2023_winter/brocher1.jpeg" contain class="white--text align-end"></v-img>
-                  <v-img src="../assets/camps/2023_winter/brocher2.jpeg" contain class="white--text align-end"></v-img>
+                  <v-img src="../assets/camps/2023_summer/2023_summer_brochure1.jpeg" contain class="white--text align-end" height="40vh"></v-img>
+                  <v-img src="../assets/camps/2023_summer/2023_summer_brochure2.jpeg" contain class="white--text align-end" height="40vh"></v-img>
                 </v-card>
               </v-col>
-              <v-col cols="12" md="6" sm="12">
+              <v-col cols="12" md="6">
                 <v-card>
                   <v-card-title>포스터</v-card-title>
-                  <v-img src="../assets/camps/2023_winter/poster1.jpeg" contain class="white--text align-end"></v-img>
+                  <v-img src="../assets/camps/2023_summer/2023_summer_poster1.webp" contain class="white--text align-end" height="40vh"></v-img>
+                  <v-img src="../assets/camps/2023_summer/2023_summer_poster2.webp" contain class="white--text align-end" height="40vh"></v-img>
                 </v-card>
               </v-col>
 

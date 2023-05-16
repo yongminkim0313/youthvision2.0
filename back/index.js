@@ -671,7 +671,12 @@ app.get('/api/user/myAply', async (req,res)=>{
     console.log(acnt,pcnt);
     res.status(200).json({ acnt: Number(acnt) , pcnt:Number(pcnt)})
 })
-
+app.get('/api/admin/aply/poster', (req,res)=>{
+    db.getList('campAply','selectAplyPosterList',req.body)
+    .then((row)=>{
+        res.status(200).json(row);
+    })
+})
 app.listen(process.env.SERVER_PORT,()=>{
     logger.info(`server start! port:${process.env.SERVER_PORT}`)
 })

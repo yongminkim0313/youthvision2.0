@@ -28,6 +28,7 @@
                         <v-card-title> <v-icon large color="green darken-2" > mdi-note-multiple </v-icon> 포스터신청 정보</v-card-title>
                     </v-expansion-panel-header>
                     <v-expansion-panel-content>
+                        <AplyPosterList></AplyPosterList>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
                 
@@ -46,10 +47,11 @@
 </template>
 <script>
 import AplyList from '../../components/AplyList.vue';
+import AplyPosterList from '../../components/AplyPosterList.vue';
 import UserList from '../../components/UserList.vue';
 import BannerList from '../../components/BannerList.vue';
 export default {
-    components:{AplyList,UserList,BannerList},
+    components:{AplyList,AplyPosterList,UserList,BannerList},
     data: () => ({
         panel: [],
         loading: false,

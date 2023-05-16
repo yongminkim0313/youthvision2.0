@@ -99,9 +99,13 @@
   )
   </insert>
 
+  <select id="selectAplyPosterList">
+    select * from T_CM_APLY_POSTER
+  </select>
+
   <insert id="insertAplyPoster">
   insert into T_CM_APLY_POSTER(
-    aply_name, email, brochure_cnt, poster_cnt, church, addr, dtl_addr, phone ) 
+    aply_name, email, brochure_cnt, poster_cnt, church, addr, dtl_addr, phone, kakao_id) 
     values(
     #{aplyName},
     #{email},
@@ -110,7 +114,8 @@
     #{church},
     #{addr},
     #{dtlAddr},
-    #{phone}
+    #{phone},
+    #{kakaoId}
     )
   </insert>
   <update id="updateAplyCampPrgrs">
