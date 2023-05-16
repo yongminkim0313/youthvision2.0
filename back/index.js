@@ -499,7 +499,7 @@ app.get('/api/image/:id', async(req,res, next)=>{
         res.send('image xx');
         return;
     }
-    var imgExtList = ['jpg','png','jpeg'];
+    var imgExtList = ['jpg','png','jpeg','webp'];
     if(imgExtList.indexOf(ext) > -1){
         var filePath = path.join(__dirname, atchmnfl.atchmnflPath);
         fs.access(filePath, fs.F_OK, (err) => {
