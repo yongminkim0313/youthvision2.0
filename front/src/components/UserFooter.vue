@@ -82,7 +82,7 @@
       },
       kakaoshare: function(){
         Kakao.Link.sendScrap({
-          requestUrl: 'http://jesusdream.kr',
+          requestUrl: 'https://jesusdream.kr',
           templateId: 77557
         });
       },

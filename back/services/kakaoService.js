@@ -1,4 +1,5 @@
 const axios = require('axios');
+const { v4 } =  require('uuid');
 
 exports.getToken = async function (code){
     try{
@@ -66,3 +67,64 @@ exports.agree = async function(accessToken){
         return Error(err);
     }
 }
+
+exports.showPushToken = async function(user){
+    console.log('showPushToken', user);
+    try{
+        const response = await axios({
+            method: "get",
+            url: "https://kapi.kakao.com/v2/push/tokens", // 서버
+            headers: { 'Authorization': `KakaoAK ${process.env.admin_key}` }, // 요청 헤더 설정
+            params: {
+                uuid: user.uuid,
+            },
+        });
+        console.log(response.data);
+        var resData = response.data;
+        return resData;
+    }catch(err){
+        return Error(err);
+    }
+}
+
+exports.registPush = async function(user){
+    try{
+        const response = await axios({
+            method: "post",
+            url: "https://kapi.kakao.com/v2/push/register", // 서버
+            headers: { 'Authorization': `KakaoAK ${process.env.admin_key}` }, // 요청 헤더 설정
+            params: {
+                uuid: user.uuid,
+                device_id: v4(),
+                push_type: 'fcm',
+                push_token: `${process.env.fcm_push_token}`
+            },
+        });
+        console.log(response);
+        var resData = response.data;
+        return resData;
+    }catch(err){
+        return Error(err);
+    }
+}
+exports.sendPush = async function(user){
+    try{
+        const response = await axios({
+            method: "post",
+            url: "https://kapi.kakao.com/v2/push/send", // 서버
+            headers: { 'Authorization': `KakaoAK ${process.env.admin_key}` }, // 요청 헤더 설정
+            params: {
+                uuids: `["${user.uuid}"]`,
+                push_message:{
+                    "for_fcm":{}
+                  }
+            },
+        });
+        console.log(response);
+        var resData = response.data;
+        return resData;
+    }catch(err){
+        return Error(err);
+    }
+}
+

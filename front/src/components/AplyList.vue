@@ -491,21 +491,6 @@ export default {
               timed: true 
             });
         }
-
-        this.$axios.get('/api/admin/talk/friends')
-        .then((result)=>{
-          console.log(result);
-          const {data:{elements}} = result;
-          var tmp = {};
-          elements.forEach(function(val){
-            tmp[val.id]=val.uuid;
-          })
-          
-          _this.aplyList.forEach(function(value){
-            var uuid = tmp[value.kakaoId]
-            value['uuid'] = uuid;
-          })
-        })
       })
     },
     diffTime (time) { 

@@ -9,6 +9,12 @@ const db = require('./modules/dbConnect');
 const kakao = require('./services/kakaoService');
 const common = require('./services/commonService');
 const fs = require('fs');
+const webpush = require("web-push");
+
+const publicVapidKey = 'BKr0X9xxLDeBlo9K-XVBj9RvR5NtO-0scX8J6uq5sNZEIWGIAgwsAOASnN7lIDOj33Ah3vr_PDYGvbhYaxgu8Hg';
+const privateVapidKey = 'VjzcL0KVNmwTLz669j4-12lFa-72rfNGHrdvFPnIxgc';
+
+webpush.setVapidDetails('mailto:kimyongmin1@naver.com', publicVapidKey, privateVapidKey);
 
 const { initializeApp } = require('firebase/app');
 const { getDatabase, ref, onChildAdded, set, get } = require('firebase/database');
@@ -86,7 +92,7 @@ app.get('*', (req, res, next) => {
         });
 app.post('*', (req, res, next) => {
     logger.info('url: ' +req.url + ' body: '+ JSON.stringify(req.body)+ ' params: '+JSON.stringify(req.params) +' method: '+ req.method+ ' kakaoId: '+req.session.kakaoId+' auth: '+ req.session.auth);
-    if(!req.session.kakaoId){
+    if(!req.session.kakaoId && req.url != '/api/subscribe'){
         logger.warn('로그인 상태가 아닙니다.')
         res.status(500).send({ error: '로그인 상태가 아닙니다.' });
         return;
@@ -133,6 +139,18 @@ app.post('*', (req, res, next) => {
     }
 });
 /************************* [End] get, post, put, delte api 설정 **********************/
+
+app.post('/api/subscribe', (req, res) => {
+    const subscription = req.body;
+    res.status(201).json({});
+    const payload = JSON.stringify({ title: '[YOUTHVISION] 환영합니다.', message:'2023년 여름캠프 신청이 시작되었습니다.' });
+  
+    console.log(subscription);
+  
+    webpush.sendNotification(subscription, payload).catch(error => {
+      console.error(error.stack);
+    });
+  });
 
 
 app.get('/api/conectLog/key', (req, res) =>{
@@ -260,13 +278,13 @@ app.post('/api/campAply',async (req,res)=>{
         
 app.get('/auth/kakao/callback', async(req, res) => {
     const { headers: { cookie } } = req;
-    if (cookie) {
-        const values = cookie.split(';').reduce((res, item) => {
-            const data = item.trim().split('=');
-            return { ...res, [data[0]]: data[1] };
-        }, {});
-        logger.info(values);
-    }
+    // if (cookie) {
+    //     const values = cookie.split(';').reduce((res, item) => {
+    //         const data = item.trim().split('=');
+    //         return { ...res, [data[0]]: data[1] };
+    //     }, {});
+    //     logger.info(values);
+    // }
     try {
         const response = await kakao.getToken(req.query.code);
         const access_token = response.data.access_token;
@@ -439,6 +457,27 @@ app.get('/api/admin/talk/friends', async(req,res) => {
             url: "https://kapi.kakao.com/v1/api/talk/friends", // 서버
             headers: { 'Authorization': `Bearer ${accessToken}` }, // 요청 헤더 설정
         });
+        res.status(200).json(response.data);
+    } catch (err) {
+        logger.error("Error >>" + err);
+        res.status(401).json(err);
+    }
+})
+app.get('/api/admin/app/users', async(req,res) => {
+    console.log(req.query)
+    var {kakaoId} = req.query;
+    try {
+        const response = await axios({
+            method: "get",
+            url: "https://kapi.kakao.com/v2/app/users", // 서버
+            headers: { 'Authorization': `KakaoAK ${process.env.admin_key}` }, // 요청 헤더 설정
+            params:{
+                target_id_type: 'user_id',
+                target_ids:'['+kakaoId+']',
+                property_keys:'["kakao_account.","properties.","has_signed_up"]'
+            }
+        });
+        console.log(response);
         res.status(200).json(response.data);
     } catch (err) {
         logger.error("Error >>" + err);
@@ -676,6 +715,19 @@ app.get('/api/admin/aply/poster', (req,res)=>{
     .then((row)=>{
         res.status(200).json(row);
     })
+})
+app.get('/api/admin/showPushToken',async (req,res)=>{
+    console.log(req.query);
+    const info = await kakao.showPushToken(req.query);
+    res.status(200).json(info);
+})
+app.post('/api/admin/regist/push',async (req,res)=>{
+    const info = await kakao.registPush(req.body)
+    res.status(200).json(info);
+})
+app.post('/api/admin/send/push',async (req,res)=>{
+    const info = await kakao.sendPush(req.body)
+    res.status(200).json(info);
 })
 app.listen(process.env.SERVER_PORT,()=>{
     logger.info(`server start! port:${process.env.SERVER_PORT}`)
