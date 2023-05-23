@@ -35,13 +35,13 @@
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6b6647b0c869fcb97fb05dc57061dbf5&libraries=services,clusterer"></script>
     <script>
-      if (window.location.protocol != "https:" && document.location.host != "localhost:9000") {
-          window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
-      }
+      // if (window.location.protocol != "https:" && document.location.host != "localhost:9000") {
+      //     window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
+      // }
 
-      if (document.location.protocol == 'http:' && document.location.host != "localhost:9000") {
-          document.location.href = document.location.href.replace('http:', 'https:');
-      }
+      // if (document.location.protocol == 'http:' && document.location.host != "localhost:9000") {
+      //     document.location.href = document.location.href.replace('http:', 'https:');
+      // }
       // init 체크
     if (!Kakao.isInitialized()) {
       Kakao.init('6b6647b0c869fcb97fb05dc57061dbf5');
