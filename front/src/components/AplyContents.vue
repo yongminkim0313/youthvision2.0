@@ -60,10 +60,16 @@
                     <th>입금자명:</th> <td> {{aplyContents.pyrNm}}</td>
                   </tr>
                   <tr>
-                    <th colspan="4">신청후 선입금 3일내 확인되지 않을 시 자동취소(동의 체크): {{ aplyContents.checkbox }}</th>
+                    <th colspan="4">신청후 선입금 3일내 확인되지 않을 시 자동취소(동의 체크): 
+                      <span v-if="aplyContents.checkbox == '동의'">동의</span>
+                      <span v-else class="error--text">미동의</span>
+                    </th>
                   </tr>
                   <tr>
-                    <th colspan="4">3인1실, 인원이 맞지 않을시 다른교회와 같이 쓰실 수 있습니다: {{ aplyContents.checkboxUseRoom }}</th>
+                    <th colspan="4">3인1실, 인원이 맞지 않을시 다른교회와 같이 쓰실 수 있습니다: 
+                      <span v-if="aplyContents.checkboxUseRoom == '동의'">동의</span>
+                      <span v-else class="error--text">미동의</span>
+                    </th>
                   </tr>
                   <tr>
                     <th>기타메모:</th> <td colspan="3"> {{aplyContents.memo}}</td>
@@ -156,10 +162,16 @@
                     <th>입금자명:</th> <td> {{aplyContents.pyrNm}}</td>
                   </tr>
                   <tr>
-                    <th colspan="2">신청후 선입금 3일내 확인되지 않을 시 자동취소(동의 체크): {{ aplyContents.checkbox }}</th>
+                    <th colspan="2">신청후 선입금 3일내 확인되지 않을 시 자동취소(동의 체크): 
+                      <span v-if="aplyContents.checkbox == '동의'">동의</span>
+                      <span v-else class="error--text">미동의</span>
+                    </th>
                   </tr>
                   <tr>
-                    <th colspan="2">3인1실, 인원이 맞지 않을시 다른교회와 같이 쓰실 수 있습니다: {{ aplyContents.checkboxUseRoom }}</th>
+                    <th colspan="2">3인1실, 인원이 맞지 않을시 다른교회와 같이 쓰실 수 있습니다: 
+                      <span v-if="aplyContents.checkboxUseRoom == '동의'">동의</span>
+                      <span v-else class="error--text">미동의</span>
+                    </th>
                   </tr>
                   <tr>
                     <th>기타메모:</th> <td> {{aplyContents.memo}}</td>

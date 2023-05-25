@@ -2,13 +2,12 @@
  <v-card :loading="loading">
   <template slot="progress"> <v-progress-linear color="deep-purple" height="10" indeterminate ></v-progress-linear> </template>
   <v-img src="../assets/about_top_bg.png" height="64" cover class="d-print-none"></v-img>
+  <v-alert border="top" color="red lighten-2" dark v-if="!userInfo.isLogin">
+      로그인이 필요한 화면입니다. 로그인 하시겠습니까?
+      <v-btn @click="kakaoLogin">로그인</v-btn>
+  </v-alert>
   <v-card max-width="980" class="mx-auto d-print-none">
-    <!-- <v-alert border="right" colored-border type="error" elevation="2" class="mx-5 my-3 ">
-      현재는 신청기간이 아닙니다.
-    </v-alert> -->
     <v-img class="my-3 " height="350" contain src="../assets/camps/joinus.png"></v-img>
-    <!-- src="https://modo-phinf.pstatic.net/20190417_140/15554692250648Rq2Y_JPEG/mosa4Ri4kd.jpeg" -->
-    <!-- <v-card-title>나의 신청 내역</v-card-title> -->
     <form>
       <v-container  class="">
         <v-expansion-panels accordion v-model="panel" multiple>
@@ -119,12 +118,9 @@
             </v-expansion-panel-header>
             <v-expansion-panel-content>
               <v-select v-model="bankNm" :items="dpstList" attach label="입금은행" > </v-select>
-              <v-text-field v-model="pyrNm" ref="pyrNm" :error-messages="pyrNmErrors" label="입금자명" required
-              @input="$v.pyrNm.$touch()"
-              @blur="$v.pyrNm.$touch()"
-              ></v-text-field>
-              <v-checkbox v-model="checkbox" label="신청후 선입금 3일내 확인되지 않을 시 자동취소(동의 체크)" value="동의" ></v-checkbox>
-              <v-checkbox v-model="checkboxUseRoom" label="3인1실, 인원이 맞지 않을시 다른교회와 같이 쓰실 수 있습니다." value="동의" ></v-checkbox>
+              <v-text-field v-model="pyrNm" ref="pyrNm" :error-messages="pyrNmErrors" label="입금자명" required @input="$v.pyrNm.$touch()" @blur="$v.pyrNm.$touch()" ></v-text-field>
+              <v-checkbox v-model="checkbox" @input="$v.checkbox.$touch()" @blur="$v.checkbox.$touch()" ref="checkbox" :error-messages="checkboxErrors" label="신청후 선입금 3일내 확인되지 않을 시 자동취소(동의 체크)" true-value="동의" false-value="미동의"></v-checkbox>
+              <v-checkbox v-model="checkboxUseRoom" @input="$v.checkboxUseRoom.$touch()" @blur="$v.checkboxUseRoom.$touch()" ref="checkboxUseRoom" :error-messages="checkboxUseRoomErrors" label="3인1실, 인원이 맞지 않을시 다른교회와 같이 쓰실 수 있습니다." true-value="동의" false-value="미동의"></v-checkbox>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -192,7 +188,8 @@
   import AplyContents from '../components/AplyContents.vue'
 
   export default {
-  components: { AplyContents },
+    components: { AplyContents },
+    props:{userInfo:Object},
     mixins: [validationMixin],
     validations: {
       aplyName: { required, maxLength: maxLength(10) },
@@ -208,12 +205,16 @@
       fullAddress: {required },
       detailAddress: {required },
       pyrNm: {required},
-      checkbox: {
-        checked (val) {
-          return val
-        },
+      checkbox: { 
+        required (val) {
+          return val=='동의';
+        } 
       },
-      checkboxUseRoom: { required },
+      checkboxUseRoom: { 
+        required (val) {
+          return val=='동의';
+        }  
+      },
       bankNm: { required }
     },
 
@@ -235,7 +236,7 @@
       phone: '',
       email: '',
       items: [ '학생', '교사', '목사', '성도', '전(강)도사', '기타', ],
-      checkbox: '',
+      checkbox: '미동의',
       fullAddress: '',
       detailAddress:'',
       joinHisSe: '처음참석',
@@ -261,7 +262,7 @@
       },
       cnt50:[],
       pyrNm: '',
-      checkboxUseRoom: '',
+      checkboxUseRoom: '미동의',
       bankNm: '국민 172601-04-185856',
       dpstList:[
         // '농협 351-0823-9838-33'
@@ -277,13 +278,12 @@
 
     computed: {
       isAdmin(){
-        if(localStorage.getItem('auth')==="admin"){ return true; }
-        else{ return false; }
+        return this.userInfo.auth == 'admin';
       },
       checkboxErrors () {
         const errors = []
         if (!this.$v.checkbox.$dirty) return errors
-        !this.$v.checkbox.checked && errors.push('동의가 필요합니다.')
+        !this.$v.checkbox.required && errors.push('동의가 필요합니다.')
         return errors
       },
       jikbunSeErrors () {
@@ -429,6 +429,13 @@
       }
     },
     methods: {
+      kakaoLogin: function() {
+        location.href = 'https://kauth.kakao.com/oauth/authorize?'
+            +'client_id=be0d818c768f8e2198c97470fc7577c5&'
+            +'redirect_uri='+this.APP_URL+'/auth/kakao/callback&'
+            +'response_type=code&'
+            +'scope=profile_nickname, profile_image, account_email, gender, friends';
+      },
       dialogCmd: function(msg){
         console.log(msg);
         if(msg=='close'){
@@ -501,7 +508,7 @@
         }
         this.$v.$touch();
 
-        if (this.$v.$invalid) {
+      if (this.$v.$invalid) {
           // 1. Loop the keys
         for (let key in Object.keys(this.$v)) {
           // 2. Extract the input
@@ -512,8 +519,12 @@
           // 4. Check for errors
           if (this.$v[input].$error) {
             // 5. Focus the input with the error
-            this.$refs[input].focus();
-
+            if('checkboxUseRoom,checkbox,pyrNm'.indexOf(input) > -1 ){
+              alert('동의가 필요합니다.');
+              this.dlg=false;
+            }else{
+              this.$refs[input].focus();
+            }
             // 6. Break out of the loop
             break;
           }
@@ -521,19 +532,13 @@
       } else {
         // Submit the form here
         this.loading = true
-        setTimeout(() => (this.loading = false), 2000)
-        
-
-        
         this.$axios.post('/api/campAply',aplyContents)
         .then(({data})=>{
           console.log(data);
           if(data.code == -1) {alert(data.msg);return;}
           if(data.code == 0) alert('신청되었습니다.');
-          this.$router.push({
-            name: "홈",
-            query: { },
-          });
+          this.$router.push({ name: "홈", query: { }, });
+          this.loading = false
         })
       }
 
