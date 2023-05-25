@@ -1,7 +1,5 @@
 echo "front build start"
 
-git reset --hard
-
 git pull
 
 cd /home/yongmin8548/youthvision2.0/front/
