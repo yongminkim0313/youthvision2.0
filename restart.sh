@@ -4,7 +4,7 @@ git reset --hard
 
 git pull
 
-cd front/
+cd /home/yongmin8548/youthvision2.0/front/
 rm .env
 cp .env_bak .env
 
@@ -26,7 +26,7 @@ else
     echo running process not found.
 fi
 
-cd back/
+cd /home/yongmin8548/youthvision2.0/back/
 rm .env
 cp .env_bak .env
 
