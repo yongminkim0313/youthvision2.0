@@ -1,8 +1,13 @@
 echo "front build start"
 
+git reset --hard
+
 git pull
 
 cd front/
+rm .env
+cp .env_bak .env
+
 npm run build
 
 echo "start back index"
@@ -22,6 +27,8 @@ else
 fi
 
 cd back/
+rm .env
+cp .env_bak .env
 
 nohup node index.js &
 
