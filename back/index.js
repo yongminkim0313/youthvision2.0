@@ -315,7 +315,7 @@ app.get('/auth/kakao/callback', async(req, res) => {
                 db.setData('user','insertUser',req.session);
             }
         })
-        req.session.save(function() {res.redirect('/'); });
+        req.session.save(function() {res.redirect(req.query.state); });
     } catch (err) {
         logger.error("/auth/kakao/callback Error >>" + err);
     }

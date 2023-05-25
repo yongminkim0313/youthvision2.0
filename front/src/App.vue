@@ -238,7 +238,8 @@ const publicVapidKey ="BKr0X9xxLDeBlo9K-XVBj9RvR5NtO-0scX8J6uq5sNZEIWGIAgwsAOASn
             +'client_id=be0d818c768f8e2198c97470fc7577c5&'
             +'redirect_uri='+this.APP_URL+'/auth/kakao/callback&'
             +'response_type=code&'
-            +'scope=profile_nickname, profile_image, account_email, gender, friends';
+            +'scope=profile_nickname, profile_image, account_email, gender, friends&'
+            +'state='+this.$route.path
       },
       kakaoLogout: function (){
         localStorage.clear();

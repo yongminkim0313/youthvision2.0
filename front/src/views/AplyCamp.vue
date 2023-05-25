@@ -131,7 +131,7 @@
             <v-spacer></v-spacer>
             <v-btn @click="printAply" color="primary" elevation="14" > 출력하기 </v-btn>
             <v-spacer></v-spacer>
-          <v-btn @click="submit" color="primary" elevation="14" > {{mode='edit'?'수정하기':'신청하기'}} </v-btn>
+          <v-btn @click="submit" color="primary" elevation="14" > {{mode=='edit'?'수정하기':'신청하기'}} </v-btn>
         </v-card-actions>
       </v-container>
     </form>
@@ -273,7 +273,8 @@
         // ,'우체국 104570-01-002038'
       ],
       memo:'',
-      sameAddr: false
+      sameAddr: false,
+      mode:'new'
     }),
 
     computed: {
@@ -402,6 +403,7 @@
     },
     mounted: function(){
       var {mode} = this.$route.query;
+      this.mode = mode;
       console.log(this.$route.query);
       if(mode == 'edit'){
         this.load();
@@ -434,7 +436,8 @@
             +'client_id=be0d818c768f8e2198c97470fc7577c5&'
             +'redirect_uri='+this.APP_URL+'/auth/kakao/callback&'
             +'response_type=code&'
-            +'scope=profile_nickname, profile_image, account_email, gender, friends';
+            +'scope=profile_nickname, profile_image, account_email, gender, friends&'
+            +'state='+this.$route.path
       },
       dialogCmd: function(msg){
         console.log(msg);
