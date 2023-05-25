@@ -502,10 +502,6 @@ export default {
     parseContents(contents){
       return eval(contents);
     },
-    sendMsgUser(order){
-      console.log(order);
-      this.$socket.emit('sendMsgUser', { customerName: order.customerName, msg:'주문접수되었습니다.'})
-    },
     saveAply(item){
       this.$axios.put('/api/admin/aply/one/prgrs',item)
       .then((data)=>{

@@ -14,7 +14,7 @@
           <v-card-title>MP4 등록</v-card-title>
           <v-card-actions>
             <!-- <v-btn @click="addCarousel">추가</v-btn> -->
-            <file-upload @setAtchmnflId-child="setAtchmnflId"></file-upload>
+            <file-upload @after-upload="setAtchmnflId"></file-upload>
           </v-card-actions>
           <v-card-text>
           </v-card-text>

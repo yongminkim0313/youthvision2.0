@@ -18,7 +18,7 @@
           <v-card-title>CAROUSEL 등록 {{ mode }}</v-card-title>
           <v-card-actions>
             <v-btn @click="addCarousel">추가</v-btn>
-            <file-upload @setAtchmnflId-child="setAtchmnflId" :imageSn="imageSn" v-if="imageSn"></file-upload>
+            <file-upload @after-upload="setAtchmnflId" :imageSn="imageSn" v-if="imageSn"></file-upload>
           </v-card-actions>
           <v-card-text>
             <v-list>

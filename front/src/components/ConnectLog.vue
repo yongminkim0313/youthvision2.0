@@ -69,10 +69,10 @@
       created: function(){
         this.$socket.connect();
         this.getConnectLogKey();
-        },
-        mounted: function(){
-          this.addConnectLog();
-        },
+      },
+      mounted: function(){
+        this.addConnectLog();
+      },
       methods:{
         getDayLog : function(item){
           this.getOtherDayLog(item.dt)

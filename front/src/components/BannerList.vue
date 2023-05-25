@@ -48,7 +48,7 @@
                 </v-card-text>
                 <v-card-actions>
                   <v-btn @click="saveBanner()">저장</v-btn>
-                  <file-upload @setAtchmnflId-child="setAtchmnflId"></file-upload>
+                  <file-upload @after-upload="setAtchmnflId"></file-upload>
                 </v-card-actions>
             </v-card>
         </v-dialog>

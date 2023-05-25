@@ -10,6 +10,8 @@ const kakao = require('./services/kakaoService');
 const common = require('./services/commonService');
 const fs = require('fs');
 const webpush = require("web-push");
+const multer = require('multer'); // express에 multer모듈 적용 (for 파일업로드)
+const upload = multer({ dest: 'uploadsFile/' })
 
 const publicVapidKey = 'BKr0X9xxLDeBlo9K-XVBj9RvR5NtO-0scX8J6uq5sNZEIWGIAgwsAOASnN7lIDOj33Ah3vr_PDYGvbhYaxgu8Hg';
 const privateVapidKey = 'VjzcL0KVNmwTLz669j4-12lFa-72rfNGHrdvFPnIxgc';
@@ -591,23 +593,20 @@ app.get('/api/carousel', async(req,res)=>{
         res.status(200).json(row);
     })
 })
-app.post('/api/admin/carousel', async(req,res) =>{
+app.post('/api/admin/carousel', async (req,res) =>{
     const { body: { imageSn, atchmnflId } } = req;
-    db.getData('cmm','selectCarouselCnt',req.body)
-    .then((row)=>{
-        /** merge (inser, update) */
-        if(row.cnt){ //update
-            db.setData('cmm','updateCarousel', req.body )
-            .then(function(row) {
-                res.status(200).json({msg: 'update success!!'});
-            })
-        }else{//insert
-            db.setData('cmm','insertCarousel', req.body )
-            .then((row)=>{
-                res.status(200).json('insert success');
-            })
-        }
-    })
+    const { nextImageSn } = await db.getData('cmm','selectCarouselMaxImageSn',req.body)
+    req.body.imageSn = Number(nextImageSn);
+    console.log(req.body);
+    const result = await db.setData('cmm','insertCarousel', req.body )
+    console.log(result);
+    res.status(200).json('insert success!!');
+    // /** merge (inser, update) */
+        // if(row.cnt){ //update
+        //     db.setData('cmm','updateCarousel', req.body )
+        //     .then(function(row) {
+        //         res.status(200).json({msg: 'update success!!'});
+        //     })
 })
 app.delete('/api/admin/carousel/:imageSn',(req,res)=>{
     const {params : { imageSn }} = req;
@@ -725,10 +724,21 @@ app.post('/api/admin/regist/push',async (req,res)=>{
     const info = await kakao.registPush(req.body)
     res.status(200).json(info);
 })
-app.post('/api/admin/send/push',async (req,res)=>{
-    const info = await kakao.sendPush(req.body)
-    res.status(200).json(info);
-})
+app.post('/api/user/upload', upload.single('file'), async function(req, res){
+    console.log(req.file); // 콘솔(터미널)을 통해서 req.file Object 내용 확인 가능.
+    var{ seq } = await db.getData('bbs','selectNextAtchmnflSeq', {})
+    var saveFileData = {
+        atchmnflId : seq, 
+        atchmnflSn : 1, 
+        atchmnflNm : req.file.originalname, 
+        atchmnflSize : req.file.size, 
+        atchmnflPath : req.file.path, 
+        kakaoId:req.session.kakaoId
+    };
+    logger.info(saveFileData);
+    await db.setData('bbs','insertAtchmnfl', saveFileData);
+    res.status(200).json(saveFileData); // object를 리턴함
+});
 app.listen(process.env.SERVER_PORT,()=>{
     logger.info(`server start! port:${process.env.SERVER_PORT}`)
 })

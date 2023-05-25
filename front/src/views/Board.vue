@@ -110,7 +110,7 @@
                   <v-list-item-subtitle>파일을 첨부합니다. --파일첨부 후에 꼭 저장버튼 눌러주세요!--</v-list-item-subtitle>
                 </v-list-item-content>
                 <v-list-item-action>
-                  <file-upload @setAtchmnflId-child="setAtchmnflId"></file-upload>
+                  <file-upload @after-upload="setAtchmnflId"></file-upload>
                 </v-list-item-action>
               </v-list-item>
             </v-list>

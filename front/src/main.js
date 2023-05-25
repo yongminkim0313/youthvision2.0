@@ -62,19 +62,19 @@ router.beforeEach(async (to,from, next) => { // router interceptor
     res.data['isLogin'] = res.data['kakaoId']?true:false;
     //console.log(res.data); 
     Vue.prototype.$eventBus.$emit('userInfo',res.data)
-    if(!Vue.prototype.$socket){ 
-      Vue.prototype.$socket = io(process.env.VUE_APP_SOCKET_URL,{
-          autoConnect: true,
-          query: res.data,
-      });
+    // if(!Vue.prototype.$socket){ 
+    //   Vue.prototype.$socket = io(process.env.VUE_APP_SOCKET_URL,{
+    //       autoConnect: true,
+    //       query: res.data,
+    //   });
 
-      Vue.prototype.$socket.on("disconnect", () => {
-        console.log('disconnect');
-        Vue.prototype.$eventBus.$emit('userInfo',{isLogin : false, auth : 'guest'})
-        localStorage.clear();
-        location.href=this.APP_URL+"/api/auth/logout";
-      });
-    }
+    //   Vue.prototype.$socket.on("disconnect", () => {
+    //     console.log('disconnect');
+    //     Vue.prototype.$eventBus.$emit('userInfo',{isLogin : false, auth : 'guest'})
+    //     localStorage.clear();
+    //     location.href=this.APP_URL+"/api/auth/logout";
+    //   });
+    // }
     next();
   })
   .catch((err)=>{

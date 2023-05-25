@@ -10,8 +10,8 @@
     #{imageSn}, #{atchmnflId}, now(), #{kakaoId} 
   )
   </insert>
-  <select id="selectCarouselCnt">
-    select count(1) as cnt from T_CM_CAROUSEL where image_sn = #{imageSn}
+  <select id="selectCarouselMaxImageSn">
+    select max(image_sn) + 1 as nextImageSn from T_CM_CAROUSEL
   </select>
   <update id="updateCarousel">
     update T_CM_CAROUSEL set
