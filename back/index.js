@@ -35,6 +35,7 @@ initializeApp(firebaseConfig);
 const fireDB = getDatabase();
 
 const app = express();
+app.set('trust proxy', true);
 app.use(cors({origin:'*'}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -94,7 +95,7 @@ app.get('*', (req, res, next) => {
         });
 app.post('*', (req, res, next) => {
     logger.info('url: ' +req.url + ' body: '+ JSON.stringify(req.body)+ ' params: '+JSON.stringify(req.params) +' method: '+ req.method+ ' kakaoId: '+req.session.kakaoId+' auth: '+ req.session.auth);
-    if(!req.session.kakaoId && req.url != '/api/subscribe'){
+    if(!req.session.kakaoId && req.url != '/api/subscribe' && req.url != '/api/conectLog'){
         logger.warn('로그인 상태가 아닙니다.')
         res.status(500).send({ error: '로그인 상태가 아닙니다.' });
         return;
@@ -178,13 +179,16 @@ app.get('/api/conectLog', (req, res) =>{
     });
 })
 app.post('/api/conectLog', (req, res) =>{
-    db.setData('conectLog', 'insertConectLog', req.body)
-    .then(function(row) {
-        res.status(200).json('success');
-    })
-    .catch(err=>{
-        res.status(400).json(Error(err))
-    });
+    // db.setData('conectLog', 'insertConectLog', req.body)
+    // .then(function(row) {
+    //     res.status(200).json('success');
+    // })
+    // .catch(err=>{
+    //     res.status(400).json(Error(err))
+    // });
+    req.body['ipAdres'] = req.ip;
+    req.body['kakaoId'] = req.body['kakaoId'] ? req.body['kakaoId']: 0;
+    console.log(req.body);
     set(ref(fireDB,'posts/common/connectLog/'+common.getDate()+'/'+req.body.conectDt),req.body);
 })
 app.get('/api/campAply',(req,res)=>{
@@ -272,6 +276,9 @@ app.post('/api/campAply',async (req,res)=>{
                     .then(function(row) {console.log(row)})
                 }
             }
+            //나에게 메세지 보내기 api
+            kakao.sendMeAplyCampInfo({args:req.body['campCnt'],templateId:77885,accessToken:req.session.accessToken});
+
             res.status(200).json({code: 0, msg:'success! '});
         })
     }
@@ -428,22 +435,9 @@ app.delete('/api/admin/aply/one', async(req, res)=>{
     })
 })
 app.post('/api/admin/message/send', async(req,res) => {
-    const {body: {uuid, args,templateId},session: {accessToken}} = req;
     try {
-        const response = await axios({
-            method: "post",
-            url: "https://kapi.kakao.com/v1/api/talk/friends/message/send", // 서버
-            headers: {
-                'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-                'Authorization': `Bearer ${accessToken}`
-            },
-            params:{
-                    receiver_uuids: '["'+uuid+'"]',
-                    template_id : templateId,
-                    template_args : args
-                }
-        });
-        res.status(200).json(response.data);
+        var data = kakao.sendMessage(req);
+        res.status(200).json(data);
     } catch (err) {
         logger.error("Error >>" + err);
         console.log(err);
@@ -706,7 +700,6 @@ app.delete('/api/admin/banner/:bannerId',(req,res)=>{
 app.get('/api/user/myAply', async (req,res)=>{
     var {acnt} = await db.getData('campAply','selectCampAplyCnt',{kakaoId: req.session.kakaoId?req.session.kakaoId:0});
     var {pcnt} = await db.getData('campAply','selectPosterAplyCnt',{kakaoId: req.session.kakaoId?req.session.kakaoId:0});
-    console.log(acnt,pcnt);
     res.status(200).json({ acnt: Number(acnt) , pcnt:Number(pcnt)})
 })
 app.get('/api/admin/aply/poster', (req,res)=>{
@@ -722,6 +715,10 @@ app.get('/api/admin/showPushToken',async (req,res)=>{
 })
 app.post('/api/admin/regist/push',async (req,res)=>{
     const info = await kakao.registPush(req.body)
+    res.status(200).json(info);
+})
+app.post('/api/user/KoGPT',async (req,res)=>{
+    const info = await kakao.KoGPT(req.body.prompt)
     res.status(200).json(info);
 })
 app.post('/api/user/upload', upload.single('file'), async function(req, res){

@@ -8,16 +8,13 @@
         <v-virtual-scroll :bench="benched" :items="bbs" height="60vh" item-height="64" >
           <template v-slot:default="{ item }">
             <v-scroll-y-transition>
-              <v-list-item :key="item.idx" link>
-                <v-list-item-avatar @click="detailContents(item);">
-                  <v-icon class="grey lighten-1" dark > mdi-message </v-icon>
-                </v-list-item-avatar>
-                <v-list-item-content @click="detailContents(item);">
-                  <v-list-item-title>{{ item.title }}</v-list-item-title>
-                </v-list-item-content>
-                <v-list-item-action>
+              <v-list-item :key="item.idx" link @click="detailContents(item);">
+                <v-list-item-avatar> - 공지 - </v-list-item-avatar>
+                <v-list-item-title>{{ item.title }}</v-list-item-title>
+                <v-list-item-subtitle class="text-right"> {{ item.rgstDt | formatDate}} </v-list-item-subtitle>
+                <v-list-item-action v-if="isAdmin">
                   <v-btn icon>
-                    <v-icon color="grey lighten-1" v-if="isAdmin" @click="setDeleteItem(item);">mdi-delete</v-icon>
+                    <v-icon color="grey lighten-1"  @click="setDeleteItem(item);">mdi-delete</v-icon>
                   </v-btn>
                 </v-list-item-action>
               </v-list-item>

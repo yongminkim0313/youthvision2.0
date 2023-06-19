@@ -1,10 +1,10 @@
 <template>
     <v-card>
-        <v-card-title>2023 겨울 유스비전 하이라이트
+        <v-card-title>2023 여름 유스비전 홍보영상
             <v-btn v-if="isAdmin" icon><v-icon @click="videoEditDialog=true;">mdi-image-multiple</v-icon></v-btn>
         </v-card-title>
-        <video autoplay loop controls width="100%" class="justify-center" >
-            <source src="../assets/camps/youthvision.mp4" type="video/mp4">
+        <video controls width="100%" class="justify-center" >
+            <source src="../assets/camps/youthvision_summer_ep2.mp4" type="video/mp4">
             Download the
             <a href="../assets/camps/youthvision.mp4">MP4</a>
             video.

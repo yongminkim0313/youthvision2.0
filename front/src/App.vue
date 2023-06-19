@@ -158,8 +158,8 @@ const publicVapidKey ="BKr0X9xxLDeBlo9K-XVBj9RvR5NtO-0scX8J6uq5sNZEIWGIAgwsAOASn
           {
             title:'커뮤니티'
             ,subMenu:[
-              {subTitle:'Q&A', path:'/board',icon:'mdi-chat-question'},
               {subTitle:'공지사항', path:'/board',icon:'mdi-clipboard-text-outline'},
+              // {subTitle:'Q&A', path:'/board',icon:'mdi-chat-question'},
             ]
             ,icon:'mdi-form-select'
           },
@@ -268,7 +268,7 @@ const publicVapidKey ="BKr0X9xxLDeBlo9K-XVBj9RvR5NtO-0scX8J6uq5sNZEIWGIAgwsAOASn
         .then(function(result){
           _this.msgAgree = result.data;
         })
-      }
+      },
     }
   }
 </script>
