@@ -16,6 +16,11 @@ module.exports = defineConfig({
         target : 'http://localhost:8000',
         changeOrigin: true,
         // pathRewrite:{ '^/api':''}
+      },
+      '/my-ws' : {
+        target : 'http://localhost:4000',
+        changeOrigin: true,
+        // pathRewrite:{ '^/api':''}
       }
     }
   },
