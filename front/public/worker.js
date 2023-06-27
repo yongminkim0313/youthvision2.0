@@ -9,10 +9,6 @@ self.addEventListener("push", (e) => {
         body: data.message,
         icon: "/jesusdream.png",
         renotify: true,
+        dir: "ltr"
     });
 });
-
-self.addEventListener("notificationclick", (event) => {
-    console.log("On notification click: ", event.notification.tag);
-    event.notification.close();
-  });

@@ -8,7 +8,8 @@ import { UAParser } from 'ua-parser-js'
 import axios from 'axios'
 import io from "socket.io-client";
 import common from "./common"
-
+import { initializeApp } from 'firebase/app';
+import { getDatabase, ref, onChildAdded, set, get, onValue, child } from 'firebase/database';
 
 Vue.config.productionTip = false;
 Vue.prototype.APP_URL = process.env.VUE_APP_API_URL;
@@ -35,6 +36,76 @@ Vue.directive('scroll', {
   }
 });
 
+const firebaseConfig = {
+    apiKey: "AIzaSyBz9iJl2SDU9NAgzDcMp7vP0OLdWRL9inU",
+    authDomain: "youthvisionkr.firebaseapp.com",
+    databaseURL: "https://youthvisionkr-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "youthvisionkr",
+    storageBucket: "youthvisionkr.appspot.com",
+    messagingSenderId: "872270613716",
+    appId: "1:872270613716:web:47cc7435673ac20834bf41",
+    measurementId: "G-RV8DQS8YX7"
+};
+initializeApp(firebaseConfig);
+const fireDB = getDatabase();
+
+Vue.prototype.$fireDB = {
+  set : function(path,data){
+    return new Promise(function(resolve, reject){
+      set(ref(fireDB,path),data);
+      resolve('success!!');
+    })
+  },
+  get : function(path){
+    return new Promise(function(resolve, reject){
+      get(child(ref(getDatabase()), path)).then((snapshot)=>{
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          resolve(data);
+        } else {
+          reject("No data available");
+        }
+      })
+    });
+  },
+  onValue : function(path, fn){
+    return onValue(ref(fireDB, path), fn);
+  }
+}
+Vue.prototype.$webPush = {
+  publicVapidKey:"BKr0X9xxLDeBlo9K-XVBj9RvR5NtO-0scX8J6uq5sNZEIWGIAgwsAOASnN7lIDOj33Ah3vr_PDYGvbhYaxgu8Hg",
+  init: function(){
+    if ("serviceWorker" in navigator) {
+      this.regist().catch((err) => console.error(err));
+    }
+  },
+  regist: async function(){// 서비스워커 등록, 푸쉬 등록, 푸쉬 보내기
+    var _this = this;
+    var register = await navigator.serviceWorker.register("/worker.js", { scope: "/", });// 서비스워커 등록
+    this.subscription = await register.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: this.urlBase64ToUint8Array(this.publicVapidKey)});// 푸쉬 등록
+    //this.sendWebPush();
+  },
+  subscription: Object,
+  send: async function(obj){
+    var welcomeMsg = { title: '[YOUTHVISION] 환영합니다.', message:'2023년 여름캠프 신청이 시작되었습니다.' };
+    if(obj){
+      welcomeMsg = obj;
+    }
+    await axios.post('/api/subscribe',{subscription: this.subscription, msg: welcomeMsg})// 푸쉬 보내기
+  },
+  urlBase64ToUint8Array: function(base64String){ // Vapid key를 안전하게 base64 스트링을 Unit8Array로 변환..
+    var padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+    var base64 = (base64String + padding) .replace(/\-/g, "+") .replace(/_/g, "/");
+    var rawData = window.atob(base64);
+    var outputArray = new Uint8Array(rawData.length);
+    for (var i = 0; i < rawData.length; ++i) {
+        outputArray[i] = rawData.charCodeAt(i);
+    }
+    return outputArray;
+  },
+}
+
+
 router.beforeEach(async (to,from, next) => { // router interceptor
   document.title = 'YOUTHVISION | '+to.name;
   var todayFm = common.getDateTime();
@@ -54,7 +125,7 @@ router.beforeEach(async (to,from, next) => { // router interceptor
     'prmanentCookie' : Vue.$cookies.get('prmanent_cookie'),
     'tmprCookie' : Vue.$cookies.get('tmpr_cookie')
   }
-  axios.post('/api/conectLog',conectLog)
+  // axios.post('/api/conectLog',conectLog)
   axios.get('/api/auth/user/info') 
   .then((res)=>{ 
     res.data['isLogin'] = res.data['kakaoId']?true:false;
@@ -82,8 +153,6 @@ router.beforeEach(async (to,from, next) => { // router interceptor
     console.log('사용자정보를 가져올수 없습니다.');
   })
 })
-
-
 
 export function formatDate(value) {
   const date = new Date(value);

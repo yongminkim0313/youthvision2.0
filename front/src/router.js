@@ -11,6 +11,7 @@ import AplyPoster from './views/AplyPoster.vue'
 import Board from './views/Board.vue'
 import About from './views/About.vue'
 import FAQ from './views/FAQ.vue'
+import QnA from './views/QnABoard.vue'
 import Youthvision from './views/Youthvision.vue'
 import Admin from './views/admin/Admin.vue'
 Vue.use(VueRouter);
@@ -97,6 +98,16 @@ const routes = [
         name: "FAQ",
         components: {
             default: FAQ,
+            footer: UserFooter
+        },
+        meta: { unauthorized: true }
+        ,props: true
+    },
+    {
+        path: "/qna",
+        name: "Q&A",
+        components: {
+            default: QnA,
             footer: UserFooter
         },
         meta: { unauthorized: true }

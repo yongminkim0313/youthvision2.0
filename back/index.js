@@ -18,21 +18,7 @@ const privateVapidKey = 'VjzcL0KVNmwTLz669j4-12lFa-72rfNGHrdvFPnIxgc';
 
 webpush.setVapidDetails('mailto:kimyongmin1@naver.com', publicVapidKey, privateVapidKey);
 
-const { initializeApp } = require('firebase/app');
-const { getDatabase, ref, onChildAdded, set, get } = require('firebase/database');
 const { join } = require("path");
-const firebaseConfig = {
-    apiKey: "AIzaSyBz9iJl2SDU9NAgzDcMp7vP0OLdWRL9inU",
-    authDomain: "youthvisionkr.firebaseapp.com",
-    databaseURL: "https://youthvisionkr-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "youthvisionkr",
-    storageBucket: "youthvisionkr.appspot.com",
-    messagingSenderId: "872270613716",
-    appId: "1:872270613716:web:47cc7435673ac20834bf41",
-    measurementId: "G-RV8DQS8YX7"
-};
-initializeApp(firebaseConfig);
-const fireDB = getDatabase();
 
 const app = express();
 app.set('trust proxy', true);
@@ -142,55 +128,62 @@ app.post('*', (req, res, next) => {
     }
 });
 /************************* [End] get, post, put, delte api 설정 **********************/
-
+var subs= {};
 app.post('/api/subscribe', (req, res) => {
-    const subscription = req.body;
+    const {subscription, msg} = req.body;
     res.status(201).json({});
-    const payload = JSON.stringify({ title: '[YOUTHVISION] 환영합니다.', message:'2023년 여름캠프 신청이 시작되었습니다.' });
+    const payload = JSON.stringify(msg);
   
+    console.log("===========subscription start============");
     console.log(subscription);
-  
-    webpush.sendNotification(subscription, payload).catch(error => {
-      console.error(error.stack);
-    });
+    if(subscription.keys){
+        subs[subscription.keys.p256dh] = subscription
+    }
+    console.log(subs);
+    console.log("===========subscription end  ============");
+    Object.keys(subs).forEach(function(key){ 
+        webpush.sendNotification(subs[key], payload).catch(error => {
+          console.error(error.stack);
+        });
+    })
   });
 
 
-app.get('/api/conectLog/key', (req, res) =>{
-    get(ref(fireDB,'posts/common/connectLog/'))
-    .then((snapshot)=>{
-        if (snapshot.exists()) {
-            res.status(200).json(Object.keys(snapshot.val()));
-        } else {
-            console.log("No data available");
-            res.status(401).json({msg:"No data available"});
-        }
-    });
-})
-app.get('/api/conectLog', (req, res) =>{
-    get(ref(fireDB,'posts/common/connectLog/'+req.query.dt))
-    .then((snapshot)=>{
-        if (snapshot.exists()) {
-            res.status(200).json(snapshot.val());
-        } else {
-            console.log("No data available");
-            res.status(401).json({msg:"No data available"});
-        }
-    });
-})
-app.post('/api/conectLog', (req, res) =>{
-    // db.setData('conectLog', 'insertConectLog', req.body)
-    // .then(function(row) {
-    //     res.status(200).json('success');
-    // })
-    // .catch(err=>{
-    //     res.status(400).json(Error(err))
-    // });
-    req.body['ipAdres'] = req.ip;
-    req.body['kakaoId'] = req.body['kakaoId'] ? req.body['kakaoId']: 0;
-    console.log(req.body);
-    set(ref(fireDB,'posts/common/connectLog/'+common.getDate()+'/'+req.body.conectDt),req.body);
-})
+// app.get('/api/conectLog/key', (req, res) =>{
+//     get(ref(fireDB,'posts/common/connectLog/'))
+//     .then((snapshot)=>{
+//         if (snapshot.exists()) {
+//             res.status(200).json(Object.keys(snapshot.val()));
+//         } else {
+//             console.log("No data available");
+//             res.status(401).json({msg:"No data available"});
+//         }
+//     });
+// })
+// app.get('/api/conectLog', (req, res) =>{
+//     get(ref(fireDB,'posts/common/connectLog/'+req.query.dt))
+//     .then((snapshot)=>{
+//         if (snapshot.exists()) {
+//             res.status(200).json(snapshot.val());
+//         } else {
+//             console.log("No data available");
+//             res.status(401).json({msg:"No data available"});
+//         }
+//     });
+// })
+// app.post('/api/conectLog', (req, res) =>{
+//     // db.setData('conectLog', 'insertConectLog', req.body)
+//     // .then(function(row) {
+//     //     res.status(200).json('success');
+//     // })
+//     // .catch(err=>{
+//     //     res.status(400).json(Error(err))
+//     // });
+//     req.body['ipAdres'] = req.ip;
+//     req.body['kakaoId'] = req.body['kakaoId'] ? req.body['kakaoId']: 0;
+//     console.log(req.body);
+//     set(ref(fireDB,'posts/common/connectLog/'+common.getDate()+'/'+req.body.conectDt),req.body);
+// })
 app.get('/api/campAply',(req,res)=>{
     db.getList('campAply','selectCampAply', req.body)
     .then(function(row) {
