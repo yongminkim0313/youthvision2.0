@@ -173,7 +173,6 @@
           _this.isAdmin = sess.auth == 'admin'
         })
         this.selectBanner();
-        this.$webPush.init();
     },
     methods:{
       isTop:function(){

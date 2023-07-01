@@ -62,7 +62,7 @@ const adminUrlCheck = function(req,trueCallback,falseCallback){
 }
 /************************* [Start] get, post, put, delte api 설정 **********************/
 app.get('*', (req, res, next) => {
-    logger.info('url: ' +req.url + ' body: '+ JSON.stringify(req.body)+ ' params: '+JSON.stringify(req.params) +' method: '+ req.method+ ' kakaoId: '+req.session.kakaoId+' auth: '+ req.session.auth);
+    // logger.info('url: ' +req.url + ' body: '+ JSON.stringify(req.body)+ ' params: '+JSON.stringify(req.params) +' method: '+ req.method+ ' kakaoId: '+req.session.kakaoId+' auth: '+ req.session.auth);
     if(req.url.indexOf('/auth/kakao/callback') > -1){
         next();
         return;
@@ -79,14 +79,14 @@ app.get('*', (req, res, next) => {
                 )
             }
         });
-app.post('*', (req, res, next) => {
-    logger.info('url: ' +req.url + ' body: '+ JSON.stringify(req.body)+ ' params: '+JSON.stringify(req.params) +' method: '+ req.method+ ' kakaoId: '+req.session.kakaoId+' auth: '+ req.session.auth);
-    if(!req.session.kakaoId && req.url != '/api/subscribe' && req.url != '/api/conectLog'){
-        logger.warn('로그인 상태가 아닙니다.')
-        res.status(500).send({ error: '로그인 상태가 아닙니다.' });
-        return;
-    }else{
-        adminUrlCheck(req, 
+    app.post('*', (req, res, next) => {
+        logger.info('url: ' +req.url + ' body: '+ JSON.stringify(req.body)+ ' params: '+JSON.stringify(req.params) +' method: '+ req.method+ ' kakaoId: '+req.session.kakaoId+' auth: '+ req.session.auth);
+        if(!req.session.kakaoId && req.url != '/api/subscribe' && req.url != '/api/conectLog'){
+            logger.warn('로그인 상태가 아닙니다.')
+            res.status(500).send({ error: '로그인 상태가 아닙니다.' });
+            return;
+        }else{
+            adminUrlCheck(req, 
             function(){ 
                 req.body['kakaoId'] = req.session.kakaoId; //카카오아이디 추가
                 next();
@@ -296,9 +296,9 @@ app.get('/auth/kakao/callback', async(req, res) => {
         req.session.nickname          = userInfo.data.kakao_account.profile.nickname
         req.session.accessToken       = `${access_token}`;
         req.session.refreshToken      = `${refresh_token}`;
-        req.session.email             = userInfo.data.kakao_account.email;
+        req.session.email             = userInfo.data.kakao_account.email||'no data';
         req.session.thumbnailImageUrl = userInfo.data.kakao_account.profile.thumbnail_image_url;
-        req.session.gender            = userInfo.data.kakao_account.gender;
+        req.session.gender            = userInfo.data.kakao_account.gender||'no data';
         logger.info(req.session.kakaoId+' '+req.session.nickname+' '+req.session.email+' '+req.session.gender+' '+req.session.thumbnailImageUrl)
         var adminList = ['cnalgus1004@naver.com','kimyongmin1@kakao.com','yjcm00@hanmail.net'];
         if(adminList.indexOf(userInfo.data.kakao_account.email) > -1){

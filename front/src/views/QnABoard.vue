@@ -1,7 +1,7 @@
 <template>
     <v-card color="white">
       <v-img src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" height="64" cover ></v-img>
-      <v-container class="ma-2">
+      <v-container fluid>
         <v-row>
           <v-col cols="12" sm="6" md="4" lg="3" v-for="(item, index) in qnaList" :key="index">
             <v-card>
@@ -57,6 +57,7 @@ export default {
     insertQnA: async function(){
       var seq = await this.nextSeq();
       this.$fireDB.set('/qna/' + seq ,{title: this.title, contents: this.contents});
+      this.webPush(this.title, this.contents);
     },
     selectQnA: async function(){
 
@@ -67,8 +68,8 @@ export default {
     deleteQnA: async function(){
 
     },
-    webPush: function(){
-      this.$webPush.send();
+    webPush: function(title, contents){
+      this.$webPush.send({title:title,message:contents});
     }
   }
 }

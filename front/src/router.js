@@ -14,6 +14,7 @@ import FAQ from './views/FAQ.vue'
 import QnA from './views/QnABoard.vue'
 import Youthvision from './views/Youthvision.vue'
 import Admin from './views/admin/Admin.vue'
+import RandomLunch from './views/RandomLunch.vue'
 Vue.use(VueRouter);
 
 const routes = [
@@ -128,6 +129,16 @@ const routes = [
         name: "관리자페이지",
         components: {
             default: Admin,
+            footer: UserFooter
+        },
+        meta: { unauthorized: true }
+        ,props: true
+    },
+    {
+        path: "/randomLunch",
+        name: "자몽점심선택기",
+        components: {
+            default: RandomLunch ,
             footer: UserFooter
         },
         meta: { unauthorized: true }

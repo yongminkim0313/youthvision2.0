@@ -9,7 +9,7 @@ import axios from 'axios'
 import io from "socket.io-client";
 import common from "./common"
 import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, onChildAdded, set, get, onValue, child } from 'firebase/database';
+import { getDatabase, ref, onChildAdded, set, get, onValue, child, push } from 'firebase/database';
 
 Vue.config.productionTip = false;
 Vue.prototype.APP_URL = process.env.VUE_APP_API_URL;
@@ -70,20 +70,29 @@ Vue.prototype.$fireDB = {
   },
   onValue : function(path, fn){
     return onValue(ref(fireDB, path), fn);
+  },
+  push : function(path, data){
+    return new Promise(function(resolve, reject){
+      set(push(ref(getDatabase(), path)), data);
+      resolve('success!!');
+    })
   }
 }
 Vue.prototype.$webPush = {
   publicVapidKey:"BKr0X9xxLDeBlo9K-XVBj9RvR5NtO-0scX8J6uq5sNZEIWGIAgwsAOASnN7lIDOj33Ah3vr_PDYGvbhYaxgu8Hg",
   init: function(){
-    if ("serviceWorker" in navigator) {
-      this.regist().catch((err) => console.error(err));
-    }
+    var _this = this;
+    return new Promise(function(resolve, reject){
+      if ("serviceWorker" in navigator) {
+        _this.regist().then(()=>{
+          resolve('init');
+        }).catch((err) => console.error(err));
+      }
+    })
   },
   regist: async function(){// 서비스워커 등록, 푸쉬 등록, 푸쉬 보내기
-    var _this = this;
     var register = await navigator.serviceWorker.register("/worker.js", { scope: "/", });// 서비스워커 등록
     this.subscription = await register.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: this.urlBase64ToUint8Array(this.publicVapidKey)});// 푸쉬 등록
-    //this.sendWebPush();
   },
   subscription: Object,
   send: async function(obj){
@@ -132,6 +141,14 @@ router.beforeEach(async (to,from, next) => { // router interceptor
     //console.log(res.data); 
     Vue.prototype.$eventBus.$emit('userInfo',res.data)
     if(!Vue.prototype.$socket){ 
+      
+      Vue.prototype.$webPush.init().then((msg)=>{
+        console.log(msg);
+        if(res.data['isLogin']){
+          Vue.prototype.$webPush.send({ title: JSON.stringify(res.data.nickname)+'님', message: '환영합니다^^'});
+        }
+      })
+
       Vue.prototype.$socket = io(process.env.VUE_APP_SOCKET_URL,{
           autoConnect: true,
           query: res.data,

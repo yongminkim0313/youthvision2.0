@@ -1,31 +1,25 @@
 <template>
-    <v-card color="white">
+    <v-card color="white" flat>
         <v-img src="../assets/about_top_bg.png" height="64" cover ></v-img>
-        <v-card-title class="d-none d-sm-flex "><h2 class="mx-auto my-10">다음세대 부흥을 일으키는</h2></v-card-title>
-        <v-card-title class="d-sm-none d-flex">다음세대 부흥을 일으키는</v-card-title>
-        <v-card class="d-flex flex-wrap" flat>
-            <v-img class="d-none d-sm-block" src="../assets/camps/2023_summer/2023_summer_intro.png" width="50vw" height="100vh" contain></v-img>
-            <v-card flat width="50vw">
-                <v-card-text class="d-none d-sm-block"> 
-                    <h3>YOUTHVISION MINISTRY</h3>
-                    <h4 class="mb-3">"다음세대들이여, 사명으로 다시 일어나라!"</h4>
-                    <!-- <v-divider class="mb-3"></v-divider>
-                    <h5 class="mb-3">
-                        <strong>유스비전 미니스트리(대표 장용성선교사)</strong>는 다음세대 회복과 부흥을 위하여 시작된 선교단체입니다. <br> 
-                        2006년 2월 첫 유스비전캠프를 개최하여 현재까지 국내와 해외에서 <strong>선교캠프</strong>가 진행되고 있으며,
-                        작은교회와 미자립(개척)교회를 섬기며 민족과 열방에 <strong>그리스도</strong>의 교회를 세우는 사역을 섬기고 있습니다.<br>
-                        본 선교회는 오직 말씀과 기도만이 영혼을 구원할 수 있다는 진리를 붙들고, 말씀사역, 찬양사역, 예배사역, 선교사역을 감당하고 있으며,
-                        유스비전선교캠프에 참여한 많은 교회(개인)들의 변화를 보고 있습니다. <br>
-                        언론대중매체에서도 유스비전사역을 집중하고 있고, 이미 기독교TV방송에 많이 소개 되었습니다. <br>
-                        유스비전 미니스트리는 다음세대 지도자를 통해서 한국교회를 깨우고, 열방에 주님의 교회를 세우는 것이 최종 목적입니다. <br>
-                        하나님을 예배하지 못하는 곳에서 신령과 진정으로 하나님을 예배하게 하는 것이 본 선교회의 존재가치입니다. <br>
-                        예배가 필요한 곳이면 어디든지 달려갑니다. <br>
-                    </h5> -->
-                    <v-card-subtitle class="mx-5">유스비전 미니스트리 대표 장용성목사/선교사</v-card-subtitle>
-                    <v-card flat>
+        <v-container fluid>
+            <v-row>
+                <v-col cols="12" sm="12" md="6" lg="6">
+                    <v-card>
+                        <v-card-title><h2 class="mx-auto my-10">다음세대 부흥을 일으키는</h2></v-card-title>
+                        <v-img src="../assets/camps/2023_summer/2023_summer_intro.png" contain></v-img>
+                    </v-card>
+                </v-col>
+                <v-col cols="12" sm="12" md="6" lg="6">
+                    <v-card>
+                        <v-card-title>
+                            <h3 class="mx-auto my-10 gray--text">YOUTHVISION MINISTRY</h3>
+                        </v-card-title>
+                        <v-card-subtitle>
+                            <h4 class="ml-3 gray--text">"다음세대들이여, 사명으로 다시 일어나라!"</h4>
+                        </v-card-subtitle>
                         <v-list>
                             <v-list-item-group v-model="model">
-                                <v-list-item v-for="(item, i) in items" :key="i" style="min-height:35px;">
+                                <v-list-item v-for="(item, i) in items" :key="i">
                                     <v-list-item-icon class="ma-1">
                                         <v-icon> mdi-cross </v-icon>
                                     </v-list-item-icon>
@@ -36,53 +30,21 @@
                             </v-list-item-group>
                         </v-list>
                     </v-card>
-                </v-card-text>
-            </v-card>
-            <v-card flat class="d-sm-none d-flex">
-                <v-card-text class="pa-0 "> 
-                    <h3 class="ml-5 gray--text">YOUTHVISION MINISTRY</h3>
-                    <h4 class="ml-3 gray--text">"다음세대들이여, 사명으로 다시 일어나라!"</h4>
-                    <v-img class="pa-5" src="../assets/camps/2023_summer/2023_summer_intro.png" contain>
-                        <!-- <v-divider class="mb-3 white--text"></v-divider> -->
-                        <!-- <h5 class="mb-3 gray--text">
-                            <strong>유스비전 미니스트리(대표 장용성선교사)</strong>는 다음세대 회복과 부흥을 위하여 시작된 선교단체입니다. <br> 
-                            2006년 2월 첫 유스비전캠프를 개최하여 현재까지 국내와 해외에서 <strong>선교캠프</strong>가 진행되고 있으며,
-                            작은교회와 미자립(개척)교회를 섬기며 민족과 열방에 <strong>그리스도</strong>의 교회를 세우는 사역을 섬기고 있습니다.<br>
-                            본 선교회는 오직 말씀과 기도만이 영혼을 구원할 수 있다는 진리를 붙들고, 말씀사역, 찬양사역, 예배사역, 선교사역을 감당하고 있으며,
-                            유스비전선교캠프에 참여한 많은 교회(개인)들의 변화를 보고 있습니다. <br>
-                            언론대중매체에서도 유스비전사역을 집중하고 있고, 이미 기독교TV방송에 많이 소개 되었습니다. <br>
-                            유스비전 미니스트리는 다음세대 지도자를 통해서 한국교회를 깨우고, 열방에 주님의 교회를 세우는 것이 최종 목적입니다. <br>
-                            하나님을 예배하지 못하는 곳에서 신령과 진정으로 하나님을 예배하게 하는 것이 본 선교회의 존재가치입니다. <br>
-                            예배가 필요한 곳이면 어디든지 달려갑니다. <br>
-                        </h5> -->
-                        <!-- <v-card-subtitle class="mx-auto white--text">유스비전 미니스트리 대표 장용성목사/선교사</v-card-subtitle> -->
-                    </v-img>
-                    <v-list>
-                        <v-list-item-group v-model="model">
-                            <v-list-item v-for="(item, i) in items" :key="i" style="min-height:35px;">
-                                <v-list-item-icon class="ma-1">
-                                    <v-icon> mdi-cross </v-icon>
-                                </v-list-item-icon>
-                                <v-list-item-content  class="pa-2">
-                                    {{ item.title }}
-                                </v-list-item-content>
-                            </v-list-item>
-                        </v-list-item-group>
-                    </v-list>
-                </v-card-text>
-            </v-card>
-        </v-card>
-         
-
-
-
-  
-<!--                  
-
-대표소개
-장용성 선교사/목사
-Rev.Pastor.Missionary Jang Yong Sung -->
-
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col cols="12">
+                    <v-card>
+                        <v-card-title>
+                            <h3 class="mx-auto">장용성 선교사/목사</h3>
+                        </v-card-title>
+                        <v-card-title>
+                            <h4 class="mx-auto">Rev.Pastor.Missionary Jang Yong Sung</h4>
+                        </v-card-title>
+                    </v-card>
+                </v-col>
+            </v-row>
+        </v-container>
     </v-card>  
   </template>
   <script>
