@@ -42,11 +42,17 @@
                     </div>
                 </div>
                 <div class="rouletter-arrow"></div>
+                {{ start }}
                 <button class="rouletter-btn" @click="starAndStop();">{{!start?'start':'end'}}</button>
             </div>
-
-
-
+            <div>
+                <v-list expand>
+                    <v-list-item link v-for="(item,index) in historyList" :key="index"> 
+                        <v-list-item-title>{{ item.menuNm }}</v-list-item-title> 
+                        <v-list-item-action>{{ item.rgdtDt }}</v-list-item-action> 
+                    </v-list-item>
+                </v-list>
+            </div>
 
 
 
@@ -62,6 +68,7 @@ export default {
     return {
         dialog: false,
         menuList:[],
+        historyList:[],
         hisList:[],
         menuName: '',
         contents:'',
@@ -86,8 +93,20 @@ export default {
         Object.keys(data).forEach(function(v){
             _this.menuList.push({menu:data[v],key:v});
         });
+    });
+    this.$fireDB.onValue('/lunch/history',function(snapshot){
+        const data = snapshot.val();
+        _this.historyList = [];
+        if(!data) return;
+        Object.keys(data).forEach(function(v){
+            _this.historyList.push(data[v]);
+        });
+    });
+    this.$fireDB.onValue('/lunch/start',function(snapshot){
+        const data = snapshot.val();
         console.log(data);
-      });
+        _this.start = data;
+    });
   },
   methods:{
     cancleMenu: function(){
@@ -103,6 +122,7 @@ export default {
         var c = Math.floor(Math.random()*this.menuList.length);
         console.log(c);
         this.selectMenu = c;
+        return c;
     },
     updateQnA: async function(){
 
@@ -119,7 +139,17 @@ export default {
     },
     starAndStop: function(){
         this.start = !this.start;
-        if(this.start) this.randomSelect();
+        this.$fireDB.set('/lunch/start',this.start);
+        if(!this.start) {
+            var sel = this.randomSelect();
+            this.choiseLunch(sel);
+        }
+    },
+    choiseLunch(sel){
+        var today = this.$common.getDateTime();
+        var menuNm = this.menuList[sel].menu
+        var obj = {'rgdtDt': today, 'menuNm': menuNm};
+        this.$fireDB.push('/lunch/history',obj);
     }
   }
 }
