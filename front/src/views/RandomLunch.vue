@@ -33,8 +33,6 @@
         </v-card-text>
         <v-card-text>
 
-
-
             <div class="rouletter">
                 <div class="rouletter-bg">
                     <div class="rouletter-wacu" :class="start?'on':''" :style="{ 'transform' : 'rotate('+ deg[selectMenu] +'deg)'}">
@@ -42,15 +40,26 @@
                     </div>
                 </div>
                 <div class="rouletter-arrow"></div>
-                {{ start }}
                 <button class="rouletter-btn" @click="starAndStop();">{{!start?'start':'end'}}</button>
             </div>
             <div>
-                <v-list expand>
-                    <v-list-item link v-for="(item,index) in historyList" :key="index"> 
-                        <v-list-item-title>{{ item.menuNm }}</v-list-item-title> 
-                        <v-list-item-action>{{ item.rgdtDt }}</v-list-item-action> 
-                    </v-list-item>
+                <v-list nav dense >
+                    <v-list-group v-for="(item,index) in historyList" :key="index" no-action>
+                        <template v-slot:activator>
+                            <v-list-item-content>
+                                <v-list-item-title>{{ item.date }}</v-list-item-title> 
+                                <v-list-item-title>{{ lastSelMenu(item.date).menuNm }}</v-list-item-title> 
+                            </v-list-item-content>
+                            <v-list-item-action>{{ item.rgdtDt }}</v-list-item-action> 
+                        </template>
+                        <v-list-item link v-for="(sItem, sIndex) in item.subList" :key="sIndex">
+                            <v-list-item-icon>
+                                {{ sIndex+1 }}
+                            </v-list-item-icon>
+                            <v-list-item-title>{{ sItem.menuNm }}</v-list-item-title>
+                            <v-list-item-title>{{ sItem.rgdtDt }}</v-list-item-title>
+                        </v-list-item>
+                    </v-list-group>
                 </v-list>
             </div>
 
@@ -76,9 +85,12 @@ export default {
         selectMenu: -1,
         deg:[0, 60,120,180,240,300],
         start:false,
+        group: null,
     };
   },
-  computed: {},
+  computed: {
+    
+  },
   created: function(){
     var _this = this;
     for(var i = 0 ; i < 20 ; i++){
@@ -98,17 +110,30 @@ export default {
         const data = snapshot.val();
         _this.historyList = [];
         if(!data) return;
-        Object.keys(data).forEach(function(v){
-            _this.historyList.push(data[v]);
+        Object.keys(data).forEach(function(key){
+            var subL = [];
+            Object.keys(data[key]).forEach(function(subKey){
+                subL.push(data[key][subKey])
+            });
+            _this.historyList.push({date: key, subList : subL});
         });
     });
     this.$fireDB.onValue('/lunch/start',function(snapshot){
         const data = snapshot.val();
         console.log(data);
-        _this.start = data;
+        _this.start = data.start;
+        _this.selectMenu = data.selectMenu;
     });
   },
   methods:{
+    lastSelMenu: function(paramDate){
+        for(var i = 0 ; i < this.historyList.length; i++){
+            if(this.historyList[i].date == paramDate){
+                var subList = this.historyList[i].subList;
+                return subList[subList.length-1];
+            }
+        }
+    },
     cancleMenu: function(){
         this.menuName = '';
         this.dialog = false;
@@ -139,17 +164,19 @@ export default {
     },
     starAndStop: function(){
         this.start = !this.start;
-        this.$fireDB.set('/lunch/start',this.start);
+        var sel = null;
         if(!this.start) {
-            var sel = this.randomSelect();
+            sel = this.randomSelect();
             this.choiseLunch(sel);
         }
+        this.$fireDB.set('/lunch/start',{start: this.start, selectMenu: sel});
     },
     choiseLunch(sel){
-        var today = this.$common.getDateTime();
+        var today = this.$common.getDate();
+        var time = this.$common.getDateTime();
         var menuNm = this.menuList[sel].menu
-        var obj = {'rgdtDt': today, 'menuNm': menuNm};
-        this.$fireDB.push('/lunch/history',obj);
+        var obj = {'rgdtDt': time, 'menuNm': menuNm};
+        this.$fireDB.push('/lunch/history/'+today,obj);
     }
   }
 }
