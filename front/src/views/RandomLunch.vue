@@ -32,10 +32,9 @@
             <v-chip v-for="(item, index) in menuList" :key="index" class="ma-2" close :color="colorList[index]" text-color="white" @click:close="deleteMenu(item.key);" > {{ item.menu }}</v-chip>
         </v-card-text>
         <v-card-text>
-
             <div class="rouletter">
                 <div class="rouletter-bg">
-                    <div class="rouletter-wacu" :class="start?'on':''" :style="{ 'transform' : 'rotate('+ deg[selectMenu] +'deg)'}">
+                    <div class="rouletter-wacu" :class="start?'on':''" :style="{ 'transform' : 'rotate(-'+ deg[selectMenu] +'deg)'}">
                         <v-card-text v-for="(item, index) in menuList" :key="index" class="text-center rouletter-text" :style="{ 'transform' : 'rotate('+ deg[index] +'deg)'}">{{ item.menu }}</v-card-text>
                     </div>
                 </div>
@@ -83,6 +82,7 @@ export default {
         contents:'',
         colorList: [],
         selectMenu: -1,
+        // deg:[0, 300,240,180,120,60],
         deg:[0, 60,120,180,240,300],
         start:false,
         group: null,

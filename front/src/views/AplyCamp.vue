@@ -9,7 +9,7 @@
   <v-card max-width="980" class="mx-auto d-print-none">
     <form>
       <v-container  class="">
-        <v-img class="my-3 " contain src="../assets/camps/2023_summer/2023_summer_aply.jpg"></v-img>
+        <v-img class="my-3 " contain src="../assets/camps/2023_summer/2023_summer_a.png"></v-img>
         <v-expansion-panels accordion v-model="panel" multiple>
           <v-expansion-panel>
               <!--신청자이름, 직분 -->
