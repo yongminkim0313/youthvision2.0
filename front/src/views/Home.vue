@@ -12,6 +12,9 @@
         <Squre></Squre>
       </section>
       <section>
+        <FlyToTheSky></FlyToTheSky>
+      </section>
+      <section>
         <YouthvisionMovie :isAdmin="userInfo.auth=='admin'"></YouthvisionMovie>
       </section>
     </v-container>
@@ -21,9 +24,10 @@
 import Carousel from '@/components/Carousel.vue';
 import Cross from '@/components/Cross.vue';
 import Squre from '@/components/Squre.vue';
+import FlyToTheSky from '@/components/FlyToTheSky.vue';
 import YouthvisionMovie from '@/components/YouthvisionMovie.vue';
   export default {
-      components: {Carousel, Cross, Squre, YouthvisionMovie},
+      components: {Carousel, Cross, Squre, YouthvisionMovie, FlyToTheSky},
       props:{userInfo:Object},
       name: "Home",
         data: () => {

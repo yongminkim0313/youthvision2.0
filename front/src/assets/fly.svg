@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Created with Vectornator (http://vectornator.io/) -->
+<svg class="plane-body" xmlns="http://www.w3.org/2000/svg" viewBox='0 0 2100 1000' >
+<defs/>
+<g>
+    <path fill='#56C2FF' d='M1131,516.3l297-38c3,0,5.6,4,2,6l-133,97c0,0-2,0.9-3,0l-163-58C1127,522,1127,516,1131,516.3z'/>
+    <path fill='#6B6BD9' d='M1689,302l-349,423c-2,2.9-7,1-8-1l-40-138c0-1,0-3,1-5l390-284C1687,291,1692,297,1689,302z'/>
+    <path fill='#9A9AE3' d='M1336,603.7l-2,119c0,2,3,4,5,1l349-423c2-2-1-6.7-4-4l-347,303C1336.6,602,1336,602,1336,603.7z'/>
+    <path fill='#8FECFF' d='M1132,514l564-234c2,0,3,2,1,3l-266,195.8c0,0-0.6,0,0,0l-297,38C1130,518,1130,515,1132,514z'/>
+    <path fill='#CDB3FF' d='M1705,279l-241,211.9c-1,0-1,2-0.7,3l116,239c1,2,4,2,5,0l124-451C1710,279,1707,277.8,1705,279z'/>
+</g>
+</svg>
