@@ -171,19 +171,19 @@ app.post('/api/subscribe', (req, res) => {
 //         }
 //     });
 // })
-// app.post('/api/conectLog', (req, res) =>{
-//     // db.setData('conectLog', 'insertConectLog', req.body)
-//     // .then(function(row) {
-//     //     res.status(200).json('success');
-//     // })
-//     // .catch(err=>{
-//     //     res.status(400).json(Error(err))
-//     // });
-//     req.body['ipAdres'] = req.ip;
-//     req.body['kakaoId'] = req.body['kakaoId'] ? req.body['kakaoId']: 0;
-//     console.log(req.body);
-//     set(ref(fireDB,'posts/common/connectLog/'+common.getDate()+'/'+req.body.conectDt),req.body);
-// })
+app.post('/api/conectLog', (req, res) =>{
+    req.body['ipAdres'] = req.ip;
+    req.body['kakaoId'] = req.body['kakaoId'] ? req.body['kakaoId']: 0;
+    console.log(req.body);
+    // set(ref(fireDB,'connectLog/'+common.getDate()+'/'+req.body.conectDt),req.body);
+    db.setData('conectLog', 'insertConectLog', req.body)
+    .then(function(row) {
+        res.status(200).json('success');
+    })
+    .catch(err=>{
+        res.status(400).json(Error(err))
+    });
+})
 app.get('/api/campAply',(req,res)=>{
     db.getList('campAply','selectCampAply', req.body)
     .then(function(row) {

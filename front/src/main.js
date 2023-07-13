@@ -134,7 +134,7 @@ router.beforeEach(async (to,from, next) => { // router interceptor
     'prmanentCookie' : Vue.$cookies.get('prmanent_cookie'),
     'tmprCookie' : Vue.$cookies.get('tmpr_cookie')
   }
-  // axios.post('/api/conectLog',conectLog)
+  axios.post('/api/conectLog',conectLog)
   axios.get('/api/auth/user/info') 
   .then((res)=>{ 
     res.data['isLogin'] = res.data['kakaoId']?true:false;

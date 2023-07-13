@@ -90,11 +90,11 @@
     
     <v-dialog v-model="dialog" max-width="600px">
       <v-card>
-        <v-card-title class="text-h5">
+        <v-card-title class="text-body-2 text-md-h5">
           {{banner.bannerTitle}}
         </v-card-title>
         <v-card-text> 
-          <v-img v-if="banner.atchmnflId" :src="'/api/image/'+banner.atchmnflId" contain max-width="50vw" max-height="50vh"> 
+          <v-img class="mx-auto" v-if="banner.atchmnflId" :src="'/api/image/'+banner.atchmnflId" contain max-width="50vw" max-height="50vh"> 
             <template v-slot:placeholder>
                 <v-row class="fill-height ma-0" align="center" justify="center" >
                   <v-progress-circular indeterminate color="grey lighten-5" ></v-progress-circular>
