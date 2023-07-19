@@ -20,14 +20,16 @@
           <v-data-table :headers="headers" :items="connectLogList" :search="search" item-key="name"
           hide-default-footer
             :disable-items-per-page="true"
-            :footer-props="{ 'items-per-page-options': [50, -1] }"
+            :footer-props="{ 'items-per-page-options': [-1, -1] }"
             :custom-sort="customSort"
             >
             <template v-slot:body="{items, headers}">
               <tbody name="list" is="transition-group" v-if="items.length > 0">
                 <tr v-for="(val , index) in items" :key="index" class="item-row">
                     <td>{{index}}</td>  
-                    <td>{{val.conectDt}}</td>
+                    <td>{{val.nickname}}</td>  
+                    <td><v-avatar size="36px" ><v-img :src="val.thumbnailImageUrl"></v-img> </v-avatar></td>  
+                    <td>{{val.conectDt | formatDate}}</td>
                     <td>{{val.osNm}}</td>
                     <td>{{val.browserNm}}</td>
                     <td>{{val.conectUrl}}</td>
@@ -56,6 +58,8 @@
           dtList: [ ],
           headers: [
             { text: 'No', value: 'No' },
+            { text: '이름', value: 'nickname'}, 
+            { text: '프로필사진', value: 'thumbnailImageUrl'},
             { text: 'conectDt', value: 'conectDt' },
             { text: 'osNm', value: 'osNm' },
             { text: 'browserNm', value: 'browserNm', },
@@ -67,8 +71,12 @@
         }
       },
       created: function(){
-        this.$socket.connect();
-        this.getConnectLogKey();
+        var _this = this;
+        var dt = '';
+        this.$axios.get('/api/admin/conectLog?dt='+dt)
+          .then((res)=>{
+            _this.connectLogList = res.data;
+          })
       },
       mounted: function(){
         this.addConnectLog();
@@ -77,23 +85,28 @@
         getDayLog : function(item){
           this.getOtherDayLog(item.dt)
         },
-        getConnectLogKey : function(){
-          var _this = this;  
-            for(var i = -10; i <= 0 ; i++){
-              var d = this.$common.getAddDate(i);
-              _this.dtList.push({dt:d});
-            };
-        },
         getConnectLog : function(){
-            var _this = this;
-            this.$socket.on('getConnectLog', (data)=>{
-                for(var key in data){
-                    console.log('getConnectLog',data[key]);
-                    _this.connectLogList.push(data[key]);
-                }
-            });
-        }
-        ,addConnectLog: function(){
+          var _this = this;
+          this.$axios.get('/api/conectLog?dt='+dt)
+          .then((res)=>{
+            _this.connectLogList = res.data;
+          })
+          // var _this = this;  
+          //   for(var i = -10; i <= 0 ; i++){
+          //     var d = this.$common.getAddDate(i);
+          //     _this.dtList.push({dt:d});
+          //   };
+        },
+        // getConnectLog : function(){
+        //     var _this = this;
+        //     this.$socket.on('getConnectLog', (data)=>{
+        //         for(var key in data){
+        //             console.log('getConnectLog',data[key]);
+        //             _this.connectLogList.push(data[key]);
+        //         }
+        //     });
+        // }
+        addConnectLog: function(){
             var _this = this;
             this.$socket.on('addConnectLog', (data)=>{
                 _this.connectLogList.push(data);

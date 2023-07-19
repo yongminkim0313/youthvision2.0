@@ -34,12 +34,22 @@
                 
                 <v-expansion-panel>
                     <v-expansion-panel-header>
-                        <v-card-title> <v-icon large color="green darken-2" > mdi-arrange-send-backward </v-icon> 배너 관리</v-card-title>
+                        <v-card-title> <v-icon large color="green darken-2" > mdi-arrange-send-backward </v-icon> 배너 관리 </v-card-title>
                     </v-expansion-panel-header>
                     <v-expansion-panel-content>
                         <BannerList></BannerList>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
+
+                <v-expansion-panel>
+                    <v-expansion-panel-header>
+                        <v-card-title> <v-icon large color="green darken-2" > mdi-format-list-bulleted </v-icon> 접속로그 </v-card-title>
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <ConnectLog></ConnectLog>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+
 
             </v-expansion-panels>
         </v-card>
@@ -50,8 +60,9 @@ import AplyList from '../../components/AplyList.vue';
 import AplyPosterList from '../../components/AplyPosterList.vue';
 import UserList from '../../components/UserList.vue';
 import BannerList from '../../components/BannerList.vue';
+import ConnectLog from '@/components/ConnectLog.vue';
 export default {
-    components:{AplyList,AplyPosterList,UserList,BannerList},
+    components:{AplyList,AplyPosterList,UserList,BannerList,ConnectLog},
     data: () => ({
         panel: [],
         loading: false,

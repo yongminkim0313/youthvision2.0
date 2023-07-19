@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mapper namespace="conectLog">  
   <select id="selectConectLog">
-    SELECT 1 FROM DUAL
+    SELECT 
+      a.conect_sn, 
+      a.conect_dt, 
+      a.conect_url, 
+      a.menu_nm, 
+      a.os_knd, 
+      a.os_nm, 
+      a.browser_nm, 
+      a.ip_adres, 
+      a.ref_url,
+      a.prmanent_cookie, 
+      a.tmpr_cookie, 
+      a.kakao_id, 
+      b.nickname, 
+      b.thumbnail_image_url,
+      b.last_login_at
+    FROM T_CM_CONECT_LOG a
+    LEFT OUTER JOIN T_CM_USER b ON a.KAKAO_ID = b.KAKAO_ID
   </select>
 
   <insert id="insertConectLog">
@@ -15,7 +32,8 @@
     ip_adres,
     ref_url,
     prmanent_cookie,
-    tmpr_cookie
+    tmpr_cookie,
+    kakao_id
   ) VALUES (
     #{conectUrl},
     #{conectDt},
@@ -26,7 +44,8 @@
     #{ipAdres},
     #{refUrl},
     #{prmanentCookie},
-    #{tmprCookie}
+    #{tmprCookie},
+    #{kakaoId}
   )
   </insert>
   

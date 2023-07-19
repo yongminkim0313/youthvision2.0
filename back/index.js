@@ -160,17 +160,22 @@ app.post('/api/subscribe', (req, res) => {
 //         }
 //     });
 // })
-// app.get('/api/conectLog', (req, res) =>{
-//     get(ref(fireDB,'posts/common/connectLog/'+req.query.dt))
-//     .then((snapshot)=>{
-//         if (snapshot.exists()) {
-//             res.status(200).json(snapshot.val());
-//         } else {
-//             console.log("No data available");
-//             res.status(401).json({msg:"No data available"});
-//         }
-//     });
-// })
+app.get('/api/admin/conectLog', (req, res) =>{
+    // get(ref(fireDB,'posts/common/connectLog/'+req.query.dt))
+    // .then((snapshot)=>{
+    //     if (snapshot.exists()) {
+    //         res.status(200).json(snapshot.val());
+    //     } else {
+    //         console.log("No data available");
+    //         res.status(401).json({msg:"No data available"});
+    //     }
+    // });
+
+    db.getList('conectLog','selectConectLog',req.body)
+    .then((row)=>{
+        res.status(200).json(row);
+    })
+})
 app.post('/api/conectLog', (req, res) =>{
     req.body['ipAdres'] = req.ip;
     req.body['kakaoId'] = req.body['kakaoId'] ? req.body['kakaoId']: 0;

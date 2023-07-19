@@ -89,12 +89,17 @@
   <router-view name="footer"></router-view>
     
     <v-dialog v-model="dialog" max-width="600px">
-      <v-card>
-        <v-card-title class="text-body-2 text-md-h5">
+      <v-card flat>
+        <v-card-actions class="sticky">
+          <v-btn color="success" @click="closeBanner(banner.bannerId)">하루동안 보지않기</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" @click="closeBanner(0)">닫기</v-btn>
+        </v-card-actions>
+        <v-card-title class="text-body-1 text-md-h5">
           {{banner.bannerTitle}}
         </v-card-title>
         <v-card-text> 
-          <v-img class="mx-auto" v-if="banner.atchmnflId" :src="'/api/image/'+banner.atchmnflId" contain max-width="50vw" max-height="50vh"> 
+          <v-img class="mx-auto" v-if="banner.atchmnflId" :src="'/api/image/'+banner.atchmnflId" contain max-height="50vh"> 
             <template v-slot:placeholder>
                 <v-row class="fill-height ma-0" align="center" justify="center" >
                   <v-progress-circular indeterminate color="grey lighten-5" ></v-progress-circular>
@@ -103,11 +108,6 @@
           </v-img>
           <span v-html="banner.bannerContents"></span>
         </v-card-text>
-        <v-card-actions>
-          <v-btn @click="closeBanner(banner.bannerId)">하루동안 보지않기</v-btn>
-          <v-spacer></v-spacer>
-          <v-btn @click="closeBanner(0)">닫기</v-btn>
-        </v-card-actions>
       </v-card>
     </v-dialog>
 
@@ -319,4 +319,11 @@ blockquote p::after {
 .text-caption{
   text-shadow: 2px 2px 2px gray;
 }
+.sticky {
+        position: -webkit-sticky; /* 사파리 브라우저 지원 */
+        position: sticky;
+        top: 0px;
+        background: white;
+        z-index:999;
+    }
 </style>
