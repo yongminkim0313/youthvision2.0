@@ -81,7 +81,7 @@ app.get('*', (req, res, next) => {
         });
     app.post('*', (req, res, next) => {
         logger.info('url: ' +req.url + ' body: '+ JSON.stringify(req.body)+ ' params: '+JSON.stringify(req.params) +' method: '+ req.method+ ' kakaoId: '+req.session.kakaoId+' auth: '+ req.session.auth);
-        if(!req.session.kakaoId && req.url != '/api/subscribe' && req.url != '/api/conectLog'){
+        if(!req.session.kakaoId && req.url != '/api/subscribe' && req.url != '/api/conectLog' && req.url != '/api/user/KoGPT'){
             logger.warn('로그인 상태가 아닙니다.')
             res.status(500).send({ error: '로그인 상태가 아닙니다.' });
             return;

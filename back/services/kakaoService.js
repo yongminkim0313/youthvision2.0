@@ -171,7 +171,9 @@ exports.KoGPT = async function(prompt){
         },
         data:{
             prompt : prompt,
-            max_tokens : 300,
+            max_tokens : 80,
+            temperature: 0.7,
+            top_p: 0.8,
             n : 1
         }
     });

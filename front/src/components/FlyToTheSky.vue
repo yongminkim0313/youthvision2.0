@@ -4,7 +4,9 @@
       <div class="inner-header"> 
         <v-card-title class="mx-auto flex">FLY WITH THE HOLY SPIRIT</v-card-title>
         <v-card-text> YOUTHVISION CAMP</v-card-text>
-        <v-img class="fly_3" src="../assets/fly_3.svg" contain height="15vh" width="20vw"></v-img>
+        <div class="ballon" v-show="showBallon">{{ output }}</div>
+        <v-img @click="KoGPT" :class="{'fly_3':flyClass, 'fly_far': !flyClass}" src="../assets/fly_3.svg" contain height="15vh" width="20vw">
+        </v-img>
       </div>
       <div class="svg-body">
         <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto" >
@@ -26,6 +28,49 @@
     </div>
   </v-card>
 </template>
+<script>
+  export default {
+      props:{userInfo:Object},
+      name: "Home",
+        data: () => {
+            return { 
+              message: '오늘의 성경말씀',
+              output: '',
+              showBallon: false,
+              flyClass: true
+            };
+        },
+        created() { },
+        destroyed() { },
+        mounted: function () { },
+        watch: { 
+          output: function(val){
+            var _this = this;
+            this.showBallon = true;
+            setTimeout(function() {
+              _this.showBallon = false; 
+              _this.flyClass =true;
+            }, 8000);
+          }
+        },
+        methods: { 
+          KoGPT: function(){
+            this.flyClass = false;
+            var _this = this;
+            this.$axios.post('/api/user/KoGPT',{prompt:_this.message})
+            .then(({data})=>{
+              var {generations} = data;
+              var {text} = generations[0];
+              _this.output = text;
+              console.log(text);
+            })
+            .catch(err=>{
+              console.log(err);
+            })
+          },
+        },
+    };
+</script>
 <style scoped>
 .fly_3{
     position: absolute;
@@ -33,10 +78,26 @@
     left: 38vw;
     animation: cloud-a 2s ease-in-out infinite;
     animation-direction: alternate;
-    animation-delay: 0.2s;
 }
 @keyframes cloud-a {
   from { transform: translate(-2rem, -2rem); }
+  to { transform: translate(0rem, 0rem); }
+}
+.fly_far{
+  position: absolute;
+  top: 36vh;
+  left: 38vw;
+  animation: fly_far 8s ease-out ;
+  animation-fill-mode: forwards;
+  animation-direction:normal;
+}
+@keyframes fly_far {
+  from { transform: translate(0, 0) scale(1);;}
+  to { transform: translate(10rem, -20rem) scale(0.5);;}
+}
+
+@keyframes cloud-b {
+  from { transform: translate(-10rem, -10rem); }
   to { transform: translate(0rem, 0rem); }
 }
 body {
@@ -133,5 +194,14 @@ p {
   h1 {
     font-size:24px;
   }
+}
+
+.ballon {
+    width: 50vw;
+    transform: translate(50%, 50%);
+    background: #7abcff;
+    color: white;
+    border-radius: 5px;
+    padding: 12px 12.8px;
 }
 </style>

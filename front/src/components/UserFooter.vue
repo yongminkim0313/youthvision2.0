@@ -26,7 +26,7 @@
           <strong>유스비전 미니스트리 YOUTHVISION MINISTRY</strong>
         </v-card-text>
         
-        <div class="v-btn--kakaomessage" v-show="btn">
+        <div class="v-btn--kakaomessage">
           <span class="blue--text text-subtitle">카카오내비</span>
           <v-avatar  @click="navi" size="57px">
             <v-img src="https://developers.kakao.com/assets/img/about/buttons/navi/kakaonavi_btn_medium.png" alt="길 안내하기 버튼" >
@@ -44,11 +44,11 @@
             <span>유스비전캠프 신청내역 화면이동</span>
           </v-tooltip>
           <v-dialog v-model="dialog" width="500" >
-      <!-- <template v-slot:activator="{ on, attrs }">
+      <template v-slot:activator="{ on, attrs }">
         <v-btn fab left class="v-btn--kakaomessage" color="red lighten-2" dark v-bind="attrs" v-on="on" v-show="btn">
           GPT
         </v-btn>
-      </template> -->
+      </template>
 
       <v-card>
         <v-card-title class="text-h5 grey lighten-2">
