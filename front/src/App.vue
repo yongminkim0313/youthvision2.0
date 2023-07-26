@@ -93,6 +93,7 @@
         <v-card-actions class="sticky">
           <v-btn color="success" @click="closeBanner(banner.bannerId)">하루동안 보지않기</v-btn>
           <v-spacer></v-spacer>
+          <!-- <v-btn color="primary" @click="navi()">네비</v-btn> -->
           <v-btn color="primary" @click="closeBanner(0)">닫기</v-btn>
         </v-card-actions>
         <v-card-title class="text-body-1 text-md-h5">

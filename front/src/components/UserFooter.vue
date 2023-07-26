@@ -4,7 +4,7 @@
           <v-btn class="mx-4 white--text" icon @click="facebook()">
             <v-icon size="24px"> mdi-facebook </v-icon>
           </v-btn>
-
+          
           <v-btn class="mx-4 white--text" icon @click="youtube()">
             <v-icon size="24px"> mdi-youtube </v-icon>
           </v-btn>
@@ -16,31 +16,34 @@
 
         <v-card-text class="white--text text-center px-auto">
           장용성 선교사/목사  경기도 군포시 산본천로 211번길 13, 3층  <br />
-            전화번호 : 070-7796-1009  <br />
-            이메일 : youthvision1009@naver.com
+          전화번호 : 070-7796-1009  <br />
+          이메일 : youthvision1009@naver.com
         </v-card-text>
-
+        
         <v-divider></v-divider>
-
+        
         <v-card-text class="white--text text-center">
           <strong>유스비전 미니스트리 YOUTHVISION MINISTRY</strong>
         </v-card-text>
         
+        <div class="v-btn--kakaomessage" v-show="btn">
+          <span class="blue--text text-subtitle">카카오내비</span>
+          <v-avatar  @click="navi" size="57px">
+            <v-img src="https://developers.kakao.com/assets/img/about/buttons/navi/kakaonavi_btn_medium.png" alt="길 안내하기 버튼" >
+            </v-img>
+          </v-avatar >
+        </div>
           <v-tooltip left>
             <template v-slot:activator="{ on, attrs }">
               <v-expand-transition>
                 <v-btn fab left class="v-btn--kakaochanel" color="red lighten-2" @click="myAplyList" v-bind="attrs" v-on="on" v-show="btn">
-                <!-- <v-img width="56px" height="56px" contain :src="require('../assets/kakao_chanel.png')"></v-img> -->
                 신청내역
                 </v-btn>
               </v-expand-transition>
             </template>
             <span>유스비전캠프 신청내역 화면이동</span>
           </v-tooltip>
-          <v-dialog
-      v-model="dialog"
-      width="500"
-    >
+          <v-dialog v-model="dialog" width="500" >
       <!-- <template v-slot:activator="{ on, attrs }">
         <v-btn fab left class="v-btn--kakaomessage" color="red lighten-2" dark v-bind="attrs" v-on="on" v-show="btn">
           GPT
@@ -177,6 +180,6 @@
     bottom: 180px;
     position: fixed !important;
     margin: 0 0 16px 16px;
-    right: 16px
+    right: 16px;
   }
 </style>

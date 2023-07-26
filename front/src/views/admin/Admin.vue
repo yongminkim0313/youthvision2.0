@@ -52,6 +52,7 @@
 
 
             </v-expansion-panels>
+            <Messenger></Messenger>
         </v-card>
     </v-card>
 </template>
@@ -61,8 +62,9 @@ import AplyPosterList from '../../components/AplyPosterList.vue';
 import UserList from '../../components/UserList.vue';
 import BannerList from '../../components/BannerList.vue';
 import ConnectLog from '@/components/ConnectLog.vue';
+import Messenger from '@/components/Messenger.vue';
 export default {
-    components:{AplyList,AplyPosterList,UserList,BannerList,ConnectLog},
+    components:{AplyList,AplyPosterList,UserList,BannerList,ConnectLog,Messenger},
     data: () => ({
         panel: [],
         loading: false,

@@ -158,7 +158,6 @@ router.beforeEach(async (to,from, next) => { // router interceptor
       Vue.prototype.$socket.on("disconnect", () => {
         console.log('disconnect');
         Vue.prototype.$eventBus.$emit('userInfo',{isLogin : false, auth : 'guest'})
-        localStorage.clear();
         location.href=this.APP_URL+"/api/auth/logout";
       });
     }
@@ -188,7 +187,14 @@ export function formatDate(value) {
 
 Vue.filter('formatDate',formatDate);
 
-new Vue({ router, vuetify, render: h => h(App) }).$mount('#app')
+new Vue({ router, vuetify, render: h => h(App) }).$mount('#app');
+
+
+
+Vue.prototype.navi = function (){
+  console.log('navi');
+  Kakao.Navi.start({ name:"침신대", x:126.92287320297946, y:37.55737651736918, coordType:'wgs84' });
+}
 
 // 디바운싱: 이벤트가 맨 마지막에만 발생하도록!
 let timer;
