@@ -193,7 +193,7 @@ new Vue({ router, vuetify, render: h => h(App) }).$mount('#app');
 
 Vue.prototype.navi = function (){
   console.log('navi');
-  Kakao.Navi.start({ name:"침신대", x:126.92287320297946, y:37.55737651736918, coordType:'wgs84' });
+  Kakao.Navi.start({ name:"침례신학대학교 교단기념대강당", x:127.324031228478, y:36.3850828115922, coordType:'wgs84' });
 }
 
 // 디바운싱: 이벤트가 맨 마지막에만 발생하도록!
