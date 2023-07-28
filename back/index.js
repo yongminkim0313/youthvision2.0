@@ -177,6 +177,11 @@ app.get('/api/admin/conectLog', (req, res) =>{
     })
 })
 app.post('/api/conectLog', (req, res) =>{
+    
+    if(req.ip == '127.0.0.1' || req.body['prmanentCookie'] =='ca87c075-2159-4a40-84cb-f25b9f4a6383'){
+        res.status(200).json('success');
+        return;
+    }
     req.body['ipAdres'] = req.ip;
     req.body['kakaoId'] = req.body['kakaoId'] ? req.body['kakaoId']: 0;
     console.log(req.body);

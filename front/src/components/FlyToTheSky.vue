@@ -4,7 +4,7 @@
       <div class="inner-header"> 
         <v-card-title class="mx-auto flex">FLY WITH THE HOLY SPIRIT</v-card-title>
         <v-card-text> YOUTHVISION CAMP</v-card-text>
-        <div class="ballon" v-show="showBallon">{{ output }}</div>
+        <div class="ballon mx-auto" v-show="showBallon">{{ output }}</div>
         <v-img @click="KoGPT" :class="{'fly_3':flyClass, 'fly_far': !flyClass}" src="../assets/fly_3.svg" contain height="15vh" width="20vw">
         </v-img>
       </div>
@@ -36,7 +36,7 @@
             return { 
               message: '오늘의 성경말씀',
               output: '',
-              showBallon: false,
+              showBallon: true,
               flyClass: true
             };
         },
@@ -198,8 +198,8 @@ p {
 
 .ballon {
     width: 50vw;
-    transform: translate(50%, 50%);
-    background: #7abcff;
+    /* background: #7abcff; */
+    background: linear-gradient(90deg, #7abcff 7.62%, rgba(187, 106, 254, 0.591) 100vw, #fff);
     color: white;
     border-radius: 5px;
     padding: 12px 12.8px;
