@@ -1,54 +1,58 @@
 <template>
     <v-card color="white" flat>
         <v-img src="../assets/about_top_bg.png" height="64" cover ></v-img>
-        <v-container fluid>
+        <v-container fluid class="pa-0">
             <v-row>
-                <v-col cols="12" sm="12" md="6" lg="6">
+                <v-col cols="12" sm="12" md="12" lg="12">
                     <v-card>
-                        <v-parallax src="../assets/camps/menubar_img.jpeg" height="700" >
-                            <v-card-title><h3 class="mx-auto">다음세대 부흥을 일으키는</h3></v-card-title>
-                            <div class="transition-swing  text-body-2 mx-auto mx-4 mb-2" style="width:80%; max-height: 115px; overflow-y: hidden;" >
-                                하나님이 나사렛 예수에게 성령과 능력을 기름 붓듯 하셨으매 그가 두루 다니시며 선한 일을 행하시고 
-                                마귀에게 눌린 모든 사람을 고치셨으니 이는 하나님이 함께 하셨음이라 <br />
-                                사도행전 10:38
+                        <v-parallax src="../assets/camps/menubar_img.jpeg" height="700">
+                            <v-card-title style="position:absolute; left: 50%; top: 3%; width: 400px; transform: translate(-50%, 0%);"><h3 class="mx-auto">다음세대 부흥을 일으키는</h3></v-card-title>
+                            <div style="position:absolute; left: 50%; top: 50%; width: 80vw; transform: translate(-50%, -50%);">
+                                <div class="transition-swing  text-body-2 mx-auto mb-5" style="max-height: 115px; max-width: 300px; overflow-y: hidden;" >
+                                    하나님이 나사렛 예수에게 성령과 능력을 기름 붓듯 하셨으매 그가 두루 다니시며 선한 일을 행하시고 
+                                    마귀에게 눌린 모든 사람을 고치셨으니 이는 하나님이 함께 하셨음이라 <br />
+                                    -사도행전 10:38-
+                                </div>
+                                <div class="transition-swing  text-caption mx-auto" style="max-height: 520px; max-width: 500px; overflow-y: hidden; font-size: 0.81rem !important;">
+                                    지난 2월 켄터키주 애즈베리대학에서 일어난 부흥을 보며 많은 교회가 다시 부흥을 꿈꾸기 시작했습니다.<br />
+                                    그러나 부흥은 꿈으로만 되는 것이 아닙니다.<br />
+                                    부흥은 오직 성령님이 일으키십니다.<br />
+                                    <br />
+                                    인본주의를 버리고 성령의 능력을 사모할 때 성령님이 일하십니다.<br />
+                                    유스비전선교회는 지난 18년 동안 노는 캠프가 아닌 오직 말씀, 찬양, 기도가 있는 예배캠프를 진행했습니다.<br />
+                                    <br />
+                                    다음세대와 한국교회를 사랑하신다면 노는 캠프가 아닌 예배캠프, 성령이 역사하는 캠프로 보내십시오.<br />
+                                    믿음의 본질로 돌아갈 때, 치유와 회복과 부흥이 일어납니다.<br />
+                                    변질된 복음이 아닌, 어제나 오늘이나 영원토록 동일하신 예수 그리스도의 복음, 예수가 답입니다!<br />
+                                    성령의 능력으로 다시 비상할 수 있습니다.<br />
+                                    <br />
+                                    성령과 함께 비상할 수 있습니다.<br />
+                                    주님 오실 길을 예비할 다음 세대들이여, <br />
+                                    강력한 성령의 기름 부으심이 있는 2023여름 유스비전캠프로 초대합니다.<br />
+                                    <v-img src="../assets/camps/sign-youthvision.png" contain width="300px" class="ml-auto"></v-img>
+                                </div>
                             </div>
-                            <div class="transition-swing  text-caption mx-auto mx-4" style="width:80%; max-height: 520px; overflow-y: hidden;">
-                                지난 2월 켄터키주 애즈베리대학에서 일어난 부흥을 보며 많은 교회가 다시 부흥을 꿈꾸기 시작했습니다.<br />
-                                그러나 부흥은 꿈으로만 되는 것이 아닙니다.<br />
-                                부흥은 오직 성령님이 일으키십니다.<br />
-                                <br />
-                                인본주의를 버리고 성령의 능력을 사모할 때 성령님이 일하십니다.<br />
-                                유스비전선교회는 지난 18년 동안 노는 캠프가 아닌 오직 말씀, 찬양, 기도가 있는 예배캠프를 진행했습니다.<br />
-                                <br />
-                                다음세대와 한국교회를 사랑하신다면 노는 캠프가 아닌 예배캠프, 성령이 역사하는 캠프로 보내십시오.<br />
-                                믿음의 본질로 돌아갈 때, 치유와 회복과 부흥이 일어납니다.<br />
-                                변질된 복음이 아닌, 어제나 오늘이나 영원토록 동일하신 예수 그리스도의 복음, 예수가 답입니다!<br />
-                                성령의 능력으로 다시 비상할 수 있습니다.<br />
-                                <br />
-                                성령과 함께 비상할 수 있습니다.<br />
-                                주님 오실 길을 예비할 다음 세대들이여, <br />
-                                강력한 성령의 기름 부으심이 있는 2023여름 유스비전캠프로 초대합니다.<br />
-                            </div>
-                            <v-img src="../assets/camps/sign-youthvision.png" contain width="70%" class="ml-auto"></v-img>
                         </v-parallax>
                     </v-card>
                 </v-col>
                 <v-col cols="12" sm="12" md="6" lg="6">
-                    <v-carousel :continuous="true" cycle show-arrows hide-delimiter-background reverse-transition="fade-transition"
-                        transition="fade-transition" style="width:100%;" height="700" >
-                        <v-carousel-item eager>
-                            <v-img eager style="height:100%" src="../assets/camps/card001.jpeg"> </v-img>
-                        </v-carousel-item>
-                        <v-carousel-item eager>
-                            <v-img eager style="height:100%" src="../assets/camps/card002.jpeg"> </v-img>
-                        </v-carousel-item>
-                        <v-carousel-item eager>
-                            <v-img eager style="height:100%" src="../assets/camps/card003.jpeg"> </v-img>
-                        </v-carousel-item>
-                    </v-carousel>
+                    <v-card height="902">
+                        <v-carousel continuous cycle show-arrows hide-delimiter-background reverse-transition="fade-transition"
+                            transition="fade-transition" style="width:100%;" height="902" >
+                            <v-carousel-item eager>
+                                <v-img eager style="height:100%" src="../assets/camps/card001.jpeg"> </v-img>
+                            </v-carousel-item>
+                            <v-carousel-item eager>
+                                <v-img eager style="height:100%" src="../assets/camps/card002.jpeg"> </v-img>
+                            </v-carousel-item>
+                            <v-carousel-item eager>
+                                <v-img eager style="height:100%" src="../assets/camps/card003.jpeg"> </v-img>
+                            </v-carousel-item>
+                        </v-carousel>
+                    </v-card>
                 </v-col>
                 <v-col cols="12" sm="12" md="6" lg="6">
-                    <v-card>
+                    <v-card height="902">
                         <v-card-title>
                             <h3 class="mx-auto my-10 gray--text">YOUTHVISION MINISTRY</h3>
                         </v-card-title>
@@ -77,7 +81,7 @@
                             <h3 class="mx-auto">장용성 선교사/목사</h3>
                         </v-card-title>
                         <v-card-title>
-                            <h4 class="mx-auto">Rev.Pastor.Missionary Jang Yong Sung</h4>
+                            <h5 class="mx-auto">Rev.Pastor.Missionary Jang Yong Sung</h5>
                         </v-card-title>
                     </v-card>
                 </v-col>
