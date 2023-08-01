@@ -89,7 +89,12 @@
       <!-- <v-img src="./assets/about_top_bg.png" height="64" cover ></v-img> -->
       <!-- <v-img src="../assets/about_top_bg.png" height="64" cover class="d-print-none"></v-img> -->
       <v-img src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" height="64" cover ></v-img>
-      <div style="display: flex; justify-content: center;" class="my-6">
+      <v-sheet class="d-flex d-md-none justify-left ">
+        <v-btn-toggle mandatory v-model="selectedMenu.active" active-class="primary--text">
+          <v-btn v-for="(item, i) in selectedMenu.subMenu" :key="i" @click="goToPath(item.path);"> <v-icon v-text="item.icon"></v-icon>{{ item.subTitle }} </v-btn>
+        </v-btn-toggle>
+      </v-sheet>
+      <div style="display: flex; justify-content: center;">
         <v-card width="200" flat class="d-none d-md-flex justify-center ">
           <v-list dense>
             <v-divider></v-divider>
@@ -210,11 +215,13 @@
     watch:{
       $route: function(to, from){
         var _this = this;
+        var tmp = null;
+        _this.selectedMenu = {};
         _this.menuList.forEach(function(val){
-          console.log(val)
           var {subMenu} = val;
-          if(subMenu.find(function(val){return val.path == to.path})){
-            _this.selectedMenu = val;
+          if((tmp = subMenu.findIndex(function(val){return val.path == to.path})) > -1){
+             _this.selectedMenu = val;
+            _this.selectedMenu['active'] = tmp;
           }
         })
       }

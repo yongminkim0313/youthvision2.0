@@ -1,7 +1,7 @@
 <template>
     <v-card color="white" width="800">
         <v-card class="mx-auto" elevation="5" :loading="loading">
-            <v-card class="mx-auto my-5" elevation="5" v-for="item in youtubeList" :key="item.src" >
+            <v-card class="mx-auto" elevation="5" v-for="item in youtubeList" :key="item.src" >
                 <v-card-title>{{item.title}}</v-card-title>
                 <v-card-subtitle>{{item.subtitle}}</v-card-subtitle>
                 <div id="area">
