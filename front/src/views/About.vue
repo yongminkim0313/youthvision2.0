@@ -1,14 +1,13 @@
 <template>
-    <v-card color="white" flat>
-        <v-img src="../assets/about_top_bg.png" height="64" cover ></v-img>
-        <v-container fluid class="pa-0">
+    <v-card color="white" flat width="800">
+        <v-container class="pa-0">
             <v-row>
                 <v-col cols="12" sm="12" md="12" lg="12">
                     <v-card>
                         <v-parallax src="../assets/camps/menubar_img.jpeg" height="700">
-                            <v-card-title style="position:absolute; left: 50%; top: 3%; width: 400px; transform: translate(-50%, 0%);"><h3 class="mx-auto">다음세대 부흥을 일으키는</h3></v-card-title>
-                            <div style="position:absolute; left: 50%; top: 50%; width: 80vw; transform: translate(-50%, -50%);">
-                                <div class="transition-swing  text-body-2 mx-auto mb-5" style="max-height: 115px; max-width: 300px; overflow-y: hidden;" >
+                            <div style="position:absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);">
+                                <v-card-title><h3 class="mx-auto">다음세대 부흥을 일으키는</h3></v-card-title>
+                                <div class="transition-swing  text-body-2 mx-auto mb-5" style="max-height: 115px; max-width: 400px; overflow-y: hidden;" >
                                     하나님이 나사렛 예수에게 성령과 능력을 기름 붓듯 하셨으매 그가 두루 다니시며 선한 일을 행하시고 
                                     마귀에게 눌린 모든 사람을 고치셨으니 이는 하나님이 함께 하셨음이라 <br />
                                     -사도행전 10:38-

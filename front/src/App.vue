@@ -54,7 +54,7 @@
       <!-- <v-spacer></v-spacer> -->
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="d-md-none d-lg-none d-xl-none" :color="scrollTop?'black':'white'" style="text-shadow: 2px 2px 2px gray;"></v-app-bar-nav-icon>
     </v-app-bar>
-
+    
     <v-navigation-drawer v-model="drawer" fixed right temporary class="d-print-none">
       <v-img src="./assets/camps/menubar_img.jpeg" height="300px" dark ></v-img>
       <v-list nav dense >
@@ -71,19 +71,50 @@
             </template>
             <v-list-item link v-for="(sub, si) in menu.subMenu" :key="si" @click="goToPath(sub.path);">
               <v-list-item-icon>
-                  <v-icon>{{ sub.icon }}</v-icon>
+                <v-icon>{{ sub.icon }}</v-icon>
               </v-list-item-icon>
-                  <v-list-item-title>{{ sub.subTitle }}</v-list-item-title>
+              <v-list-item-title>{{ sub.subTitle }}</v-list-item-title>
             </v-list-item>
           </v-list-group>
         </v-list-item-group>
 
       </v-list>
     </v-navigation-drawer>
-
-    <v-card-text class="pa-0">
-      <router-view name="default" :userInfo="userInfo"></router-view>
+    
+    <v-card-text class="pa-0 d-flex flex-column justify-center">
+      
+      <!-- <v-img src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" height="64" cover ></v-img> -->
+      <!-- <v-img src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" height="64" cover ></v-img> -->
+      <!-- <v-img src="../assets/about_top_bg.png" height="64" cover class="d-print-none"></v-img> -->
+      <!-- <v-img src="./assets/about_top_bg.png" height="64" cover ></v-img> -->
+      <!-- <v-img src="../assets/about_top_bg.png" height="64" cover class="d-print-none"></v-img> -->
+      <v-img src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" height="64" cover ></v-img>
+      <div style="display: flex; justify-content: center;" class="my-6">
+        <v-card width="200" flat class="d-none d-md-flex justify-center ">
+          <v-list dense>
+            <v-divider></v-divider>
+            <v-subheader>
+              <v-icon v-text="selectedMenu.icon" class="mr-8"></v-icon>
+              {{ selectedMenu.title }}
+            </v-subheader>
+            <v-divider></v-divider>
+            <v-list-item-group color="primary" >
+              <v-list-item v-for="(item, i) in selectedMenu.subMenu" :key="i" @click="goToPath(item.path);">
+                <v-list-item-icon>
+                  <v-icon v-text="item.icon"></v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title v-text="item.subTitle"></v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-item-group>
+          </v-list>
+        </v-card>
+        <router-view name="default" :userInfo="userInfo"> </router-view>
+      </div>
+      
     </v-card-text>
+    
   </v-card>
   <v-btn class="d-print-none" @click="dialog=true">배너다시보기</v-btn>  
   <router-view name="footer"></router-view>
@@ -124,6 +155,7 @@
         group: null,
         scrollTop: false,
         userInfo: {},
+        selectedMenu:{},
         menuList:[
           {
             title:'소개'
@@ -131,7 +163,7 @@
               {subTitle:'초대의글', path:'/about',icon:'mdi-bottle-tonic-plus'},
               {subTitle:'유스비전소개', path:'/youthvision',icon:'mdi-information-slab-circle'},
             ]
-            ,icon:'mdi-account-circle'
+            ,icon:'mdi-cross'
           },
           {
             title:'소식'
@@ -139,16 +171,16 @@
               {subTitle:'CAMP LIVE', path:'/campLive',icon:'mdi-youtube'},
               {subTitle:'NEWS CAST', path:'/newsCast',icon:'mdi-newspaper'}
             ]
-            ,icon:'mdi-bullhorn'
+            ,icon:'mdi-cross'
           },
           {
             title:'신청'
             ,subMenu:[
               {subTitle:'캠프신청', path:'/aplyCamp',icon:'mdi-human-capacity-increase'},
               {subTitle:'브로셔신청', path:'/aplyPoster',icon:'mdi-cart-variant'},
-              {subTitle:'나의신청정보', path:'/myAplyList',icon:'mdi-cart-variant'},
+              {subTitle:'나의신청정보', path:'/myAplyList',icon:'mdi-star'},
             ]
-            ,icon:'mdi-send'
+            ,icon:'mdi-cross'
           },
           {
             title:'커뮤니티'
@@ -156,7 +188,7 @@
               {subTitle:'공지사항', path:'/board',icon:'mdi-clipboard-text-outline'},
               // {subTitle:'Q&A', path:'/qna',icon:'mdi-chat-question'},
             ]
-            ,icon:'mdi-form-select'
+            ,icon:'mdi-cross'
           },
         ],
         isLogin: false,
@@ -175,6 +207,18 @@
         })
         this.selectBanner();
     },
+    watch:{
+      $route: function(to, from){
+        var _this = this;
+        _this.menuList.forEach(function(val){
+          console.log(val)
+          var {subMenu} = val;
+          if(subMenu.find(function(val){return val.path == to.path})){
+            _this.selectedMenu = val;
+          }
+        })
+      }
+    },
     methods:{
       isTop:function(){
         if(window.pageYOffset < 50){
@@ -182,9 +226,6 @@
         }else{
           this.scrollTop=true;
         }
-      },
-      quest: function(){
-        alert('준비중입니다.');
       },
       selectBanner: function(){
         this.$axios.get('api/user/banner')

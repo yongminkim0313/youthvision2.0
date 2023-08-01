@@ -1,7 +1,7 @@
 <template>
     <v-card :loading="loading">
         <v-card>
-            <v-img src="../../assets/about_top_bg.png" height="64" cover class="d-print-none"></v-img>
+            
             <v-card-title>관리자페이지 입니다</v-card-title>
             <v-expansion-panels accordion v-model="panel" multiple>
 

@@ -1,14 +1,14 @@
 <template>
- <v-card :loading="loading">
+ <v-card :loading="loading" width="800">
   <template slot="progress"> <v-progress-linear color="deep-purple" height="10" indeterminate ></v-progress-linear> </template>
-  <v-img src="../assets/about_top_bg.png" height="64" cover class="d-print-none"></v-img>
+  
   <v-alert border="top" color="red lighten-2" dark v-if="!userInfo.isLogin">
       로그인이 필요한 화면입니다. 로그인 하시겠습니까?
       <v-btn @click="kakaoLogin">로그인</v-btn>
   </v-alert>
-  <v-card max-width="980" class="mx-auto d-print-none">
+  <v-card class="mx-auto d-print-none">
     <form>
-      <v-container  class="">
+      <v-container >
         <v-img class="my-3 " contain src="../assets/camps/2023_summer/2023_summer_a.png"></v-img>
         <v-expansion-panels accordion v-model="panel" multiple>
           <v-expansion-panel>

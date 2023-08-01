@@ -1,6 +1,5 @@
 <template>
-    <v-card color="white">
-      <v-img src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" height="64" cover ></v-img>
+    <v-card color="white" width="800">
       <v-container fluid>
         <v-row>
           <v-col cols="12" sm="6" md="4" lg="3" v-for="(item, index) in qnaList" :key="index">

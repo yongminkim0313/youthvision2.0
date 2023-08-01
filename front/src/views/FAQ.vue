@@ -1,7 +1,7 @@
 <template>
   <v-card color="white">
-    <v-img src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" height="64" cover ></v-img>
-    <v-container>
+    
+    <v-container max-width="800">
       <v-row class="ma-2">
         <v-col cols="12" md="6" sm="12" lg="4">
           <v-card class="mx-auto" max-width="360">

@@ -1,10 +1,8 @@
 <template>
-  <v-card color="white">
-    <v-img src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" height="64" cover ></v-img>
-    <v-card-title></v-card-title>
+  <v-card color="white" width="800">
     <v-card-text>
       <v-btn color="orange" elevation="5" @click="openNewBbs();" class="mb-5" v-if="isAdmin">관리자 작성</v-btn>
-      <v-card elevation="16" max-width="100vw" class="mx-auto">
+      <v-card elevation="16" class="mx-auto">
         <v-virtual-scroll :bench="benched" :items="bbs" height="60vh" item-height="64" >
           <template v-slot:default="{ item }">
             <v-scroll-y-transition>

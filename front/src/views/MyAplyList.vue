@@ -1,7 +1,5 @@
 <template>
-    <v-card max-width="920" class="mx-auto my-5 pa-5">
-      
-      <v-divider class="pa-2"></v-divider>
+    <v-card width="800" flat>
       <v-container>
         <v-row>
           <v-col cols="12" md="6" sm="12" v-for="item in myAplyList" :key="item.seq">

@@ -1,93 +1,57 @@
 <template>
-  <v-card>
-    <v-img src="../assets/about_top_bg.png" height="64" cover class="d-print-none"></v-img>
-    <v-container fluid>
-      <v-row class="pa-2">
-          <v-container fluid>
+  <v-card flat width="800">
+
+    <v-container>
             <v-row>
               <v-col cols="12" md="6">
                 <v-card>
                   <v-card-title>브로셔</v-card-title>
-                  <v-img src="../assets/camps/2023_summer/2023_summer_brochure1.jpeg" contain class="white--text align-end" height="40vh"></v-img>
-                  <v-img src="../assets/camps/2023_summer/2023_summer_brochure2.jpeg" contain class="white--text align-end" height="40vh"></v-img>
+                  <v-img src="../assets/camps/2023_summer/2023_summer_brochure1.jpeg" contain class="white--text align-end" width="100%"></v-img>
+                  <v-img src="../assets/camps/2023_summer/2023_summer_brochure2.jpeg" contain class="white--text align-end" width="100%"></v-img>
                 </v-card>
               </v-col>
               <v-col cols="12" md="6">
                 <v-card>
                   <v-card-title>포스터</v-card-title>
-                  <v-img src="../assets/camps/2023_summer/2023_summer_poster1.webp" contain class="white--text align-end" height="40vh"></v-img>
-                  <v-img src="../assets/camps/2023_summer/2023_summer_poster2.webp" contain class="white--text align-end" height="40vh"></v-img>
+                  <v-img src="../assets/camps/2023_summer/2023_summer_poster1.webp" contain class="white--text align-end" width="100%"></v-img>
+                  <v-img src="../assets/camps/2023_summer/2023_summer_poster2.webp" contain class="white--text align-end" width="100%"></v-img>
                 </v-card>
               </v-col>
-
               <v-row class="pa-2" dense>
-                
                 <v-col cols="6">
                   <v-card-text>
-                    <v-select
-                      v-model="brochureCnt"
-                      :items="cnt50"
-                      attach
-                      label="브로셔"
-                    ></v-select>
+                    <!-- <v-select v-model="brochureCnt" :items="cnt50" attach label="브로셔" ></v-select> -->
+                    <v-slider v-model="brochureCnt" step="5" ticks="always" tick-size="4" min="5" max="50">
+                      <template v-slot:append>
+                        <v-text-field v-model="brochureCnt" class="mt-0 pt-0" type="number" style="width: 40px" ></v-text-field>
+                      </template>
+                    </v-slider>
                   </v-card-text>
                   </v-col>
                   <v-col cols="6">
                     <v-card-text>
-                      <v-select
-                      v-model="posterCnt"
-                      :items="cnt50"
-                      attach
-                      label="포스터"
-                    ></v-select>
+                      <!-- <v-select v-model="posterCnt" :items="cnt50" attach label="포스터" ></v-select> -->
+                      <v-slider v-model="posterCnt" step="5" ticks="always" tick-size="4" min="5" max="50">
+                        <template v-slot:append>
+                          <v-text-field v-model="posterCnt" class="mt-0 pt-0" type="number" style="width: 40px" ></v-text-field>
+                        </template>
+                      </v-slider>
                   </v-card-text>
                   </v-col>
               </v-row>
               <v-row class="pa-2" dense>
-                
                 <v-col cols="12" md="12" class="d-flex flex-row">
-                  <v-icon
-                    large
-                    color="green darken-2"
-                  >
-                    mdi-human
-                  </v-icon>
+                  <v-icon large color="green darken-2" > mdi-human </v-icon>
                   <v-card-title>신청자 정보</v-card-title>
                 </v-col>
                 <v-col cols="12" md="6">
-                  <v-text-field
-                    v-model="aplyName"
-                    ref="aplyName"
-                    :error-messages="aplyNameErrors"
-                    :counter="10"
-                    label="신청자 이름"
-                    required
-                    @input="$v.aplyName.$touch()"
-                    @blur="$v.aplyName.$touch()"
-                  ></v-text-field>
+                  <v-text-field v-model="aplyName" ref="aplyName" :error-messages="aplyNameErrors" :counter="10" label="신청자 이름" required @input="$v.aplyName.$touch()" @blur="$v.aplyName.$touch()" ></v-text-field>
                 </v-col>
                 <v-col cols="12" md="6">
-                  <v-text-field
-                    v-model="church"
-                    ref="church"
-                    :error-messages="churchErrors"
-                    :counter="10"
-                    label="교회 명"
-                    required
-                    @input="$v.church.$touch()"
-                    @blur="$v.church.$touch()"
-                  ></v-text-field>
+                  <v-text-field v-model="church" ref="church" :error-messages="churchErrors" :counter="10" label="교회 명" required @input="$v.church.$touch()" @blur="$v.church.$touch()" ></v-text-field>
                 </v-col>
                 <v-col cols="7" md="9" sm="6">
-                  <v-text-field
-                    v-model="addr"
-                    ref="addr"
-                    :error-messages="addrErrors"
-                    label="받으실주소"
-                    required
-                    @input="$v.addr.$touch()"
-                    @blur="$v.addr.$touch()"
-                  ></v-text-field>
+                  <v-text-field v-model="addr" ref="addr" :error-messages="addrErrors" label="받으실주소" required @input="$v.addr.$touch()" @blur="$v.addr.$touch()" ></v-text-field>
 
                 </v-col>
                 <v-col cols="5" md="3" sm="6">
@@ -99,37 +63,13 @@
                   </div>
                 </v-col>
                 <v-col cols="12" md="12">
-                  <v-text-field
-                    v-model="dtlAddr"
-                    ref="dtlAddr"
-                    :error-messages="dtlAddrErrors"
-                    label="상세주소"
-                    required
-                    @input="$v.dtlAddr.$touch()"
-                    @blur="$v.dtlAddr.$touch()"
-                  ></v-text-field>
+                  <v-text-field v-model="dtlAddr" ref="dtlAddr" :error-messages="dtlAddrErrors" label="상세주소" required @input="$v.dtlAddr.$touch()" @blur="$v.dtlAddr.$touch()" ></v-text-field>
                 </v-col>
                 <v-col cols="6" md="6">
-                  <v-text-field
-                    v-model="phone"
-                    ref="phone"
-                    :error-messages="phoneErrors"
-                    label="연락처 (신청자, 인솔자 핸드폰 번호)"
-                    required
-                    @input="$v.phone.$touch()"
-                    @blur="$v.phone.$touch()"
-                  ></v-text-field>
+                  <v-text-field v-model="phone" ref="phone" :error-messages="phoneErrors" label="연락처 (신청자, 인솔자 핸드폰 번호)" required @input="$v.phone.$touch()" @blur="$v.phone.$touch()" ></v-text-field>
                 </v-col>
                 <v-col cols="6" md="6">
-                  <v-text-field
-                    v-model="email"
-                    ref="email"
-                    :error-messages="emailErrors"
-                    label="E-mail"
-                    required
-                    @input="$v.email.$touch()"
-                    @blur="$v.email.$touch()"
-                  ></v-text-field>
+                  <v-text-field v-model="email" ref="email" :error-messages="emailErrors" label="E-mail" required @input="$v.email.$touch()" @blur="$v.email.$touch()" ></v-text-field>
                 </v-col>
               </v-row>
               <!-- <v-col cols="12" md="12" class="d-flex flex-center">
@@ -141,10 +81,6 @@
                     </v-card-actions>  
               </v-col>
             </v-row>
-          </v-container>
-      
-
-      </v-row>
     </v-container>
   </v-card>  
 </template>
@@ -207,8 +143,8 @@ export default {
   },
   data(){return {
     cnt50:[],
-    brochureCnt: 0,
-    posterCnt: 0,
+    brochureCnt: 10,
+    posterCnt: 10,
     aplyName: '',
     church: '',
     addr: '',

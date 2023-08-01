@@ -1,6 +1,5 @@
 <template>
-    <v-card>
-        <v-img src="../assets/about_top_bg.png" height="64" cover ></v-img>
+    <v-card flat width="800">
         <v-card-actions>
             <v-row justify="center">
                 <v-dialog v-model="dialog" persistent max-width="290" >

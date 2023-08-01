@@ -36,7 +36,7 @@
             return { 
               message: '오늘의 성경말씀',
               output: '',
-              showBallon: true,
+              showBallon: false,
               flyClass: true
             };
         },
