@@ -1,17 +1,18 @@
 <template>
     <v-card elevation="0" class="mx-auto" >
       <v-btn v-if="isAdmin" style="position:absolute; z-index:999;" class="mt-10 ml-5" icon><v-icon @click="carouselEditDialog=true;">mdi-image-multiple</v-icon></v-btn>
-      <v-carousel :continuous="true" :cycle="true" :show-arrows="true" hide-delimiter-background reverse-transition="fade-transition"
-        transition="fade-transition" style="width:100%;" height="90vh" >
+      <v-carousel continuous cycle show-arrows hide-delimiter-background reverse-transition="fade-transition" transition="fade-transition" height="90vh">
         <v-carousel-item eager v-for="item in items" :key="item.imageSn">
-            <v-img eager style="height:100%" :src="'/api/image/'+item.atchmnflId">
+          <v-row class="fill-height ma-0 crousel-back" align="center" justify="center" >
+            <v-img eager :src="url+'/api/image/'+item.atchmnflId">
               <template v-slot:placeholder>
                 <v-row class="fill-height ma-0" align="center" justify="center" >
                   <v-progress-circular indeterminate color="grey lighten-5" ></v-progress-circular>
                 </v-row>
               </template>
             </v-img>
-        </v-carousel-item>
+          </v-row>
+          </v-carousel-item>
       </v-carousel>
       <v-dialog v-model="carouselEditDialog" max-width="700" class="d-print-none">
         <v-card>
@@ -60,10 +61,14 @@ export default {
       imageSn:0,
       model:1,
       mode:'',
+      url:'',
     }
   },
   created: function(){
     this.getImageList();
+    if(location.href.indexOf('localhost') > -1){
+      this.url = 'https://jesusdream.kr';
+    }
   },
   watch:{
     imageSn: function(is){
@@ -101,3 +106,10 @@ export default {
   }
 }
 </script>
+<style>
+.crousel-back{
+  background: linear-gradient(to right, #ff83b38d 0%, #8b62fc74 45%,  #ff9ed26d 100%);
+  background-size: 400% 400%; 
+  animation: gradient 7s ease forwards infinite!important; 
+}
+</style>
