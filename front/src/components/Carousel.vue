@@ -3,7 +3,7 @@
       <v-btn v-if="isAdmin" style="position:absolute; z-index:999;" class="mt-10 ml-5" icon><v-icon @click="carouselEditDialog=true;">mdi-image-multiple</v-icon></v-btn>
       <v-carousel continuous cycle show-arrows hide-delimiter-background reverse-transition="fade-transition" transition="fade-transition" height="90vh">
         <v-carousel-item eager v-for="item in items" :key="item.imageSn">
-          <v-row class="fill-height ma-0 crousel-back" align="center" justify="center" >
+          <v-row class="fill-height ma-0 crousel-back" align="center" justify="center" :style="{'--bg':'url('+url+'/api/image/'+item.atchmnflId+')'}">
             <v-img eager :src="url+'/api/image/'+item.atchmnflId">
               <template v-slot:placeholder>
                 <v-row class="fill-height ma-0" align="center" justify="center" >
@@ -108,8 +108,26 @@ export default {
 </script>
 <style>
 .crousel-back{
-  background: linear-gradient(to right, #ff83b38d 0%, #8b62fc74 45%,  #ff9ed26d 100%);
-  background-size: 400% 400%; 
-  animation: gradient 7s ease forwards infinite!important; 
+  /* background: linear-gradient(to right, #ff83b38d 0%, #8b62fc74 45%,  #ff9ed26d 100%); */
+  /* background-size: 500%;  */
+  background-size: cover;
+  animation: crousel-back 20s ease forwards infinite!important; 
+}
+.crousel-back::before{
+        content: "";
+        background: var(--bg);
+        background-size: cover;
+        opacity: 0.5;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
+        animation: crousel-back 20s ease forwards infinite!important; 
+    }
+@keyframes crousel-back {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 </style>
