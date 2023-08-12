@@ -39,13 +39,22 @@
                         <v-carousel continuous cycle show-arrows hide-delimiter-background reverse-transition="fade-transition"
                             transition="fade-transition" style="width:100%;" height="902" >
                             <v-carousel-item eager>
-                                <v-img eager style="height:100%" src="../assets/camps/card001.jpeg"> </v-img>
+                                <v-img eager style="height:100%" src="../assets/camps/2023_summer/about_000.jpeg"> </v-img>
                             </v-carousel-item>
                             <v-carousel-item eager>
-                                <v-img eager style="height:100%" src="../assets/camps/card002.jpeg"> </v-img>
+                                <v-img eager style="height:100%" src="../assets/camps/2023_summer/about_001.jpeg"> </v-img>
                             </v-carousel-item>
                             <v-carousel-item eager>
-                                <v-img eager style="height:100%" src="../assets/camps/card003.jpeg"> </v-img>
+                                <v-img eager style="height:100%" src="../assets/camps/2023_summer/about_002.jpeg"> </v-img>
+                            </v-carousel-item>
+                            <v-carousel-item eager>
+                                <v-img eager style="height:100%" src="../assets/camps/2023_summer/about_003.jpeg"> </v-img>
+                            </v-carousel-item>
+                            <v-carousel-item eager>
+                                <v-img eager style="height:100%" src="../assets/camps/2023_summer/about_004.jpeg"> </v-img>
+                            </v-carousel-item>
+                            <v-carousel-item eager>
+                                <v-img eager style="height:100%" src="../assets/camps/2023_summer/about_005.jpeg"> </v-img>
                             </v-carousel-item>
                         </v-carousel>
                     </v-card>

@@ -1,5 +1,5 @@
 <template>
-    <v-card elevation="0" class="mx-auto" >
+    <v-card flat tile class="mx-auto" >
       <v-btn v-if="isAdmin" style="position:absolute; z-index:999;" class="mt-10 ml-5" icon><v-icon @click="carouselEditDialog=true;">mdi-image-multiple</v-icon></v-btn>
       <v-carousel continuous cycle show-arrows hide-delimiter-background reverse-transition="fade-transition" transition="fade-transition" height="90vh">
         <v-carousel-item eager v-for="item in items" :key="item.imageSn">

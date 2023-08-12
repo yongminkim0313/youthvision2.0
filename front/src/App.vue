@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-card class="mx-auto overflow-hidden" width="100%">
+    <v-card flat tile class="mx-auto overflow-hidden" width="100%">
     <v-app-bar fixed :color="scrollTop?'rgba(255,255,255,0.7)':'rgba(255,255,255,0.1)'" flat class="d-print-none">
       <v-toolbar-title class="d-inline-block text-overline" :class="scrollTop?'black--text':'white--text'" >
         <router-link to="/">
@@ -82,13 +82,7 @@
     </v-navigation-drawer>
     
     <v-card-text class="pa-0 d-flex flex-column justify-center">
-      
-      <!-- <v-img src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" height="64" cover ></v-img> -->
-      <!-- <v-img src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" height="64" cover ></v-img> -->
-      <!-- <v-img src="../assets/about_top_bg.png" height="64" cover class="d-print-none"></v-img> -->
-      <!-- <v-img src="./assets/about_top_bg.png" height="64" cover ></v-img> -->
-      <!-- <v-img src="../assets/about_top_bg.png" height="64" cover class="d-print-none"></v-img> -->
-      <v-img src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" height="56" cover ></v-img>
+      <TopMenuBack></TopMenuBack>
       <v-sheet class="d-flex d-md-none justify-left" v-if="!isHome">
         <v-btn-toggle mandatory v-model="selectedMenu.active" active-class="primary--text">
           <v-btn v-for="(item, i) in selectedMenu.subMenu" :key="i" @click="goToPath(item.path);"> <v-icon v-text="item.icon"></v-icon>{{ item.subTitle }} </v-btn>
@@ -151,8 +145,10 @@
   </v-app>
 </template>
 <script>
+import TopMenuBack from '@/components/TopMenuBack.vue';
   export default {
     name:'App',
+    components: {TopMenuBack},
     data(){ return { 
         dialog: false,
         banner:{},

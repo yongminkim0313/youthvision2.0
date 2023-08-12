@@ -26,13 +26,13 @@
           <strong>유스비전 미니스트리 YOUTHVISION MINISTRY</strong>
         </v-card-text>
         
-        <div class="v-btn--kakaomessage">
+        <!-- <div class="v-btn--kakaomessage">
           <span class="blue--text text-subtitle">카카오내비</span>
           <v-avatar  @click="navi" size="57px">
             <v-img src="https://developers.kakao.com/assets/img/about/buttons/navi/kakaonavi_btn_medium.png" alt="길 안내하기 버튼" >
             </v-img>
           </v-avatar >
-        </div>
+        </div> -->
           <v-tooltip left>
             <template v-slot:activator="{ on, attrs }">
               <v-expand-transition>
