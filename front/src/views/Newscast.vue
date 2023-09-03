@@ -17,7 +17,7 @@
 </template>
 <script>
 export default {
-    name:'CampLive',
+    name:'NewsCast',
     data:()=>{
         return{
             loading: false,
