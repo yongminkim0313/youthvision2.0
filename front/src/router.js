@@ -4,7 +4,7 @@ import UserFooter from './components/UserFooter'
 import Home from './views/Home.vue'
 import ConnectLog from './components/ConnectLog.vue'
 import CampLive from './views/CampLive.vue'
-import NewsCast from './views/NewsCast.vue' 
+//import NewsCast from './views/NewsCast.vue' 
 import AplyCamp from './views/AplyCamp.vue'
 import MyAplyList from './views/MyAplyList.vue'
 import AplyPoster from './views/AplyPoster.vue'
@@ -84,16 +84,16 @@ const routes = [
         meta: { unauthorized: true }
         ,props: true
     },
-    {
-        path: "/newsCast",
-        name: "뉴스캐스트",
-        components: {
-            default: NewsCast,
-            footer: UserFooter
-        },
-        meta: { unauthorized: true }
-        ,props: true
-    },
+    // {
+    //     path: "/newsCast",
+    //     name: "뉴스캐스트",
+    //     components: {
+    //         default: NewsCast,
+    //         footer: UserFooter
+    //     },
+    //     meta: { unauthorized: true }
+    //     ,props: true
+    // },
     {
         path: "/FAQ",
         name: "FAQ",
