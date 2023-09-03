@@ -51,7 +51,7 @@ function errorHandler(err, req, res, next) {
 app.use(logErrors);
 app.use(clientErrorHandler);
 app.use(errorHandler);
-require('./modules/socketConfig')(app,logger);
+// require('./modules/socketConfig')(app,logger);
 
 const adminUrlCheck = function(req,trueCallback,falseCallback){
     var url = req.url, auth= req.session.auth;
