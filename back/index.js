@@ -1,6 +1,8 @@
 require("dotenv").config();
 var path = require('path');
 const express = require('express');
+const http = require('http');
+const https = require('https');
 const session = require('express-session');
 const cors = require('cors');
 const axios = require('axios');
@@ -12,6 +14,12 @@ const fs = require('fs');
 const webpush = require("web-push");
 const multer = require('multer'); // express에 multer모듈 적용 (for 파일업로드)
 const upload = multer({ dest: 'uploadsFile/' })
+
+var options = {
+	key: fs.readFileSync(__dirname + '/../server.key'),
+    cert: fs.readFileSync(__dirname + '/../server.crt'),
+    ca: fs.readFileSync(__dirname + '/../server.csr'),
+};
 
 const publicVapidKey = 'BKr0X9xxLDeBlo9K-XVBj9RvR5NtO-0scX8J6uq5sNZEIWGIAgwsAOASnN7lIDOj33Ah3vr_PDYGvbhYaxgu8Hg';
 const privateVapidKey = 'VjzcL0KVNmwTLz669j4-12lFa-72rfNGHrdvFPnIxgc';
@@ -739,6 +747,13 @@ app.post('/api/user/upload', upload.single('file'), async function(req, res){
     await db.setData('bbs','insertAtchmnfl', saveFileData);
     res.status(200).json(saveFileData); // object를 리턴함
 });
-app.listen(process.env.SERVER_PORT,()=>{
-    logger.info(`server start! port:${process.env.SERVER_PORT}`)
-})
+
+
+// Create an HTTP server.
+http.createServer(app).listen(process.env.SERVER_PORT);
+
+// Create an HTTPS server.
+// https.createServer(options, app).listen(HTTPS_PORT);
+// app.listen(process.env.SERVER_PORT,()=>{
+//     logger.info(`server start! port:${process.env.SERVER_PORT}`)
+// })

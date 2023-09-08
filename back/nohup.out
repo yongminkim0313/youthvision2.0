@@ -1,0 +1,55 @@
+2023-09-04 22:16:03 [INFO]: 'server start! port:8000'
+2023-09-04 22:16:03 [ERROR]: "(conn=21, no: 1045, SQLState: 28000) Access denied for user 'youthvisionUser'@'localhost' (using password: YES)"
+2023-09-04 22:16:03 [ERROR]: "(conn=21, no: 1045, SQLState: 28000) Access denied for user 'youthvisionUser'@'localhost' (using password: YES)"
+/home/git/repos/youthvision2.0/back/node_modules/mariadb/lib/misc/errors.js:57
+  return new SqlError(msg, sql, fatal, info, sqlState, errno, additionalStack, addHeader);
+         ^
+
+SqlError: Error during pool initialization: (conn=21, no: 1045, SQLState: 28000) Access denied for user 'youthvisionUser'@'localhost' (using password: YES)
+    (pool connections: active=0 idle=0 limit=10)
+    at module.exports.createError (/home/git/repos/youthvision2.0/back/node_modules/mariadb/lib/misc/errors.js:57:10)
+    at PacketNodeEncoded.readError (/home/git/repos/youthvision2.0/back/node_modules/mariadb/lib/io/packet.js:586:19)
+    at Handshake.handshakeResult (/home/git/repos/youthvision2.0/back/node_modules/mariadb/lib/cmd/handshake/handshake.js:118:32)
+    at PacketInputStream.receivePacketBasic (/home/git/repos/youthvision2.0/back/node_modules/mariadb/lib/io/packet-input-stream.js:76:9)
+    at PacketInputStream.onData (/home/git/repos/youthvision2.0/back/node_modules/mariadb/lib/io/packet-input-stream.js:138:20)
+    at Socket.emit (node:events:514:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    at readableAddChunk (node:internal/streams/readable:297:9)
+    at Readable.push (node:internal/streams/readable:234:10)
+    at TCP.onStreamRead (node:internal/stream_base_commons:190:23)
+Emitted 'error' event on PoolPromise instance at:
+    at Pool.emit (node:events:514:28)
+    at /home/git/repos/youthvision2.0/back/node_modules/mariadb/lib/pool.js:258:22
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+  text: "Access denied for user 'youthvisionUser'@'localhost' (using password: YES)",
+  sql: null,
+  fatal: true,
+  errno: 1045,
+  sqlState: '28000',
+  code: 'ER_ACCESS_DENIED_ERROR',
+  level: 'error',
+  timestamp: '2023-09-04 22:16:03',
+  [Symbol(level)]: 'error',
+  [Symbol(message)]: `2023-09-04 22:16:03 [ERROR]: "(conn=21, no: 1045, SQLState: 28000) Access denied for user 'youthvisionUser'@'localhost' (using password: YES)"`
+}
+
+Node.js v18.17.1
+2023-09-07 17:40:08 [INFO]: 'server start! port:8000'
+2023-09-07 17:40:12 [INFO]: 'url: /api/conectLog body: {"conectUrl":"/","conectDt":"2023-09-07 17:40:12","menuNm":"홈","osKnd":"Mac OS","osNm":"Mac OS 10.15.7","browserNm":"Chrome","refUrl":"","prmanentCookie":"ca87c075-2159-4a40-84cb-f25b9f4a6383","tmprCookie":"3ef36b35-423e-4f84-874c-e22bfe0a0021"} params: {"0":"/api/conectLog"} method: POST kakaoId: undefined auth: undefined'
+2023-09-07 18:06:56 [INFO]: 'url: /api/conectLog body: {"conectUrl":"/","conectDt":"2023-09-07 18:06:51","menuNm":"홈","osKnd":"iOS","osNm":"iOS 17.0","browserNm":"Chrome","refUrl":"","prmanentCookie":"d50daf0b-099a-4710-8a01-46cfda8db130","tmprCookie":"a7cfe40c-beb0-45a3-a0e4-3320438f0381"} params: {"0":"/api/conectLog"} method: POST kakaoId: undefined auth: undefined'
+{
+  conectUrl: '/',
+  conectDt: '2023-09-07 18:06:51',
+  menuNm: '홈',
+  osKnd: 'iOS',
+  osNm: 'iOS 17.0',
+  browserNm: 'Chrome',
+  refUrl: '',
+  prmanentCookie: 'd50daf0b-099a-4710-8a01-46cfda8db130',
+  tmprCookie: 'a7cfe40c-beb0-45a3-a0e4-3320438f0381',
+  kakaoId: 0,
+  ipAdres: '::ffff:223.62.169.170'
+}
+2023-09-07 21:59:54 [INFO]: 'url: /boaform/admin/formLogin body: {"username":"admin","psd":"Feefifofum"} params: {"0":"/boaform/admin/formLogin"} method: POST kakaoId: undefined auth: undefined'
+2023-09-07 21:59:54 [WARN]: '로그인 상태가 아닙니다.'
+2023-09-07 22:09:20 [INFO]: 'server start! port:8000'
