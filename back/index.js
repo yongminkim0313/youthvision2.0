@@ -742,12 +742,12 @@ app.post('/api/user/upload', upload.single('file'), async function(req, res){
     res.status(200).json(saveFileData); // object를 리턴함
 });
 
-var options = {
-	key: fs.readFileSync('../private.pem'),
-    cert: fs.readFileSync('../public.pem'),
-};
+// var options = {
+// 	key: fs.readFileSync('../private.pem'),
+//     cert: fs.readFileSync('../public.pem'),
+// };
 http.createServer(app).listen(process.env.HTTP_PORT);// Create an HTTP server.
-https.createServer(options, app).listen(process.env.HTTPS_PORT);// Create an HTTPS server.
+// https.createServer(options, app).listen(process.env.HTTPS_PORT);// Create an HTTPS server.
 // app.listen(process.env.SERVER_PORT,()=>{
 //     logger.info(`server start! port:${process.env.SERVER_PORT}`)
 // })
