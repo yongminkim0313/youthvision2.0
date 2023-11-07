@@ -102,18 +102,18 @@ export default {
         }
     },
     created: function(){ 
-        this.joinRoom('youthvision01');
-        this.joinRoom('youthvision02');
-        this.changeRoom('youthvision01');
-        this.setNickName();
-        this.$socket.onAny((event, ...args) => {
-            console.log(`got ${event} ${args}`);
-            this.status = event
-        });
-        this.$socket.on('server to client', (data)=>{
-            console.log(data);
-            this.pushMsgList(data);
-        })
+        // this.joinRoom('youthvision01');
+        // this.joinRoom('youthvision02');
+        // this.changeRoom('youthvision01');
+        // this.setNickName();
+        // this.$socket.onAny((event, ...args) => {
+        //     console.log(`got ${event} ${args}`);
+        //     this.status = event
+        // });
+        // this.$socket.on('server to client', (data)=>{
+        //     console.log(data);
+        //     this.pushMsgList(data);
+        // })
     },
     mounted: function(){ },
     methods:{ 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mapper namespace="conectLog">  
-  <select id="selectConectLog">
+<mapper namespace="connectLog">  
+  <select id="selectConnectLog">
     SELECT 
       a.conect_sn, 
       a.conect_dt, 
@@ -19,9 +19,20 @@
       b.last_login_at
     FROM T_CM_CONECT_LOG a
     LEFT OUTER JOIN T_CM_USER b ON a.KAKAO_ID = b.KAKAO_ID
+    where 1=1
+    <if test="searchType == 'search'">
+      and date(a.conect_dt) = DATE_FORMAT(#{dt}, '%Y-%m-%d')
+    </if>
+    <if test="searchType == 'isLogin'">
+      and a.kakao_id <> 0
+    </if>
+    <if test="searchType == 'isNotLogin'">
+      and a.kakao_id = 0
+    </if>
+    order by a.conect_dt desc
   </select>
 
-  <insert id="insertConectLog">
+  <insert id="insertConnectLog">
   INSERT INTO T_CM_CONECT_LOG (
     conect_url,
     conect_dt,
@@ -48,5 +59,14 @@
     #{kakaoId}
   )
   </insert>
-  
+  <select id="selectLogDt">
+    select DATE_FORMAT(now(), '%Y-%m-%d') as dt from dual
+	union 
+	SELECT 
+      DATE_FORMAT(a.conect_dt, '%Y-%m-%d') as dt
+    FROM T_CM_CONECT_LOG a
+    LEFT OUTER JOIN T_CM_USER b ON a.KAKAO_ID = b.KAKAO_ID
+    group by date(a.conect_dt)
+    order by dt desc
+  </select>
 </mapper>

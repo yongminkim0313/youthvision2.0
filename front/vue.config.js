@@ -4,8 +4,10 @@ module.exports = defineConfig({
     'vuetify'
   ],
   lintOnSave:false,
+  
   devServer:{
     allowedHosts: "all",
+    
     proxy:{
       '/api' : {
         target : 'http://localhost:8000',

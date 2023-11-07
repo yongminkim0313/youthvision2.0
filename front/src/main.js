@@ -14,11 +14,15 @@ import { getDatabase, ref, onChildAdded, set, get, onValue, child, push } from '
 Vue.config.productionTip = false;
 Vue.prototype.APP_URL = process.env.VUE_APP_API_URL;
 Vue.use(vueCookies);
+
 axios.interceptors.response.use((res)=>res,(err)=>{
-  const {response:{data:{error}}} = err;
-  if(error){
-    alert(error);
-    console.log('error message : ', error);
+  const {response:{data, status}} = err;
+  if(status == 401){
+    router.push('/');
+  }
+  console.log(err);
+  if(data.msg){
+    alert(data.msg);
   } 
   throw err;
 })
@@ -122,7 +126,7 @@ router.beforeEach(async (to,from, next) => { // router interceptor
   if(!Vue.$cookies.get('tmpr_cookie')) Vue.$cookies.set('tmpr_cookie',v4(),0, null, null, null, 'Strict');
   if(!Vue.$cookies.get('prmanent_cookie')) Vue.$cookies.set('prmanent_cookie',v4(), 60 * 60 * 24 * 365, null, null, null, 'Strict');
   var uaOS = ua.getOS();
-  var conectLog = {
+  var connectLog = {
     'conectUrl' : to.path,
     'conectDt': todayFm,
     'menuNm' : to.name,
@@ -134,7 +138,7 @@ router.beforeEach(async (to,from, next) => { // router interceptor
     'prmanentCookie' : Vue.$cookies.get('prmanent_cookie'),
     'tmprCookie' : Vue.$cookies.get('tmpr_cookie')
   }
-  axios.post('/api/conectLog',conectLog)
+  axios.post('/api/common/connectLog',connectLog)
   axios.get('/api/auth/user/info') 
   .then((res)=>{ 
     res.data['isLogin'] = res.data['kakaoId']?true:false;

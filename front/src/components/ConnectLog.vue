@@ -4,27 +4,36 @@
       <v-app id="inspire">
         <v-card>
           <v-card-title>
-            <v-container fluid>
-                <v-row>
-                    <v-col cols="6">
-                        <v-select v-model="select" :hint="`${select.dt}, ${select.dt}`" :items="dtList" item-text="dt" item-value="dt"
-                            label="날짜" persistent-hint return-object single-line hide-details @change="getDayLog" ></v-select>
-                    </v-col>
-                    <v-col cols="6">
-                        <v-text-field v-model="search" label="Search" single-line hide-details></v-text-field>
-                    </v-col>
-                </v-row>
-            </v-container>
+
             
           </v-card-title>
+          <v-tabs v-model="tab" background-color="transparent" color="basil" grow >
+            <v-tab v-for="item in items" :key="item" >
+              {{ item }}
+            </v-tab>
+          </v-tabs>
+          
+          <v-tabs-items v-model="tab">
+            <v-tab-item v-for="(item, idx) in items" :key="item" >
+              
+              <v-container fluid v-if="idx == 0">
+                  <v-row>
+                      <v-col cols="6">
+                          <v-select v-model="select" :hint="`${select.dt}, ${select.dt}`" :items="dtList" item-text="dt" item-value="dt"
+                              label="날짜" persistent-hint return-object single-line hide-details @change="dayChange();" ></v-select>
+                      </v-col>
+                      <v-col cols="6">
+                          <v-text-field v-model="search" label="Search" single-line hide-details></v-text-field>
+                      </v-col>
+                  </v-row>
+              </v-container>
+
           <v-data-table :headers="headers" :items="connectLogList" :search="search" item-key="name"
-          hide-default-footer
-            :disable-items-per-page="true"
-            :footer-props="{ 'items-per-page-options': [-1, -1] }"
+          :items-per-page="20"
             :custom-sort="customSort"
             >
             <template v-slot:body="{items, headers}">
-              <tbody name="list" is="transition-group" v-if="items.length > 0">
+              <tbody name="list" v-if="items.length > 0">
                 <tr v-for="(val , index) in items" :key="index" class="item-row">
                     <td>{{index}}</td>  
                     <td>{{val.nickname}}</td>  
@@ -44,6 +53,8 @@
               </tbody>
             </template>
           </v-data-table>
+            </v-tab-item>
+          </v-tabs-items>
         </v-card>
       </v-app>
     </div>
@@ -67,64 +78,63 @@
             { text: 'ipAdres', value: 'ipAdres' },
             { text: 'prmanentCookie', value: 'prmanentCookie' },
           ],
+          tab: null,
+          items: [ '검색', '로그인o', '로그인x', '전체'],
+          tabsItems:[[],[],[],[]],
+          tabsShow:[false, false, false, false],
           connectLogList: [],
+          searchType:'search',
         }
       },
       created: function(){
-        var _this = this;
-        var dt = '';
-        this.$axios.get('/api/admin/conectLog?dt='+dt)
-          .then((res)=>{
-            _this.connectLogList = res.data;
-          })
+        this.getDay();
+        var today = this.$common.getDate();
+        this.select['dt'] = today;
+        this.get();
       },
-      mounted: function(){
-        this.addConnectLog();
-      },
-      methods:{
-        getDayLog : function(item){
-          this.getOtherDayLog(item.dt)
-        },
-        getConnectLog : function(){
-          var _this = this;
-          this.$axios.get('/api/conectLog?dt='+dt)
-          .then((res)=>{
-            _this.connectLogList = res.data;
-          })
-          // var _this = this;  
-          //   for(var i = -10; i <= 0 ; i++){
-          //     var d = this.$common.getAddDate(i);
-          //     _this.dtList.push({dt:d});
-          //   };
-        },
-        // getConnectLog : function(){
-        //     var _this = this;
-        //     this.$socket.on('getConnectLog', (data)=>{
-        //         for(var key in data){
-        //             console.log('getConnectLog',data[key]);
-        //             _this.connectLogList.push(data[key]);
-        //         }
-        //     });
-        // }
-        addConnectLog: function(){
-            var _this = this;
-            this.$socket.on('addConnectLog', (data)=>{
-                _this.connectLogList.push(data);
-            });
+      watch: { 
+        tab: function(val){
+          switch(val) {
+            case 0: this.searchType = 'search';
+            break;
+            case 1: this.searchType = 'isLogin';
+            break;
+            case 2: this.searchType = 'isNotLogin';
+            break;
+            case 3: this.searchType = 'all';
+            break;
+            default:
+          }  
+          console.log(val);
+          this.tabChange(val);
         }
-        ,getOtherDayLog: function(dt){
-            var _this = this;
-            _this.connectLogList = [];
-            this.$axios.get('/api/conectLog?dt='+dt)
+      },
+      mounted: function(){ },
+      methods:{
+        get: function(tab){
+          var _this = this;
+          this.$axios.get('/api/common/connectLog',{params :{ dt: _this.select.dt, searchType: this.searchType}})
             .then((res)=>{
-                var data = res.data
-                for(var key in data){
-                    _this.connectLogList.push(data[key]);
-                }
+              console.log(res.data)
+              _this.tabsItems[tab] = [];
+              _this.connectLogList = Object.assign(_this.tabsItems[tab], res.data);
+              this.tabsShow[tab] = true;
             })
-            .catch((err)=>{
-                console.log(err.response.data);
+        },
+        dayChange: function(){
+          this.get(this.tab);
+        },
+        tabChange: function(tab){
+          if(!this.tabsShow[tab]) this.get(tab);
+          else this.connectLogList = this.tabsItems[tab];
+        },
+        getDay : async function(){
+          var _this = this;
+          this.$axios.get('/api/common/connectLog/dt')
+            .then((res)=>{
+              _this.dtList = res.data;
             })
+            
         },
         customSort: function(items, index, isDesc) {
           items.sort((b,a) => {

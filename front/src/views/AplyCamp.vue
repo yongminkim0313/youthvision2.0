@@ -535,7 +535,7 @@
       } else {
         // Submit the form here
         this.loading = true
-        this.$axios.post('/api/campAply',aplyContents)
+        this.$axios.post('/api/user/campAply',aplyContents)
         .then(({data})=>{
           console.log(data);
           if(data.code == -1) {alert(data.msg);return;}
@@ -618,7 +618,7 @@
       load(){
         var _this = this;
 
-        this.$axios.get('/api/campAply/one',{})
+        this.$axios.get('/api/user/campAply/one',{})
         .then(({data})=>{
           console.log(data)
             var aplyData = data;
@@ -647,13 +647,13 @@
               _this.sameAddr = true;
             }
         });
-        this.$axios.get('/api/joinPathSe/one',{})
+        this.$axios.get('/api/user/joinPathSe/one',{})
         .then(({data})=>{ 
           for(var i in data){ 
             _this.joinPathSe.push(data[i].path);
           }
         });
-        this.$axios.get('/api/campCnt/one',{})
+        this.$axios.get('/api/user/campCnt/one',{})
         .then(({data})=>{ 
           _this.campCnt = data;
         });

@@ -52,7 +52,7 @@
                 <v-list-item-content>
                   <v-card-text v-if="!editMode" v-html="showItem.contents">  </v-card-text>
                   <editor-tiptap-vue v-if="editMode" menubar @editorContent="setBbsContents" :description="newContents" ></editor-tiptap-vue>
-                  <v-img v-if="showItem.atchmnflId" :src="'/api/image/'+showItem.atchmnflId" max-width="90vw" max-height="90vh" contain> 
+                  <v-img v-if="showItem.atchmnflId" :src="'/api/common/image/'+showItem.atchmnflId" max-width="90vw" max-height="90vh" contain> 
                     <template v-slot:placeholder>
                         <v-row class="fill-height ma-0" align="center" justify="center" >
                           <v-progress-circular indeterminate color="grey lighten-5" ></v-progress-circular>

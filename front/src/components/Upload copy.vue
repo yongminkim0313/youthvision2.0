@@ -14,7 +14,7 @@
           </v-btn>
       </v-card-actions>
         {{ message }}
-      <v-img :src="'/api/image/'+tempImgId" width="100px" cover>
+      <v-img :src="'/api/common/image/'+tempImgId" width="100px" cover>
         <template v-slot:placeholder>
           <v-row class="fill-height ma-0" align="center" justify="center" >
             <v-progress-circular indeterminate color="grey lighten-5" ></v-progress-circular>

@@ -9,7 +9,7 @@
               <span v-html="item.bannerContents"></span>
             </template>
             <template v-slot:[`item.atchmnflId`]="{ item }">
-              <v-img v-if="item.atchmnflId" :src="'/api/image/'+item.atchmnflId" max-width="10vw" max-height="10vh"> 
+              <v-img v-if="item.atchmnflId" :src="'/api/common/image/'+item.atchmnflId" max-width="10vw" max-height="10vh"> 
                 <template v-slot:placeholder>
                     <v-row class="fill-height ma-0" align="center" justify="center" >
                       <v-progress-circular indeterminate color="grey lighten-5" ></v-progress-circular>
@@ -43,12 +43,12 @@
                     </v-row>
                     <v-row>
                       <v-textarea v-show="htmlSourceMode" name="input-7-1" label="Default style" v-model="editBanner.bannerContents" hint="html소스" ></v-textarea>
-                      <editor-tiptap-vue v-show="!htmlSourceMode" menubar @editorContent="setBannerContents" :description="newContents" ></editor-tiptap-vue>
+                      <EditorTiptap v-show="!htmlSourceMode" menubar @editorContent="setBannerContents" :description="newContents" ></EditorTiptap>
                     </v-row>
                 </v-card-text>
                 <v-card-actions>
                   <v-btn @click="saveBanner()">저장</v-btn>
-                  <file-upload @after-upload="setAtchmnflId"></file-upload>
+                  <Upload @after-upload="setAtchmnflId"></Upload>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -56,10 +56,11 @@
     </template>
 <script>
 
-import FileUpload from '../components/Upload.vue'
-import EditorTiptapVue from '../components/EditorTiptap.vue'
+import Upload from '../../../components/Upload.vue'
+import EditorTiptap from '../../../components/EditorTiptap.vue'
+
 export default {
-    components: {FileUpload, EditorTiptapVue },
+    components: {Upload, EditorTiptap },
   data () {
     return {
         htmlSourceMode:false,

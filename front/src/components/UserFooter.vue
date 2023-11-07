@@ -86,10 +86,10 @@
     }),
     created(){
       var _this = this;
-      this.$axios.get('/api/user/myAply')
+      this.$axios.get('/api/public/myAply')
         .then((result)=>{
           var {data:{acnt,pcnt}} = result;
-          console.log(acnt,pcnt);
+          //console.log(acnt,pcnt);
           if(acnt+pcnt > 0){
             _this.myAply = true;
           }

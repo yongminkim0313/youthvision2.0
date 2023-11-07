@@ -4,6 +4,15 @@
             
             <v-card-title>관리자페이지 입니다</v-card-title>
             <v-expansion-panels accordion v-model="panel" multiple>
+                
+                <v-expansion-panel>
+                    <v-expansion-panel-header>
+                        <v-card-title> <v-icon large color="green darken-2" > mdi-arrange-send-backward </v-icon> 설정</v-card-title>
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                        <MainSetting></MainSetting>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
 
                 <v-expansion-panel>
                     <v-expansion-panel-header>
@@ -31,15 +40,6 @@
                         <AplyPosterList></AplyPosterList>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
-                
-                <v-expansion-panel>
-                    <v-expansion-panel-header>
-                        <v-card-title> <v-icon large color="green darken-2" > mdi-arrange-send-backward </v-icon> 배너 관리 </v-card-title>
-                    </v-expansion-panel-header>
-                    <v-expansion-panel-content>
-                        <BannerList></BannerList>
-                    </v-expansion-panel-content>
-                </v-expansion-panel>
 
                 <v-expansion-panel>
                     <v-expansion-panel-header>
@@ -52,7 +52,7 @@
 
 
             </v-expansion-panels>
-            <Messenger></Messenger>
+            <!-- <Messenger></Messenger> -->
         </v-card>
     </v-card>
 </template>
@@ -60,11 +60,10 @@
 import AplyList from '../../components/AplyList.vue';
 import AplyPosterList from '../../components/AplyPosterList.vue';
 import UserList from '../../components/UserList.vue';
-import BannerList from '../../components/BannerList.vue';
 import ConnectLog from '@/components/ConnectLog.vue';
-import Messenger from '@/components/Messenger.vue';
+import MainSetting from './MainSetting.vue';
 export default {
-    components:{AplyList,AplyPosterList,UserList,BannerList,ConnectLog,Messenger},
+    components:{AplyList,AplyPosterList,UserList,ConnectLog, MainSetting},
     data: () => ({
         panel: [],
         loading: false,

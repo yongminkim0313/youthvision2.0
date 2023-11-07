@@ -1,27 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mapper namespace="cmm">  
+<mapper namespace="common">  
+  <select id="selectMenu">
+    select menu_id, title, upp_menu_id, menu_path, menu_icon from T_CM_MENU
+  </select>
+  <update id="updateMenu">
+    update T_CM_MENU set 
+      title = #{title},
+      upp_menu_id = #{uppMenuId},
+      menu_path = #{menuPath},
+      menu_icon = #{menuIcon}
+    where menu_id = #{menuId}
+  </update>
   <select id="selectCarousel">
-    select image_sn, atchmnfl_id from T_CM_CAROUSEL
+    select carousel_id, atchmnfl_id, carousel_order from T_CM_CAROUSEL order by carousel_order asc
   </select>
   <insert id="insertCarousel">
   insert into T_CM_CAROUSEL (
-    image_sn, atchmnfl_id, rgst_dt, rgst_id 
+    atchmnfl_id, carousel_order, rgst_dt, rgst_id 
   ) values (
-    #{imageSn}, #{atchmnflId}, now(), #{kakaoId} 
+    #{atchmnflId}, 0, now(), #{kakaoId} 
   )
   </insert>
-  <select id="selectCarouselMaxImageSn">
-    select max(image_sn) + 1 as nextImageSn from T_CM_CAROUSEL
-  </select>
   <update id="updateCarousel">
     update T_CM_CAROUSEL set
-        atchmnfl_id = #{atchmnflId}
-    where image_sn = #{imageSn}
+        carousel_order = #{carouselOrder}
+    where carousel_id = #{carouselId}
   </update>
   <delete id="deleteCarousel">
-    delete from T_CM_CAROUSEL where image_sn = #{imageSn} 
+    delete from T_CM_CAROUSEL where atchmnfl_id = #{atchmnflId} 
   </delete>
-
 
     <select id="selectVideo">
     select video_sn, atchmnfl_id from T_CM_VIDEO
