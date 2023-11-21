@@ -1,14 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mapper namespace="campLive">  
-    <select id="selectCampLive">
-    select
-        type,
-        title,
-        subtitle,
-        src,
-        seq
-    from T_CM_YOUTUBE
-    where type = #{type}
-    order by seq
-    </select>
+    
 </mapper>

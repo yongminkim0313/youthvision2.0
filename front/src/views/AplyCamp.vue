@@ -120,7 +120,7 @@
               <v-select v-model="bankNm" :items="dpstList" attach label="입금은행" > </v-select>
               <v-text-field v-model="pyrNm" ref="pyrNm" :error-messages="pyrNmErrors" label="입금자명" required @input="$v.pyrNm.$touch()" @blur="$v.pyrNm.$touch()" ></v-text-field>
               <v-checkbox v-model="checkbox" @input="$v.checkbox.$touch()" @blur="$v.checkbox.$touch()" ref="checkbox" :error-messages="checkboxErrors" label="신청후 선입금 3일내 확인되지 않을 시 자동취소(동의 체크)" true-value="동의" false-value="미동의"></v-checkbox>
-              <v-checkbox v-model="checkboxUseRoom" @input="$v.checkboxUseRoom.$touch()" @blur="$v.checkboxUseRoom.$touch()" ref="checkboxUseRoom" :error-messages="checkboxUseRoomErrors" label="3인1실, 인원이 맞지 않을시 다른교회와 같이 쓰실 수 있습니다." true-value="동의" false-value="미동의"></v-checkbox>
+              <v-checkbox v-model="checkboxUseRoom" @input="$v.checkboxUseRoom.$touch()" @blur="$v.checkboxUseRoom.$touch()" ref="checkboxUseRoom" :error-messages="checkboxUseRoomErrors" label="2인1실, 인원이 맞지 않을시 다른교회와 같이 쓰실 수 있습니다." true-value="동의" false-value="미동의"></v-checkbox>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
@@ -173,7 +173,7 @@
             <tr> <th>결제은행:</th> <td> {{bankNm}}</td> </tr>
             <tr> <th>입금자명:</th> <td> {{pyrNm}}</td> </tr>
             <tr> <th colspan="2">신청후 선입금 3일내 확인되지 않을 시 자동취소(동의 체크): {{ checkbox }}</th> </tr>
-            <tr> <th colspan="2">3인1실, 인원이 맞지 않을시 다른교회와 같이 쓰실 수 있습니다: {{ checkboxUseRoom }}</th> </tr>
+            <tr> <th colspan="2">2인1실, 인원이 맞지 않을시 다른교회와 같이 쓰실 수 있습니다: {{ checkboxUseRoom }}</th> </tr>
             <tr> <th>기타메모:</th> <td> {{memo}}</td> </tr>
           </tbody>
         </template>

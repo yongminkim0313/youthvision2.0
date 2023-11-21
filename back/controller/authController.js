@@ -26,7 +26,16 @@ module.exports = (app, winston, db) => {
         next();
     });
     app.all('/api/user/*', requireLogin, function(req, res, next){
+      next();
+    });
+    app.post('/api/public/*', requireAdminLogin, function(req, res, next){
         next();
+    });
+    app.put('/api/public/*', requireAdminLogin, function(req, res, next){
+      next();
+    });
+    app.delete('/api/public/*', requireAdminLogin, function(req, res, next){
+      next();
     });
     app.all('/api/admin/*', requireAdminLogin, function(req, res, next){
         next();

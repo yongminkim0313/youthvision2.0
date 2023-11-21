@@ -28,6 +28,14 @@
                 <CarouselList></CarouselList>
             </v-expansion-panel-content>
         </v-expansion-panel>
+        <v-expansion-panel>
+            <v-expansion-panel-header>
+                <v-card-title> <v-icon large color="green darken-2" > mdi-list-box </v-icon> 유튜브 관리</v-card-title>
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+                <YoutubeList></YoutubeList>
+            </v-expansion-panel-content>
+        </v-expansion-panel>
 
     </v-expansion-panels>
 </template>
@@ -35,8 +43,9 @@
 import MenuList from './manageComponents/MenuList.vue';
 import BannerList from './manageComponents/BannerList.vue';
 import CarouselList from './manageComponents/CarouselList.vue';
+import YoutubeList from './manageComponents/YoutubeList.vue';
 export default {
-    components:{MenuList,BannerList, CarouselList},
+    components:{MenuList,BannerList, CarouselList, YoutubeList},
     data: () => ({
         panel: [],
     })

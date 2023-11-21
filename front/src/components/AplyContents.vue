@@ -66,7 +66,7 @@
                     </th>
                   </tr>
                   <tr>
-                    <th colspan="4">3인1실, 인원이 맞지 않을시 다른교회와 같이 쓰실 수 있습니다: 
+                    <th colspan="4">2인1실, 인원이 맞지 않을시 다른교회와 같이 쓰실 수 있습니다: 
                       <span v-if="aplyContents.checkboxUseRoom == '동의'">동의</span>
                       <span v-else class="error--text">미동의</span>
                     </th>
@@ -168,7 +168,7 @@
                     </th>
                   </tr>
                   <tr>
-                    <th colspan="2">3인1실, 인원이 맞지 않을시 다른교회와 같이 쓰실 수 있습니다: 
+                    <th colspan="2">2인1실, 인원이 맞지 않을시 다른교회와 같이 쓰실 수 있습니다: 
                       <span v-if="aplyContents.checkboxUseRoom == '동의'">동의</span>
                       <span v-else class="error--text">미동의</span>
                     </th>

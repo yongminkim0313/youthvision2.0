@@ -1,8 +1,11 @@
 const multer = require('multer'); // express에 multer모듈 적용 (for 파일업로드)
 const upload = multer({ dest: 'uploadsFile/' })
+const sharp = require('sharp');
 var path = require('path');
 const fs = require('fs');
 const logger = require('../modules/winstonConfig');
+const axios = require('axios');
+
 module.exports = (app, winston, db) => {
 
     app.get('/api/common/menu', async(req, res, next) => {
@@ -244,6 +247,23 @@ module.exports = (app, winston, db) => {
     })
     app.post('/api/common/carousel', upload.single('file'), async function(req, res){
         console.log(req.file); // 콘솔(터미널)을 통해서 req.file Object 내용 확인 가능.
+        try {
+            sharp(req.file.path) // 리사이징할 파일의 경로
+               .resize({ width: 640 }) // 원본 비율 유지하면서 width 크기만 설정
+               .withMetadata()
+               .toFile(`${req.file.destination}resize/${req.file.originalname}`, (err, info) => {
+                  if (err) throw err;
+                  console.log(info);
+                //   fs.unlink(`${req.file.destination}resize/${req.file.originalname}`, (err) => {
+                //      // 원본파일은 삭제해줍니다
+                //      // 원본파일을 삭제하지 않을거면 생략해줍니다
+                //      if (err) throw err;
+                //   });
+               });
+         } catch (err) {
+            console.log(err);
+         }
+        
         var{ seq } = await db.getData('bbs','selectNextAtchmnflSeq', {})
         var saveFileData = {
             atchmnflId : Number(seq), 
@@ -260,10 +280,10 @@ module.exports = (app, winston, db) => {
         res.status(200).json(result.affectedRows);
     })
 
-    app.delete('/api/common/carousel/:imageSn', async(req,res)=>{
-        const {params : { imageSn }} = req;
+    app.delete('/api/common/carousel/:carouselId', async(req,res)=>{
+        const {params : { carouselId }} = req;
         console.log(req.params);
-        db.setData('common','deleteCarousel',{imageSn:imageSn})
+        db.setData('common','deleteCarousel',{carouselId:carouselId})
         .then((row)=>{
             res.status(200).send('delete!!');
         })
@@ -278,5 +298,35 @@ module.exports = (app, winston, db) => {
             updated += d.affectedRows;
         }
         res.status(200).send('updated: '+ updated);
+    })
+
+    app.post('/api/common/youtube', async(req,res)=>{
+       console.log('###############################################');
+       var { src } = req.body;
+       console.log(req.body);
+       var url = `https://i1.ytimg.com/vi/${src}/1.jpg`;
+       console.log(url);
+
+        const img = await axios
+    	.get(url, { responseType: 'arraybuffer' })
+    	.then((response) => Buffer.from(response.data));
+       try {
+            var resizeImg = await sharp(img) // 리사이징할 파일의 경로
+            .resize(50,50) // 원본 비율 유지하면서 width 크기만 설정
+            .withMetadata()
+            // .toFile(`uploadsFile/resize/${youtubeId}.jpg`, (err, info) => {
+            //     if (err) throw err;
+            //     console.log(info);
+            //     res.status(200).json({msg:'success!!'});
+            // })
+            .toBuffer();
+            console.log('@@@@@@@@@@@@@@@@@', resizeImg);
+            var buf = Buffer.from(resizeImg);
+            req.body['thumbImg']= buf.toString('base64');
+            var d = await db.setData('common','updateYoutubeThumb',req.body);
+            res.status(200).end(resizeImg); // 리사이징된 이미지를 브라우저에 뜨게 응답
+        } catch (err) {
+            console.log(err);
+        }
     })
 }

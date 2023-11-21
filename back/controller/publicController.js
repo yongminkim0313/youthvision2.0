@@ -1,7 +1,7 @@
 module.exports = (app, winston, db) => {
     app.get('/api/youtube', (req, res) => {
         const query = req.query;
-        db.getList('campLive','selectCampLive', query)
+        db.getList('common','selectCampLive', query)
         .then(function(row) {
             res.status(200).json(row);
         })

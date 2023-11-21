@@ -27,7 +27,7 @@
     where carousel_id = #{carouselId}
   </update>
   <delete id="deleteCarousel">
-    delete from T_CM_CAROUSEL where atchmnfl_id = #{atchmnflId} 
+    delete from T_CM_CAROUSEL where carousel_id = #{carouselId} 
   </delete>
 
     <select id="selectVideo">
@@ -94,4 +94,12 @@
   <delete id="deleteBanner">
     update T_CM_BANNER set delyn = 'Y' where banner_id = #{bannerId}
   </delete>
+  <update id="updateYoutubeThumb">
+    update T_CM_YOUTUBE set
+      thumb_img = #{thumbImg}
+    where seq = #{seq}
+  </update>
+  <select id="selectCampLive">
+    select * from T_CM_YOUTUBE where type = #{type} order by seq
+    </select>
 </mapper>
