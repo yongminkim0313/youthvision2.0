@@ -15,6 +15,7 @@ import QnA from './views/QnABoard.vue'
 import Youthvision from './views/Youthvision.vue'
 import Admin from './views/admin/Admin.vue'
 import RandomLunch from './views/RandomLunch.vue'
+import TimeTable from './views/TimeTable.vue'
 Vue.use(VueRouter);
 
 const routes = [
@@ -139,6 +140,16 @@ const routes = [
         name: "자몽점심선택기",
         components: {
             default: RandomLunch ,
+            footer: UserFooter
+        },
+        meta: { unauthorized: true }
+        ,props: true
+    },
+    {
+        path: "/timeTable",
+        name: "시간표",
+        components: {
+            default: TimeTable ,
             footer: UserFooter
         },
         meta: { unauthorized: true }

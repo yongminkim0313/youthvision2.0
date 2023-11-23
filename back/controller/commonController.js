@@ -201,12 +201,11 @@ module.exports = (app, winston, db) => {
             return;
         }
         var imgExtList = ['jpg','png','jpeg','webp'];
+        var noImage = path.join(__dirname,'../', '/uploadFile/no-image-icon.png');
         if(imgExtList.indexOf(ext) > -1){
             var filePath = path.join(__dirname,'../', atchmnfl.atchmnflPath);
             fs.access(filePath, fs.F_OK, (err) => {
                 if (err) {
-                    var noImage = path.join(__dirname,'../', '/uploadFile/no-image-icon.png');
-                    console.log('asdfasdfad',noImage);
                     res.sendFile(noImage,{},function(err){
                         if(err)res.status(err.status).end();
                     })
@@ -217,8 +216,10 @@ module.exports = (app, winston, db) => {
                 })
             })
         }else{
-            console.log("이미지 파일이 아닙니다.")
-            res.send('no image');
+            res.sendFile(noImage,{},function(err){
+                console.log("이미지 파일이 아닙니다.")
+                if(err)res.status(err.status).end();
+            })
             return;
         }
     })
