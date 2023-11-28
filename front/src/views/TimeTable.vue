@@ -7,84 +7,85 @@
 
                 <tr>
                     <th>시간/날짜</th>
-                    <th>1/18</th>
-                    <th>1/19</th>
-                    <th>1/20</th>
+                    <th>만남의시간 1/18(목)</th>
+                    <th>은혜의시간 1/19(금)</th>
+                    <th>사명의시간 1/20(토)</th>
                 </tr>
             </thead>
             <tbody>
 
                 <tr>
-                    <td>7:30~9:00</td>
-                    <td rowspan="3">유튜브 '유스비전TV' 구독과 좋아요</td>
+                    <td class="ftd">7:30~9:00</td>
+                    <td rowspan="3">유튜브 '유스비전TV' <br/>구독과 좋아요</td>
                     <td>기상 및 아침식사</td>
                     <td>기상 및 아침식사</td>
                 </tr>
                 <tr>
-                    <td>9:00~10:00</td>
+                    <td class="ftd">9:00~10:00</td>
                     <td>듀나미스 찬양</td>
                     <td>듀나미스 찬양</td>
                 </tr>
                 <tr>
-                    <td>10:00~11:00</td>
-                    <td rowspan="2">최새롬목사 '학원캠퍼스복음화'</td>
-                    <td rowspan="2">파송예배 장용성 목사 '가서 제자 삼으라'</td>
+                    <td class="ftd">10:00~11:00</td>
+                    <td rowspan="2">최새롬목사 <br/>'학원캠퍼스복음화'</td>
+                    <td rowspan="2">파송예배 <br/>장용성 목사 <br/>'가서 제자 삼으라'</td>
                 </tr>
                 <tr>
-                    <td>11:00~12:00</td>
+                    <td class="ftd">11:00~12:00</td>
                     <td rowspan="2">등록 및 접수</td>
                 </tr>
                 <tr>
-                    <td>12:00~13:00</td>
+                    <td class="ftd">12:00~13:00</td>
                     <td rowspan="2">점심식사 및 휴식</td>
-                    <td rowspan="12">2024 여름 유스비전캠프에서 만나요!</td>
+                    <td rowspan="12">2024 여름 <br/>유스비전캠프에서 <br/>만나요!</td>
                 </tr>
                 <tr>
-                    <td>13:00~13:30</td>
-                    <td rowspan="2">오프닝예배 듀나미스찬양</td>
+                    <td class="ftd">13:00~13:30</td>
+                    <td rowspan="2">오프닝예배 <br/>듀나미스찬양</td>
                 </tr>
                 <tr>
-                    <td>13:30~14:00</td>
-                    <td rowspan="3">은혜의콜센타 '찬양 TALK'</td>
+                    <td class="ftd">13:30~14:00</td>
+                    <td rowspan="3">은혜의콜센타 <br/>'찬양 TALK'</td>
                 </tr>
                 <tr>
-                    <td>14:00~15:00</td>
-                    <td rowspan="3">박윤호 목사 '처음사랑을 회복하라'</td>
+                    <td class="ftd">14:00~15:00</td>
+                    <td rowspan="3">박윤호 목사 <br/>'처음사랑을 회복하라'</td>
                 </tr>
                 <tr>
-                    <td>15:00~15:20</td>
+                    <td class="ftd">15:00~15:20</td>
                 </tr>
                 <tr>
-                    <td>15:20~15:45</td>
-                    <td rowspan="3">김신근 목사 '천국은 마치'</td>
+                    <td class="ftd">15:20~15:45</td>
+                    <td rowspan="3">김신근 목사 <br/>'천국은 마치'</td>
                 </tr>
                 <tr>
-                    <td>15:45~16:00</td>
+                    <td class="ftd">15:45~16:00</td>
                     <td>O.T</td>
                 </tr>
                 <tr>
-                    <td>16:00~16:50</td>
-                    <td rowspan="2">찬양콘서트 '러빔'</td>
+                    <td class="ftd">16:00~16:50</td>
+                    <td rowspan="2">찬양콘서트 <br/>'러빔'</td>
                 </tr>
                 <tr>
-                    <td>16:50~17:00</td>
+                    <td class="ftd">16:50~17:00</td>
                     <td rowspan=2>저녁식사 및 휴식</td>
                 </tr>
                 <tr>
-                    <td>17:00~19:00</td>
+                    <td class="ftd">17:00~19:00</td>
                     <td>저녁식사 및 휴식</td>
                 </tr>
                 <tr>
-                    <td rowspan="2">19:00~</td>
+                    <td class="ftd" rowspan="2">19:00~</td>
                     <td>듀나미스 찬양</td>
                     <td>듀나미스 찬양</td>
                 </tr>
                 <tr>
-                    <td>장용성 목사 '주님 나를 부르시니'</td>
-                    <td>장용성 목사 '12, 120, 3000 세계 열방을 품으라'</td>
+                    <td>장용성 목사 <br/>'주님 나를 부르시니'</td>
+                    <td>장용성 목사 <br/>'12, 120, 3000 <br/>세계 열방을 품으라'</td>
                 </tr>
             </tbody>
         </table>
+        <p></p>
     </v-card>
 </template>
 <style scoped>
@@ -138,8 +139,12 @@
 .rtable td {
   padding: 6px 12px;
   border: 1px solid #d9d7ce;
+  text-align: center;
 }
-
+.rtable .ftd {
+  text-align: left;
+  font-weight: 800;
+}
 .rtable--flip {
   display: flex;
   overflow: hidden;
@@ -184,15 +189,15 @@
 /*!
 // CodePen house keeping
 */
-
+@import url(https://fonts.googleapis.com.com/earlyaccess/nanumgothic.css);
 body {
   margin: 0;
   padding: 25px;
   color: #494b4d;
   font-size: 14px;
   line-height: 20px;
+  font-family:'Nanum Gothic', 돋움;
 }
-
 h1, h2, h3 {
   margin: 0 0 10px 0;
   color: #1d97bf;
