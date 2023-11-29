@@ -287,7 +287,7 @@ module.exports = (app, winston, db) => {
         }
     })
     app.get('/api/common/carousel/:carouselId', async(req,res, next)=>{
-        var data = await db.getData('common','selectCarousel',req.params);
+        var data = await db.getData('common','selectCarouselOne',req.params);
         console.log(data);
         var image = path.join(__dirname,'../',data.imagePath);
         res.sendFile(image,{},function(err){
