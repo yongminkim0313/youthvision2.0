@@ -12,7 +12,7 @@
     where menu_id = #{menuId}
   </update>
   <select id="selectCarousel">
-    select carousel_id, atchmnfl_id, carousel_order from T_CM_CAROUSEL order by carousel_order asc
+    select carousel_id, image_path, carousel_order from T_CM_CAROUSEL order by carousel_order asc
   </select>
   <insert id="insertCarousel">
   insert into T_CM_CAROUSEL (

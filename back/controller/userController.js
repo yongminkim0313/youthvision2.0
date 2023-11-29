@@ -1,4 +1,7 @@
 
+const common = require('../services/commonService');
+const kakao = require('../services/kakaoService');
+const { v4 } = require('uuid');
 module.exports = (app, winston, db) => {
 
     app.get('/api/user/campAply',(req,res)=>{
@@ -86,8 +89,19 @@ module.exports = (app, winston, db) => {
                         .then(function(row) {console.log(row)})
                     }
                 }
+                var campCnt = 0 
+                var a = req.body['campCnt'];
+                for(var c in a){
+                    if(c != 'seq')campCnt += a[c];
+                }
+                var tokens = v4().split('-');
+                var uuid = tokens[2] + tokens[1] + tokens[0] + tokens[3] + tokens[4];
+                
                 //나에게 메세지 보내기 api
-                kakao.sendMeAplyCampInfo({args:req.body['campCnt'],templateId:77885,accessToken:req.session.accessToken});
+                kakao.sendMeAplyCampInfo({campCnt, uuid, accessToken:req.session.accessToken});
+                
+                db.setData('campAply','insertCampConnectUuid',  {uuid: uuid, seq: req.body['seq']})
+                .then(function(row) {console.log(row)})
     
                 res.status(200).json({code: 0, msg:'success! '});
             })
@@ -97,6 +111,11 @@ module.exports = (app, winston, db) => {
     
     app.get('/api/user/aply/camp/one', async(req,res) => {
         var campAply = await db.getList('campAply','selectCampAplyOne', req.session)
+        res.status(200).json(campAply);
+    })
+    app.get('/api/user/aply/camp/one/uuid', async(req,res) => {
+        console.log(req.query);
+        var campAply = await db.getList('campAply','selectCampAplyOneForUuid', req.query)
         res.status(200).json(campAply);
     })
 
@@ -110,12 +129,5 @@ module.exports = (app, winston, db) => {
         res.status(200).json({msg:'success'});
     })
     
-    app.post('/api/user/KoGPT',async (req,res)=>{
-        const info = await kakao.KoGPT(req.body.prompt)
-        res.status(200).json(info);
-    })
-    app.post('/api/user/KoGPT',async (req,res)=>{
-        const info = await kakao.KoGPT(req.body.prompt)
-        res.status(200).json(info);
-    })
+    
 }

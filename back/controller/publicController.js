@@ -1,3 +1,4 @@
+const kakao = require('../services/kakaoService');
 module.exports = (app, winston, db) => {
     app.get('/api/youtube', (req, res) => {
         const query = req.query;
@@ -10,7 +11,7 @@ module.exports = (app, winston, db) => {
         });
     });
 
-    app.get('/api/bbs', async(req,res) =>{
+    app.get('/api/public/bbs', async(req,res) =>{
         db.getList('bbs','selectBbs', {})
         .then((row)=>{
             res.status(200).json(row);
@@ -18,7 +19,7 @@ module.exports = (app, winston, db) => {
     })
 
 
-    app.post('/api/bbs', async(req,res) =>{
+    app.post('/api/public/bbs', async(req,res) =>{
         db.getData('bbs','selectBbsCnt',req.body)
        .then((row)=>{
         if(row.cnt < 1){
@@ -35,21 +36,21 @@ module.exports = (app, winston, db) => {
        })
     })
 
-    app.put('/api/bbs/cnt',(req,res)=>{
+    app.put('/api/public/bbs/cnt',(req,res)=>{
         db.setData('bbs','updateBbsClickCnt',req.body);
         res.status(200).send('cnt +1');
     })
-    app.delete('/api/bbs/:idx',(req,res)=>{
+    app.delete('/api/public/bbs/:idx',(req,res)=>{
         db.setData('bbs','deleteBbs',req.params);
         res.status(200).send('delete!! '+idx);
     })
-    app.post('/api/bbs/reply', async(req,res) =>{
+    app.post('/api/public/bbs/reply', async(req,res) =>{
         db.setData('bbs','insertBbsReply', req.body)
         .then((row)=>{
             res.status(200).json('success');
         })
     })
-    app.get('/api/bbs/reply', async(req,res) =>{
+    app.get('/api/public/bbs/reply', async(req,res) =>{
         db.getList('bbs','selectBbsReply', req.query)
         .then((row)=>{
             res.status(200).json(row);

@@ -59,18 +59,6 @@ module.exports = (app, winston, db) => {
     })
     
     app.get('/api/common/connectLog', (req, res) =>{
-        // get(ref(fireDB,'posts/common/connectLog/'+req.query.dt))
-        // .then((snapshot)=>{
-        //     if (snapshot.exists()) {
-        //         res.status(200).json(snapshot.val());
-        //     } else {
-        //         console.log("No data available");
-        //         res.status(401).json({msg:"No data available"});
-        //     }
-        // });
-        console.log("##########/api/common/connectLog####################");
-        console.log(req.query);
-
         db.getList('connectLog','selectConnectLog',req.query)
         .then((row)=>{
             res.status(200).json(row);
@@ -186,42 +174,12 @@ module.exports = (app, winston, db) => {
     });
 
     app.get('/api/common/image/:id', async(req,res, next)=>{
-        console.log("#############################")
-        var atchmnfl = await db.getData('bbs','selectAtchmnfl', {atchmnflId: req.params.id, atchmnflSn: 1 });
-        console.log(atchmnfl);
-        var ext;
-        if(atchmnfl){
-            var f = atchmnfl.atchmnflNm;
-            var l = f.length;
-            var dot = f.lastIndexOf('.');
-            ext = f.substring(dot+1, l).toLowerCase();
-        }else{
-            console.log("없는 파일 입니다.")
-            res.send('image xx');
-            return;
-        }
-        var imgExtList = ['jpg','png','jpeg','webp'];
-        var noImage = path.join(__dirname,'../', '/uploadFile/no-image-icon.png');
-        if(imgExtList.indexOf(ext) > -1){
-            var filePath = path.join(__dirname,'../', atchmnfl.atchmnflPath);
-            fs.access(filePath, fs.F_OK, (err) => {
-                if (err) {
-                    res.sendFile(noImage,{},function(err){
-                        if(err)res.status(err.status).end();
-                    })
-                    return
-                }
-                res.sendFile(filePath,{},function(err){
-                    if(err)res.status(err.status).end();
-                })
-            })
-        }else{
-            res.sendFile(noImage,{},function(err){
-                console.log("이미지 파일이 아닙니다.")
-                if(err)res.status(err.status).end();
-            })
-            return;
-        }
+        var noImage = path.join(__dirname,'../uploadFile/no-image-icon.png');
+        console.log(noImage);
+        res.sendFile(noImage,{},function(err){
+            console.log("이미지 파일이 아닙니다.")
+            if(err)res.status(err.status).end();
+        })
     })
 
     app.post('/api/user/upload', upload.single('file'), async function(req, res){
@@ -302,7 +260,6 @@ module.exports = (app, winston, db) => {
     })
 
     app.post('/api/common/youtube', async(req,res)=>{
-       console.log('###############################################');
        var { src } = req.body;
        console.log(req.body);
        var url = `https://i1.ytimg.com/vi/${src}/1.jpg`;
@@ -321,7 +278,6 @@ module.exports = (app, winston, db) => {
             //     res.status(200).json({msg:'success!!'});
             // })
             .toBuffer();
-            console.log('@@@@@@@@@@@@@@@@@', resizeImg);
             var buf = Buffer.from(resizeImg);
             req.body['thumbImg']= buf.toString('base64');
             var d = await db.setData('common','updateYoutubeThumb',req.body);

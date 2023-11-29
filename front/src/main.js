@@ -165,6 +165,12 @@ router.beforeEach(async (to,from, next) => { // router interceptor
     //     location.href=this.APP_URL+"/api/auth/logout";
     //   });
     // }
+
+    Vue.prototype.$socket = io(process.env.VUE_APP_SOCKET_URL,{
+      autoConnect: true,
+      path: "/my-ws",
+  });
+  
     next();
   })
   .catch((err)=>{
@@ -221,3 +227,6 @@ window.addEventListener("scroll", () => {
   // }, 200);
 })
 
+
+
+  

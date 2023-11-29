@@ -36,7 +36,7 @@ async function getList(mapperId, sqlId, param) {
         rows = await conn.query(exeQuery);
         rows = toCamel(rows);
     } catch (err) {
-        console.log('@@@@@@@@@@@ error @@@@:', err);
+        console.log(mapperId, sqlId, param, err);
     } finally {
         if (conn) conn.end();
         return rows;
@@ -50,7 +50,7 @@ async function setData(mapperId, sqlId, param) {
         var exeQuery = mapper.get(mapperId, sqlId, param);
         rows = await conn.query(exeQuery);
     } catch (err) {
-        console.log('@@@@@@@@@@@ error @@@@:', err);
+        console.log(mapperId, sqlId, param, err);
     } finally {
         if (conn) conn.end();
         return rows;
@@ -66,7 +66,7 @@ async function getData(mapperId, sqlId, param) {
         rows = await conn.query(exeQuery);
         rows = toCamel(rows);
     } catch (err) {
-        console.log('@@@@@@@@@@@ error @@@@:', err);
+        console.log(mapperId, sqlId, param, err);
     } finally {
         if (conn) conn.end();
         return rows[0];
@@ -80,7 +80,7 @@ async function delData(mapperId, sqlId, param) {
         var exeQuery = mapper.get(mapperId, sqlId, param);
         rows = await conn.query(exeQuery);
     } catch (err) {
-        console.log('@@@@@@@@@@@ error @@@@:', err);
+        console.log(mapperId, sqlId, param, err);
     } finally {
         if (conn) conn.end();
         return true;

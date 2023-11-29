@@ -128,55 +128,67 @@ exports.sendPush = async function(user){
     }
 }
 exports.sendMessage = async function(req){
-    const {body: {uuid, args,templateId},session: {accessToken}} = req;
-    const response = await axios({
-        method: "post",
-        url: "https://kapi.kakao.com/v1/api/talk/friends/message/send", // 서버
-        headers: {
-            'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-            'Authorization': `Bearer ${accessToken}`
-        },
-        params:{
-                receiver_uuids: '["'+uuid+'"]',
+    try{
+        const {body: {uuid, args,templateId},session: {accessToken}} = req;
+        const response = await axios({
+            method: "post",
+            url: "https://kapi.kakao.com/v1/api/talk/friends/message/send", // 서버
+            headers: {
+                'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+                'Authorization': `Bearer ${accessToken}`
+            },
+            params:{
+                    receiver_uuids: '["'+uuid+'"]',
+                    template_id : templateId,
+                    template_args : args
+                }
+        });
+        return response.data;
+    }catch(err){
+        return Error(err);
+    }
+}
+exports.sendMeAplyCampInfo = async function(params){
+    try{
+        const {args,templateId,accessToken} = params;
+        const response = await axios({
+            method: "post",
+            url: "https://kapi.kakao.com/v2/api/talk/memo/send", // 서버
+            headers: {
+                'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+                'Authorization': `Bearer ${accessToken}`
+            },
+            params:{
                 template_id : templateId,
                 template_args : args
             }
-    });
-    return response.data;
-}
-exports.sendMeAplyCampInfo = async function(params){
-    const {args,templateId,accessToken} = params;
-    const response = await axios({
-        method: "post",
-        url: "https://kapi.kakao.com/v2/api/talk/memo/send", // 서버
-        headers: {
-            'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
-            'Authorization': `Bearer ${accessToken}`
-        },
-        params:{
-            template_id : templateId,
-            template_args : args
-        }
-    });
-    return response.data;
+        });
+        return response.data;
+    }catch(err){
+        return Error(err);
+    }
 }
 
 exports.KoGPT = async function(prompt){
-    const response = await axios({
-        method: "post",
-        url: "https://api.kakaobrain.com/v1/inference/kogpt/generation", // 서버
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `KakaoAK ${process.env.admin_key}`
-        },
-        data:{
-            prompt : prompt,
-            max_tokens : 80,
-            temperature: 0.7,
-            top_p: 0.8,
-            n : 1
-        }
-    });
-    return response.data;
+    try{
+        const response = await axios({
+            method: "post",
+            url: "https://api.kakaobrain.com/v1/inference/kogpt/generation", // 서버
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `KakaoAK ${process.env.admin_key}`
+            },
+            data:{
+                prompt : prompt,
+                max_tokens : 80,
+                temperature: 0.7,
+                top_p: 0.8,
+                n : 1
+            }
+        });
+        return response.data;
+    }catch(err){
+        return Error(err);
+    }
 }
 

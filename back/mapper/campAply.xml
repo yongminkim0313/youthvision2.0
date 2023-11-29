@@ -160,4 +160,22 @@
   <delete id="deleteAplyCamp">
     update T_CM_APLY_CAMP set delyn = 'Y' where seq = #{seq}
   </delete>
+  <insert id="insertCampConnectUuid">
+    insert into T_CM_CAMP_CONNECT_UUID values(#{uuid}, #{seq});
+  </insert>
+  <select id="selectCampAplyOneForUuid">
+    select 
+      seq, aply_tot_amt, aply_prgrs, aply_dt, aply_name, jikbun_se, church_adtr, church_addr,church,church_se,
+      church_dtl_addr, schdl_se, phone, email, checkbox, full_address, detail_address, join_his_se,
+      rgtr_nm, rgtr_dt, updt_nm, updt_dt, kakao_email, pyr_nm, checkbox_use_room, bank_nm, kakao_id, memo,
+      ( select concat('초등:',chodeung,'명 ',
+              '청소년:',cheongsonyeon,'명 ',
+              '청년:',cheongnyeon,'명 ',
+              '장년:',jangnyeon,'명 ',
+              '사역자:',sayeogja,'명') 
+        from T_CM_CAMP_CNT 
+        where seq = T_CM_APLY_CAMP.seq) as "campCnt"
+    from T_CM_APLY_CAMP
+    where seq = (select aply_camp_seq from T_CM_CAMP_CONNECT_UUID where uuid = #{uuid})
+  </select>
 </mapper>

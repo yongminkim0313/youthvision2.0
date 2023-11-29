@@ -189,14 +189,12 @@
 /*!
 // CodePen house keeping
 */
-@import url(https://fonts.googleapis.com.com/earlyaccess/nanumgothic.css);
 body {
   margin: 0;
   padding: 25px;
   color: #494b4d;
   font-size: 14px;
   line-height: 20px;
-  font-family:'Nanum Gothic', 돋움;
 }
 h1, h2, h3 {
   margin: 0 0 10px 0;

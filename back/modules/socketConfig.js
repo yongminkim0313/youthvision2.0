@@ -4,16 +4,12 @@ const fs = require('fs');
 const { v4 } = require('uuid');
 const common = require('../services/commonService');
 
-module.exports = (app, winston) => {
+module.exports = (server, app) => {
     const options = { maxHttpBufferSize: 1e8, cors: { origin: '*', }, cookie: true
     , path:'/my-ws' 
     }; //1e6: 1MB
-    const server = require('http').createServer(app);
     const io = require('socket.io')(server, options);
-    server.listen(4000);
-
     io.on('connection', socket => {
-        //입장
         socket.on("joinRoom",(roomId)=>{
             // socket.rooms.forEach((room) =>{
             //     console.log('나가셨습니다. --> ',room);
@@ -27,16 +23,25 @@ module.exports = (app, winston) => {
                 "dt": common.getDateTime(),
                 "type": 'join' 
             });
+
             // console.log("socket.rooms",socket.rooms);
             //메세지 전송 
             
             socket.on('disconnecting', () => {
                 socket.rooms.forEach((room) =>
-                    socket.to(room).emit('bye', socket.nickname)
+                socket.to(room).emit('bye', socket.nickname)
                 );
             });
         })
+        console.log('#####################', socket.rooms)
+        app.post('/api/public/socket', (req, res) => {
+            
+            console.log('/api/public/socket','##', socket.rooms, req.body, req.session)
+            var {text} = req.body;
+            socket.broadcast.emit("broadcast", text);
 
+            res.status(200).json({msg:'asdfasdf'})
+        });
         socket.on("sendText",(data, fn)=>{
             data.nickname = socket.nickname;
             console.log('전송메세지: ',data);
@@ -167,13 +172,10 @@ module.exports = (app, winston) => {
         //     console.log('connect users');
         // });
         
-        socket.on('disconnect', () => { 
-            winston.info("@ socket disconnect @@@@"); 
-        });
-        socket.on('reconnecting', () => { winston.info("@ socket reconnecting @@@@"); });
-        socket.on('reconnection', () => { winston.info("@ socket reconnection @@@@"); });
-        winston.info(`socket.io connected`);
+        socket.on('disconnect'      , () => { console.log("@ socket disconnect"); });
+        socket.on('reconnecting'    , () => { console.log("@ socket reconnecting"); });
+        socket.on('reconnection'    , () => { console.log("@ socket reconnection"); });
+        console.log(`@ socket connected`);
     });
-    winston.info('socket start')
     return io;
 }

@@ -4,67 +4,12 @@
 <div class="row clearfix">
     <div class="col-lg-12">
         <div class="card chat-app">
-            <div id="plist" class="people-list">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fa fa-search"></i></span>
-                    </div>
-                    <input type="text" class="form-control" placeholder="Search...">
-                </div>
-                <ul class="list-unstyled chat-list mt-2 mb-0">
-                    <li class="clearfix" :class="{'is-active': selectedRoom == 'youthvision01' }" @click="changeRoom('youthvision01')">
-                        <img src="../assets/jesusdream.png" alt="avatar">
-                        <div class="about">
-                            <div class="name">youthvision</div>
-                            <div class="status"> <i class="fa fa-circle offline"></i> online since Oct 28 </div>
-                        </div>
-                    </li>
-                    <li class="clearfix" :class="{'is-active': selectedRoom == 'youthvision02' }" @click="changeRoom('youthvision02')">
-                        <img src="../assets/jd4.jpeg" alt="avatar">
-                        <div class="about">
-                            <div class="name">staff</div>
-                            <div class="status"> <i class="fa fa-circle offline"></i> online since Oct 28 </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
             <div class="chat">
-                <div class="chat-header clearfix">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
-                                <img :src="headerImg" alt="avatar">
-                            </a>
-                            <div class="chat-about">
-                                <h6 class="m-b-0">{{ chatTitle }}</h6>
-                                <small></small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="chat-history" ref="msgList">
-                    <ul class="m-b-0">
-                        <li class="clearfix" v-for="(item, index) in msgList" :key="index">
-                            <div v-if="item.type=='join'">
-                                <v-chip>{{ item.text }}</v-chip>
-                            </div>
-                            <div v-if="item.type=='text'" class="message-data" :class="{'text-right' : item.me}">
-                                <v-avatar size="36px" >
-                                    <v-img src="https://bootdey.com/img/Content/avatar/avatar7.png"> </v-img> 
-                                </v-avatar>
-                                {{ item.nickname }}
-                            </div>
-                            <div v-if="item.type=='text'" class="message" :class="{'float-right' : item.me, 'my-message' : item.me, 'other-message': !item.me}">
-                                <span class="message-data-time">{{ item.dt | formatDate }}</span>
-                                {{ item.text }}
-                            </div>
-                        </li>
-                    </ul>
-                </div>
                 <div class="chat-message clearfix">
                     {{ status }}
                     <div class="input-group mb-0">
-                        <v-text-field outlined label="Enter text here..." append-icon="mdi-send" v-model="message.text" @keypress.enter="sendText();"></v-text-field>
+                        <v-text-field outlined label="메세지 입력" append-icon="mdi-send" v-model="message.text" @keypress.enter="sendText();">
+                        </v-text-field>
                     </div>
                 </div>
             </div>
@@ -102,7 +47,8 @@ export default {
         }
     },
     created: function(){ 
-        // this.joinRoom('youthvision01');
+        var _this = this;
+        this.joinRoom('youthvision01');
         // this.joinRoom('youthvision02');
         // this.changeRoom('youthvision01');
         // this.setNickName();
@@ -110,10 +56,13 @@ export default {
         //     console.log(`got ${event} ${args}`);
         //     this.status = event
         // });
-        // this.$socket.on('server to client', (data)=>{
-        //     console.log(data);
-        //     this.pushMsgList(data);
-        // })
+        this.$socket.on('server to client', (data)=>{
+            console.log(data);
+        });
+        this.$socket.on('broadcast', function(msg){
+            console.log('broadcast',msg);
+            _this.status = msg;
+        });
     },
     mounted: function(){ },
     methods:{ 
@@ -121,30 +70,19 @@ export default {
             this.rooms[data.roomId].msgList.push(data);
         },
         sendText: function(){
-            var {text} = this.message;
-            this.$socket.emit("sendText",{text:text, roomId: this.selectedRoom, type: 'text'}, (data)=>{
-                console.log(data);
-                this.pushMsgList(data);
-                this.clearText();
-            });
-        },
-        clearText: function(){
-            this.message = {text:''}
-        },
-        changeRoom:function(roomId){
-            this.selectedRoom = roomId;
-            this.msgList = this.rooms[this.selectedRoom].msgList;
-            this.headerImg = this.rooms[this.selectedRoom].img;
-            this.chatTitle = this.rooms[this.selectedRoom].title;
+            this.$axios.post('/api/public/socket', this.message);
+            
+            // var {text} = this.message;
+            // this.$socket.emit("sendText",{text:text, roomId: this.selectedRoom, type: 'text'}, (data)=>{
+                // console.log(data);
+                // this.message.text='';
+            // });
         },
         joinRoom: function(roomId){
             this.$socket.emit("joinRoom", roomId);
         },
         leaveRoom: function(roomId){
             this.$socket.emit("leaveRoom", roomId);
-        },
-        clearRoom: function(){
-            this.msgList = [];
         },
         setNickName: function(){
             this.$socket.emit('nickname','김용민');

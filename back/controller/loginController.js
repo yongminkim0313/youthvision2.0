@@ -4,7 +4,6 @@ module.exports = (app, winston, db) => {
         const { headers: { cookie } } = req;
         try {
             const response = await kakao.getToken(req.query.code);
-            console.log('##########################', response, '#########################');
             const access_token = response.data.access_token;
             const refresh_token = response.data.refresh_token;
             const userInfo = await kakao.getUserInfo(access_token);
@@ -31,7 +30,8 @@ module.exports = (app, winston, db) => {
                     db.setData('user','insertUser',req.session);
                 }
             })
-            req.session.save(function() {res.redirect(req.query.state); });
+            req.session.save(function() {
+                res.redirect(req.query.state);});
         } catch (err) {
             winston.error("/auth/kakao/callback Error >>" + err);
         }

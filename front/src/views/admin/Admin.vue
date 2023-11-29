@@ -1,5 +1,6 @@
 <template>
     <v-card :loading="loading">
+        <Messenger></Messenger>
         <v-card>
             
             <v-card-title>관리자페이지 입니다</v-card-title>
@@ -52,18 +53,18 @@
 
 
             </v-expansion-panels>
-            <!-- <Messenger></Messenger> -->
         </v-card>
     </v-card>
 </template>
 <script>
+import Messenger from '../../components/Messenger.vue';
 import AplyList from '../../components/AplyList.vue';
 import AplyPosterList from '../../components/AplyPosterList.vue';
 import UserList from '../../components/UserList.vue';
 import ConnectLog from '@/components/ConnectLog.vue';
 import MainSetting from './MainSetting.vue';
 export default {
-    components:{AplyList,AplyPosterList,UserList,ConnectLog, MainSetting},
+    components:{AplyList,AplyPosterList,UserList,ConnectLog, MainSetting, Messenger},
     data: () => ({
         panel: [],
         loading: false,
