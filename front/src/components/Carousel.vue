@@ -2,8 +2,8 @@
     <v-card flat tile class="mx-auto" >
       <v-carousel continuous cycle show-arrows hide-delimiter-background reverse-transition="fade-transition" transition="fade-transition" height="90vh">
         <v-carousel-item eager v-for="item in items" :key="item.imageSn">
-          <v-row class="fill-height ma-0 crousel-back" align="center" justify="center" :style="{'--bg':'url(/api/common/image/'+item.atchmnflId+')'}">
-            <v-img eager :src="'/api/common/image/'+item.atchmnflId">
+          <v-row class="fill-height ma-0 crousel-back" align="center" justify="center" :style="{'--bg':'url(/api/common/carousel/'+item.carouselId+')'}">
+            <v-img eager :src="'/api/common/carousel/'+item.carouselId">
               <template v-slot:placeholder>
                 <v-row class="fill-height ma-0" align="center" justify="center" >
                   <v-progress-circular indeterminate color="grey lighten-5" ></v-progress-circular>

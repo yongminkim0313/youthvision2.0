@@ -14,6 +14,9 @@
   <select id="selectCarousel">
     select carousel_id, image_path, carousel_order from T_CM_CAROUSEL order by carousel_order asc
   </select>
+  <select id="selectCarouselOne">
+    select carousel_id, image_path, carousel_order from T_CM_CAROUSEL where carousel_id = #{carouselId}
+  </select>
   <insert id="insertCarousel">
   insert into T_CM_CAROUSEL (
     atchmnfl_id, carousel_order, rgst_dt, rgst_id 
