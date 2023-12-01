@@ -48,7 +48,7 @@ export default {
     },
     created: function(){ 
         var _this = this;
-        this.joinRoom('youthvision01');
+        // this.joinRoom('youthvision01');
         // this.joinRoom('youthvision02');
         // this.changeRoom('youthvision01');
         // this.setNickName();

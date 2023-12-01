@@ -175,7 +175,6 @@ module.exports = (app, winston, db) => {
 
     app.get('/api/common/image/:id', async(req,res, next)=>{
         var noImage = path.join(__dirname,'../uploadFile/no-image-icon.png');
-        console.log(noImage, req.params);
         res.sendFile(noImage,{},function(err){
             console.log("이미지 파일이 아닙니다.")
             if(err)res.status(err.status).end();
@@ -288,36 +287,13 @@ module.exports = (app, winston, db) => {
     })
     app.get('/api/common/carousel/:carouselId', async(req,res, next)=>{
         var data = await db.getData('common','selectCarouselOne',req.params);
-        console.log(data);
         var image = path.join(__dirname,'../',data.imagePath);
         res.sendFile(image,{},function(err){
-            console.log(err)
             if(err){
                 image = path.join(__dirname,'../uploadFile/no-image-icon.png');
                 res.sendFile(image,{},function(err){res.status(err.status).end();});
                 res.status(err.status).end();
             }
         })
-        // console.log(req.params);
-        // db.getData('common','selectCarousel',req.params)
-        // .then((row)=>{
-        //     console.log(row);
-        //     var carouselImagePath = path.join(__dirname,'../'+row.imagePath);
-        //     console.log(carouselImagePath);
-        //     fs.exists(carouselImagePath, function(exists){
-        //         if(exists){
-        //             res.sendFile(carouselImagePath,{},function(err){
-        //                 res.status(200).end();
-        //             })
-        //         }else{
-        //             var noImage = path.join(__dirname,'../uploadFile/no-image-icon.png');
-        //             res.sendFile(noImage,{},function(err){
-        //                 console.log("이미지 파일이 아닙니다.")
-        //                 if(err)res.status(err.status).end();
-        //             })
-        //         }
-        //     })
-        //     res.status(200).json(row);
-        // })
     })
 }

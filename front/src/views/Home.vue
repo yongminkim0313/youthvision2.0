@@ -20,7 +20,6 @@
     </v-container>
 </template>
 <script scoped>
-
 import Carousel from '@/components/Carousel.vue';
 import Cross from '@/components/Cross.vue';
 import Squre from '@/components/Squre.vue';
@@ -33,11 +32,13 @@ import YouthvisionMovie from '@/components/YouthvisionMovie.vue';
         data: () => {
             return { };
         },
-        created() { },
+        methods:{
+        },
+        created() { 
+        },
         destroyed() { },
         mounted: function () { },
         watch: {},
-        methods: { },
     };
 </script>
 

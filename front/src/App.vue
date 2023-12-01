@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-card flat tile class="mx-auto overflow-hidden" width="100%">
-    <v-app-bar fixed :color="scrollTop?'rgba(255,255,255,0.7)':'rgba(255,255,255,0.1)'" flat class="d-print-none">
+      <v-app-bar fixed :color="scrollTop?'rgba(255,255,255,0.7)':'rgba(255,255,255,0.1)'" flat class="d-print-none">
       <v-toolbar-title class="d-inline-block text-overline" :class="scrollTop?'black--text':'white--text'" >
         <router-link to="/">
         <v-img alt="주꿈로고" class="d-inline-block" height="20px" width="20px" contain src="./assets/youthvision_logo.svg" transition="scale-transition"> </v-img>
@@ -166,13 +166,16 @@ import TopMenuBack from '@/components/TopMenuBack.vue';
     }; 
   },
     created() {
-        window.addEventListener("scroll", this.isTop);
         var _this = this;
+        _this.test();
         this.$eventBus.$on('userInfo',function(sess){
           _this.userInfo = sess;
           _this.isLogin = sess.isLogin;
           _this.isAdmin = sess.auth == 'admin'
-        })
+        });
+        this.$socket.on('welcome', (data)=>{
+            console.log(data);
+        });
         this.selectBanner();
         this.selectMenu();
     },
@@ -193,6 +196,11 @@ import TopMenuBack from '@/components/TopMenuBack.vue';
       }
     },
     methods:{
+      test: function(){
+        this.$axios.get('/api/public/socket').then((msg)=>{
+          console.log(msg);
+        })
+      },
       isTop:function(){
         if(window.pageYOffset < 50){
           this.scrollTop=false;
