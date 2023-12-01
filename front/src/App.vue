@@ -6,7 +6,7 @@
         <router-link to="/">
         <v-img alt="주꿈로고" class="d-inline-block" height="20px" width="20px" contain src="./assets/youthvision_logo.svg" transition="scale-transition"> </v-img>
       </router-link>
-        YOUTHVISION
+        YOUTHVISION{{ $joinMember }}
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <!-- <template v-for="(menu, idx) in menuList">
@@ -167,14 +167,10 @@ import TopMenuBack from '@/components/TopMenuBack.vue';
   },
     created() {
         var _this = this;
-        _this.test();
         this.$eventBus.$on('userInfo',function(sess){
           _this.userInfo = sess;
           _this.isLogin = sess.isLogin;
           _this.isAdmin = sess.auth == 'admin'
-        });
-        this.$socket.on('welcome', (data)=>{
-            console.log(data);
         });
         this.selectBanner();
         this.selectMenu();
@@ -196,11 +192,6 @@ import TopMenuBack from '@/components/TopMenuBack.vue';
       }
     },
     methods:{
-      test: function(){
-        this.$axios.get('/api/public/socket').then((msg)=>{
-          console.log(msg);
-        })
-      },
       isTop:function(){
         if(window.pageYOffset < 50){
           this.scrollTop=false;

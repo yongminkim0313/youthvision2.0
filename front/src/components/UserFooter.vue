@@ -18,6 +18,7 @@
           장용성 선교사/목사  경기도 군포시 산본천로 211번길 13, 3층  <br />
           전화번호 : 070-7796-1009  <br />
           이메일 : youthvision1009@naver.com
+          {{ joinMember }}
         </v-card-text>
         
         <v-divider></v-divider>
@@ -44,11 +45,11 @@
             <span>유스비전캠프 신청내역 화면이동</span>
           </v-tooltip>
           <v-dialog v-model="dialog" width="500" >
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn fab left class="v-btn--kakaomessage" color="red lighten-2" dark v-bind="attrs" v-on="on" v-show="btn">
+      <!-- <template v-slot:activator="{ on, attrs }">
+        <v-btn fab left class="v-btn--kakaomessage" color="red lighten-2" dark v-bind="attrs" v-on="on">
           GPT
         </v-btn>
-      </template>
+      </template> -->
 
       <v-card>
         <v-card-title class="text-h5 grey lighten-2">
@@ -82,10 +83,17 @@
       myAply:false,
       dialog: false,
       gptList:[],
-      message:''
+      message:'',
+      joinMember: []
     }),
     created(){
       var _this = this;
+
+      this.$eventBus.$on('joinMember', function(data){
+        _this.joinMember = data;
+      })
+
+
       this.$axios.get('/api/public/myAply')
         .then((result)=>{
           var {data:{acnt,pcnt}} = result;

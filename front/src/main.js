@@ -28,13 +28,19 @@ axios.interceptors.response.use((res)=>res,(err)=>{
 Vue.prototype.$axios = axios;
 Vue.prototype.$common = common;
 Vue.prototype.$eventBus = new Vue();
+Vue.prototype.$joinMember = new Array();
 Vue.prototype.$socket = io(process.env.VUE_APP_SOCKET_URL,{
   reconnectionDelay: 10000,
   autoConnect: true,
   path: "/my-ws",
 });
-Vue.prototype.$socket.on('connect', function () { 
-  console.log('연결되었습니다.')
+Vue.prototype.$socket.on('connect', async function (data) { 
+  console.log('연결되었습니다.');
+  Vue.prototype.$axios.get('/api/public/socket')
+});
+
+Vue.prototype.$socket.on('welcome', async function(data){
+    Vue.prototype.$eventBus.$emit('joinMember',data);
 });
 
 router.beforeEach(async (to,from, next) => { // router interceptor

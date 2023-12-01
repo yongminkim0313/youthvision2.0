@@ -69,15 +69,6 @@ export default {
         pushMsgList: function(data){
             this.rooms[data.roomId].msgList.push(data);
         },
-        sendText: function(){
-            this.$axios.post('/api/public/socket', this.message);
-            
-            // var {text} = this.message;
-            // this.$socket.emit("sendText",{text:text, roomId: this.selectedRoom, type: 'text'}, (data)=>{
-                // console.log(data);
-                // this.message.text='';
-            // });
-        },
         joinRoom: function(roomId){
             this.$socket.emit("joinRoom", roomId);
         },

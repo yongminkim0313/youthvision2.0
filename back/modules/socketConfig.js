@@ -28,10 +28,7 @@ module.exports = (server, app) => {
                 var rooms = io.sockets.adapter.rooms; // Map
                 var arrUserIds = Array.from(rooms.get(basicRoomId)) //set
                 console.log(arrUserIds);
-                socket.to(basicRoomId).emit('welcome', {
-                    "text": "입장",
-                    info: arrUserIds
-                });
+                socket.to(basicRoomId).emit('welcome', arrUserIds);
                 console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
                 res.status(200).json(arrUserIds)
             }catch(err){
@@ -39,34 +36,11 @@ module.exports = (server, app) => {
                 res.status(200).json(err);
             }
         });
-
-
-            socket.on("joinRoom",(roomId)=>{
-                try{
-                    socket.join(roomId);
-                    console.log("입장하셨습니다. --> ",roomId);
-                    socket.to(roomId).emit('server to client', {
-                        "text": "입장",
-                        "roomId": roomId,
-                        "dt": common.getDateTime(),
-                        "type": 'join' 
-                    });
-                }catch(err){
-                    console.error(err);
-                    socket.to(roomId).emit('send', {err: err});
-                }
-            })
             
-        // socket.on('disconnecting', () => {
-        //     socket.rooms.forEach((room) =>
-        //     socket.to(room).emit('bye', socket.nickname)
-        //     );
-        // });
-        app.post('/api/public/socket', (req, res) => {
-            console.log('@ 입장', socket.rooms, req.body, req.session)
-            var {text} = req.body;
-            socket.broadcast.emit("broadcast", text);
-            res.status(200).end();
+        socket.on('disconnecting', () => {
+            socket.rooms.forEach((room) =>
+            socket.to(room).emit('bye', socket.nickname)
+            );
         });
         socket.on("sendText",(data, fn)=>{
             data.nickname = socket.nickname;
@@ -79,7 +53,17 @@ module.exports = (server, app) => {
         });
 
         socket.on('disconnect'      , () => { 
-            console.log("@ socket disconnect"); 
+            try{
+                console.log("@ socket disconnect");
+                var rooms = io.sockets.adapter.rooms; // Map
+                console.log(rooms.size)
+                var arrUserIds = [];
+                if(rooms.size > 0) arrUserIds = Array.from(rooms.get(basicRoomId)) //set
+                console.log(arrUserIds);
+                socket.to(basicRoomId).emit('welcome', arrUserIds); 
+            }catch(err){
+                console.error(err);
+            }
         });
         socket.on('reconnecting'    , () => { console.log("@ socket reconnecting"); });
         socket.on('reconnection'    , () => { console.log("@ socket reconnection"); });
