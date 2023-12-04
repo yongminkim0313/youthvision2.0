@@ -34,14 +34,6 @@ Vue.prototype.$socket = io(process.env.VUE_APP_SOCKET_URL,{
   autoConnect: true,
   path: "/my-ws",
 });
-Vue.prototype.$socket.on('connect', async function (data) { 
-  console.log('연결되었습니다.');
-  Vue.prototype.$axios.get('/api/public/socket')
-});
-
-Vue.prototype.$socket.on('welcome', async function(data){
-    Vue.prototype.$eventBus.$emit('joinMember',data);
-});
 
 router.beforeEach(async (to,from, next) => { // router interceptor
   document.title = 'YOUTHVISION | '+to.name;
@@ -96,12 +88,18 @@ Vue.filter('formatDate',formatDate);
 
 new Vue({ router, vuetify, render: h => h(App) }).$mount('#app');
 
-
+Vue.nextTick(function(){
+  Vue.prototype.$socket.on('connect', async function (data) { 
+    console.log('연결되었습니다.');
+    Vue.prototype.$axios.get('/api/public/socket')
+  });
+  
+  Vue.prototype.$socket.on('welcome', async function(data){
+      Vue.prototype.$eventBus.$emit('joinMember',data);
+  });
+})
 
 Vue.prototype.navi = function (){
   console.log('navi');
   Kakao.Navi.start({ name:"침례신학대학교 교단기념대강당", x:127.324031228478, y:36.3850828115922, coordType:'wgs84' });
 }
-
-
-  
