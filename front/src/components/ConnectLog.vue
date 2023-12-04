@@ -8,46 +8,38 @@
           
           <v-tabs-items v-model="tab">
             <v-tab-item v-for="(item, idx) in items" :key="item" >
-              
-              <v-container fluid v-if="idx == 0">
-                  <v-row>
-                      <v-col cols="6">
-                          <v-select v-model="select" :hint="`${select.dt}, ${select.dt}`" :items="dtList" item-text="dt" item-value="dt"
-                              label="날짜" persistent-hint return-object single-line hide-details @change="dayChange();" ></v-select>
-                      </v-col>
-                      <v-col cols="6">
-                          <v-text-field v-model="search" label="Search" single-line hide-details></v-text-field>
-                      </v-col>
-                  </v-row>
-              </v-container>
+              <v-row v-if="idx == 0">
+                <v-col cols="6">
+                  <v-select v-model="select" :hint="`${select.dt}, ${select.dt}`" :items="dtList" item-text="dt" item-value="dt"
+                  label="날짜" persistent-hint return-object single-line hide-details @change="dayChange();" ></v-select>
+                </v-col>
+                <v-col cols="6">
+                  <v-text-field v-model="search" label="Search" single-line hide-details></v-text-field>
+                </v-col>
+              </v-row>
+            </v-tab-item>
+          </v-tabs-items>
 
           <v-data-table :headers="headers" :items="connectLogList" :search="search" item-key="name"
-          :items-per-page="20"
-            :custom-sort="customSort"
-            >
+          :items-per-page="20" :custom-sort="customSort">
             <template v-slot:body="{items, headers}">
               <tbody name="list" v-if="items.length > 0">
                 <tr v-for="(val , index) in items" :key="index" class="item-row">
-                    <td>{{index}}</td>  
-                    <td>{{val.nickname}}</td>  
-                    <td><v-avatar size="36px" ><v-img :src="val.thumbnailImageUrl"></v-img> </v-avatar></td>  
-                    <td>{{val.conectDt | formatDate}}</td>
-                    <td>{{val.osNm}}</td>
-                    <td>{{val.browserNm}}</td>
-                    <td>{{val.conectUrl}}</td>
-                    <td>{{val.ipAdres}}</td>
-                    <td>{{val.prmanentCookie}}</td>
+                  <td class="pa-0" style="width:50px; font-size:9px;">{{val.conectDt | formatDate}}</td>
+                    <td class="pa-0" style="width:60px; font-size:9px;">{{val.nickname}}</td>  
+                    <td class="pa-0" style="width:33px; font-size:9px;"><v-avatar size="30px" ><v-img :src="val.thumbnailImageUrl"></v-img> </v-avatar></td>  
+                    <td class="pa-0" style="width:80px; font-size:9px;">{{val.osNm}}</td>
+                    <td class="pa-0" style="width:60px; font-size:9px;">{{val.browserNm}}</td>
+                    <td class="pa-0" style="width:80px; font-size:9px;">{{val.conectUrl}}</td>
                 </tr>
               </tbody>
               <tbody v-else>
                 <tr>
-                  <td :colspan="headers.length" style="text-align: center">No Results Here!</td>
+                  <td :colspan="headers.length" style="text-align: center">결과 데이터 없음</td>
                 </tr>
               </tbody>
             </template>
           </v-data-table>
-            </v-tab-item>
-          </v-tabs-items>
         </v-card>
     </template>
     <script>
@@ -59,15 +51,12 @@
           select: { dt: ''},
           dtList: [ ],
           headers: [
-            { text: 'No', value: 'No' },
+            { text: 'conectDt', value: 'conectDt' },
             { text: '이름', value: 'nickname'}, 
             { text: '프로필사진', value: 'thumbnailImageUrl'},
-            { text: 'conectDt', value: 'conectDt' },
             { text: 'osNm', value: 'osNm' },
             { text: 'browserNm', value: 'browserNm', },
             { text: 'refUrl', value: 'refUrl' },
-            { text: 'ipAdres', value: 'ipAdres' },
-            { text: 'prmanentCookie', value: 'prmanentCookie' },
           ],
           tab: null,
           items: [ '검색', '로그인o', '로그인x', '전체'],

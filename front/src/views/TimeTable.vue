@@ -45,7 +45,7 @@
                 </tr>
                 <tr>
                     <td class="ftd">13:30~14:00</td>
-                    <td rowspan="3">은혜의콜센타 <br/>'찬양 TALK'</td>
+                    <td rowspan="3">송솔나무콘서트 <br/>'하나님의 연주자'</td>
                 </tr>
                 <tr>
                     <td class="ftd">14:00~15:00</td>
