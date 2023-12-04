@@ -1,12 +1,5 @@
 <template>
-    <div id="app">
-        
-      <v-app id="inspire">
-        <v-card>
-          <v-card-title>
-
-            
-          </v-card-title>
+        <v-card flat>
           <v-tabs v-model="tab" background-color="transparent" color="basil" grow >
             <v-tab v-for="item in items" :key="item" >
               {{ item }}
@@ -56,8 +49,6 @@
             </v-tab-item>
           </v-tabs-items>
         </v-card>
-      </v-app>
-    </div>
     </template>
     <script>
     export default {
@@ -162,9 +153,6 @@
     }
     </script>
     <style scoped>
-    #app {
-      padding: 20px;
-    }
     .list-enter-active,
     .list-leave-active {
       transition: transform 0.8s, opacity 1.8s, color 10s ease-out;
