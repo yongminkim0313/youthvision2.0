@@ -11,6 +11,18 @@
     and a.upp_idx = 0
   </select>
 
+  <select id="selectBoardList">
+    select * 
+    from (
+      select row_number() over(order by idx) as rownum, title, contents
+      from T_CM_BBS
+      where delyn = 'N'
+          and upp_idx = 0
+    ) as v
+    where rownum <![CDATA[ < 5 ]]>
+
+  </select>
+
   <select id="selectBbsCnt">
     select count(1) as cnt from T_CM_BBS a where a.idx = #{idx}
   </select>
