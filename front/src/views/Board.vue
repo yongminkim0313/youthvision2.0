@@ -208,21 +208,21 @@ export default {
       },
       selectBbsReply: function(){
         var _this = this;
-        this.$axios.get('/api/bbs/reply',{params:{idx:_this.showItem.idx}})
+        this.$axios.get('/api/public/bbs/reply',{params:{idx:_this.showItem.idx}})
         .then((result)=>{
           _this.reply = result.data;
         });
       },
       selectBbs:function(){
         var _this = this;
-        this.$axios.get('/api/bbs')
+        this.$axios.get('/api/public/bbs')
         .then((result)=>{
           _this.bbs = result.data;
         });
       },
       saveNewBbs: function(){
         var _this = this;
-        this.$axios.post('/api/bbs',_this.editItem)
+        this.$axios.post('/api/public/bbs',_this.editItem)
         .then((result)=>{
           console.log(result);
           _this.dialog = false;
@@ -244,11 +244,11 @@ export default {
         this.selectBbsReply();
       },
       contentsCntUp: function(item){
-        this.$axios.put('/api/bbs/cnt',item);
+        this.$axios.put('/api/public/bbs/cnt',item);
       },
       deleteBbs: function(){
         var _this = this;
-        this.$axios.delete('/api/bbs/'+_this.deleteItem.idx);
+        this.$axios.delete('/api/public/bbs/'+_this.deleteItem.idx);
         const idx = this.bbs.findIndex(function(b) {return b.idx === _this.deleteItem.idx;});
         if (idx > -1) this.bbs.splice(idx, 1);
         _this.deleteItem={};
@@ -266,7 +266,7 @@ export default {
         this.replyItem['title'] = '댓글';
         this.replyItem['uppIdx'] = _this.showItem.idx;
         this.replyItem['atchmnflId'] = 0;
-        this.$axios.post('/api/bbs/reply',this.replyItem)
+        this.$axios.post('/api/public/bbs/reply',this.replyItem)
         .then((result)=>{
           _this.openReply = false;
           _this.replyItem = {};
@@ -275,7 +275,7 @@ export default {
       },
       deleteBbsReply: function(item){
         var _this = this;
-        this.$axios.delete('/api/bbs/'+item.idx);
+        this.$axios.delete('/api/public/bbs/'+item.idx);
         const idx = this.reply.findIndex(function(b) {return b.idx === item.idx;});
         if (idx > -1) this.reply.splice(idx, 1);
         _this.deleteItem={};

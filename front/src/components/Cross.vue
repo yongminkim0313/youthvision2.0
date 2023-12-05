@@ -1,5 +1,5 @@
 <template>
-    <v-card flat style="height:100vw;" class="my-2 overflow-hidden">
+    <v-card ref="cross" flat style="height:100vw;" class="my-2 overflow-hidden">
         <v-img src="../assets/camps/main/cross_001.jpeg" contain :class="isScroll?'cross1 img-default':'cross1e img-default'" style=" left: 0vw; top:20vw;" ></v-img>
         <v-img src="../assets/camps/main/cross_002.jpeg" contain :class="isScroll?'cross2 img-default':'cross2e img-default'" style=" left:30vw; top:-50vw;"> </v-img>
         <v-img src="../assets/camps/main/cross_003.jpeg" contain :class="isScroll?'cross3 img-default':'cross3e img-default'" style=" left:100vw; top:-20vw;"></v-img>
@@ -57,26 +57,21 @@
 </style>
 <script>
 export default {
-  data () {
-    return {
-        isScroll: false
-    }
-  },
-  created() {
-    var _this = this;
-    this.$eventBus.$on('scrollValue', function(p){
-        console.log('cross',p);
-        _this.scrollCross(p);
-    })
+    data () {
+        return {
+            isScroll: false
+        }
+    },
+    created() {
+       
+    },
+    mounted: function(){
+        var _this = this;
+        this.$intersection(this.$refs.cross.$el, function(res){
+            _this.isScroll = res;
+        });
     },
     methods:{
-      scrollCross:function(p){
-        if(p > 0.2){
-          this.isScroll=true;
-        }else{
-          this.isScroll=false;
-        }
-      }
     }
 }
 </script>

@@ -1,62 +1,56 @@
 
 <template>
-    <v-card class="d-flex flex-column card-bg" :class="{'open':isScroll,'close':!isScroll, 'bd-radius' : bdRadius}">
-    <v-card-title class="mt-5 white--text text-h6 align-self-start">YOUTHVISION CAMP</v-card-title>
-    <v-card-subtitle class="mb-5 white--text align-self-start">  주님오실길을 예비하라</v-card-subtitle>
-    <div class="d-sm-flex d-md-none align-self-center flex-column">
-        <v-img class="img-card-sm rounded-lg" src="../assets/camps/card001.jpeg" cover>
-            <v-card-text class="white--text text-subtitle-1">무너진 다윗의 장막을 일으키리</v-card-text>
-        </v-img>
-        <v-img class="img-card-sm mt-5 rounded-lg" src="../assets/camps/card002.jpeg" cover>
-            <v-card-text class="white--text text-subtitle-1">다음세대가 희망이다</v-card-text>
-        </v-img>
-        <v-img class="img-card-sm mt-5 rounded-lg" src="../assets/camps/card003.jpeg" cover>
-            <v-card-text class="white--text text-subtitle-1">주님오실길을 예비하라</v-card-text>
-        </v-img>
-    </div>
-    <div class="d-none d-md-flex align-self-center">
-        <router-link to="/aplyCamp">
-            <v-img class="img-card-md ml-10 rounded-xl elevation-5" src="../assets/camps/card001.jpeg" cover>
+    <v-card ref="squre" class="d-flex flex-column card-bg" :class="{'open':isScroll,'close':!isScroll, 'bd-radius' : bdRadius}">
+        <v-card-title class="mt-5 white--text text-h6 align-self-start">YOUTHVISION CAMP</v-card-title>
+        <v-card-subtitle class="mb-5 white--text align-self-start">  주님오실길을 예비하라</v-card-subtitle>
+        <div class="d-sm-flex d-md-none align-self-center flex-column">
+            <v-img class="img-card-sm rounded-lg" src="../assets/camps/card001.jpeg" cover>
                 <v-card-text class="white--text text-subtitle-1">무너진 다윗의 장막을 일으키리</v-card-text>
             </v-img>
-        </router-link>
-        <router-link to="/aplyCamp">
-            <v-img class="img-card-md ml-10 rounded-xl elevation-5" src="../assets/camps/card002.jpeg" cover>
+            <v-img class="img-card-sm mt-5 rounded-lg" src="../assets/camps/card002.jpeg" cover>
                 <v-card-text class="white--text text-subtitle-1">다음세대가 희망이다</v-card-text>
             </v-img>
-        </router-link>
-        <router-link to="/aplyCamp">
-            <v-img class="img-card-md ml-10 rounded-xl elevation-5" src="../assets/camps/card003.jpeg" cover>
+            <v-img class="img-card-sm mt-5 rounded-lg" src="../assets/camps/card003.jpeg" cover>
                 <v-card-text class="white--text text-subtitle-1">주님오실길을 예비하라</v-card-text>
             </v-img>
-        </router-link>
-    </div>
-</v-card>
+        </div>
+        <div class="d-none d-md-flex align-self-center">
+            <router-link to="/aplyCamp">
+                <v-img class="img-card-md ml-10 rounded-xl elevation-5" src="../assets/camps/card001.jpeg" cover>
+                    <v-card-text class="white--text text-subtitle-1">무너진 다윗의 장막을 일으키리</v-card-text>
+                </v-img>
+            </router-link>
+            <router-link to="/aplyCamp">
+                <v-img class="img-card-md ml-10 rounded-xl elevation-5" src="../assets/camps/card002.jpeg" cover>
+                    <v-card-text class="white--text text-subtitle-1">다음세대가 희망이다</v-card-text>
+                </v-img>
+            </router-link>
+            <router-link to="/aplyCamp">
+                <v-img class="img-card-md ml-10 rounded-xl elevation-5" src="../assets/camps/card003.jpeg" cover>
+                    <v-card-text class="white--text text-subtitle-1">주님오실길을 예비하라</v-card-text>
+                </v-img>
+            </router-link>
+        </div>
+    </v-card>
 </template>
 <script>
 export default {
-  data () {
-    return {
-        isScroll: false,
-        bdRadius: false,
-    }
-  },
-  created() {
-    var _this = this;    
-    this.$eventBus.$on('scrollValue',function(p){
-        console.log('squre',p);
-        _this.scrollCross(p);
-    })
-    window.addEventListener("resize", this.resizeWidth);
+    data () {
+        return {
+            isScroll: true,
+            bdRadius: true,
+        }
+    },
+    created() {
+    },
+    mounted: function(){
+        var _this = this;
+        this.$intersection(this.$refs.squre.$el, function(res){
+            console.log('squre')
+            _this.isScroll = res;
+        });
     },
     methods:{
-      scrollCross:function(p){
-        p > 1 ? this.isScroll = true : this.isScroll = false ;
-      },
-      resizeWidth: function(){
-        var w = window.innerWidth;
-        w > 959 ? this.bdRadius =true : this.bdRadius = false;
-      }
     }
 }
 </script>

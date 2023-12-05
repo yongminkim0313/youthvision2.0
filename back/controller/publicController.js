@@ -67,4 +67,10 @@ module.exports = (app, winston, db) => {
             res.status(200).json(row);
         })
     })
+    app.get('/api/public/board', async(req,res)=>{
+        db.getList('bbs','selectBoardList',{})
+        .then((row)=>{
+            res.status(200).json(row);
+        })
+    })
 }

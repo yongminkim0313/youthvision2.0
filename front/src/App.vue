@@ -6,7 +6,7 @@
         <router-link to="/">
         <v-img alt="주꿈로고" class="d-inline-block" height="20px" width="20px" contain src="./assets/youthvision_logo.svg" transition="scale-transition"> </v-img>
       </router-link>
-        YOUTHVISION{{ $joinMember }}
+        YOUTHVISION
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <!-- <template v-for="(menu, idx) in menuList">

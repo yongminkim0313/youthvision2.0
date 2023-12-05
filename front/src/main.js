@@ -35,6 +35,20 @@ Vue.prototype.$socket = io(process.env.VUE_APP_SOCKET_URL,{
   path: "/my-ws",
 });
 
+Vue.prototype.$intersection = function(el, fn){
+  return new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    // entry의 target으로 DOM에 접근합니다.
+    const $target = entry.target;
+    // 화면에 노출 상태에 따라 해당 엘리먼트의 class를 컨트롤 합니다.
+    console.log(entry.isIntersecting);
+    fn(entry.isIntersecting);
+    //if (entry.isIntersecting) { } else { }
+  });
+  },{ threshold: 0.3}).observe(el);
+}
+;
+
 router.beforeEach(async (to,from, next) => { // router interceptor
   document.title = 'YOUTHVISION | '+to.name;
   var todayFm = common.getDateTime();
