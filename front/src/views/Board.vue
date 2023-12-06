@@ -285,7 +285,7 @@ export default {
         console.log(atchmnflId);
         //const response = await fetch('/api/download/'+atchmnflId);
         this.$axios({
-            url: '/api/download/'+atchmnflId, // 파일 다운로드 요청 URL
+            url: '/api/public/download/'+atchmnflId, // 파일 다운로드 요청 URL
             method: "GET", // 혹은 'POST'
             responseType: "blob", // 응답 데이터 타입 정의
         }).then((response) => {

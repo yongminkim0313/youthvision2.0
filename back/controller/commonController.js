@@ -3,6 +3,7 @@ const upload = multer({ dest: 'uploadsFile/' })
 const sharp = require('sharp');
 var path = require('path');
 const fs = require('fs');
+const stream = require('stream');
 const logger = require('../modules/winstonConfig');
 const axios = require('axios');
 
@@ -105,7 +106,7 @@ module.exports = (app, winston, db) => {
 
     
 
-    app.get('/api/download/:id', async(req,res, next)=>{
+    app.get('/api/public/download/:id', async(req,res, next)=>{
         try{
             var atchmnfl = await db.getData('bbs','selectAtchmnfl', {atchmnflId: req.params.id, atchmnflSn: 1 });
             var ext;
@@ -119,7 +120,7 @@ module.exports = (app, winston, db) => {
                 res.send('파일이 존재하지 않습니다.');
                 return;
             }
-            var filePath = path.join(__dirname, atchmnfl.atchmnflPath);
+            var filePath = path.join(__dirname, "../", atchmnfl.atchmnflPath);
             res.download(filePath);
         }catch(err){
             logger.error(err);
@@ -158,10 +159,10 @@ module.exports = (app, winston, db) => {
         })
     })
 
-    app.get('/api/download/:id', async(req, res, next) => {
+    app.get('/api/public/download/:id', async(req, res, next) => {
         try{
             var atchmnfl = await db.getData('bbs','selectAtchmnfl', {atchmnflId: req.params.id, atchmnflSn: 1 });
-            var filePath = path.join(__dirname, atchmnfl.atchmnflPath);
+            var filePath = path.join(__dirname,"../", atchmnfl.atchmnflPath);
             res.download(filePath, atchmnfl.atchmnflNm,
                 (err) => {
                     if (err) { res.send({ error : err, msg   : "Problem downloading the file" }) }
@@ -174,11 +175,35 @@ module.exports = (app, winston, db) => {
     });
 
     app.get('/api/common/image/:id', async(req,res, next)=>{
-        var noImage = path.join(__dirname,'../uploadFile/no-image-icon.png');
-        res.sendFile(noImage,{},function(err){
-            console.log("이미지 파일이 아닙니다.")
-            if(err)res.status(err.status).end();
-        })
+        try{
+            var atchmnfl = await db.getData('bbs','selectAtchmnfl', {atchmnflId: req.params.id, atchmnflSn: 1 });
+            var ext;
+            if(atchmnfl){
+                var filePath = path.join(__dirname, "../", atchmnfl.atchmnflPath);
+                const r = fs.createReadStream(filePath);
+                const ps = new stream.PassThrough();
+                stream.pipeline(
+                    r,
+                    ps, // <---- this makes a trick with stream error handling
+                    (err) => {
+                     if (err) {
+                       console.log(err) // No such file or any other kind of error
+                       return res.sendStatus(400); 
+                     }
+                   })
+                   ps.pipe(res);
+            }else{
+                console.log("없는 파일 입니다.")
+                res.send('파일이 존재하지 않습니다.');
+                return;
+            }
+        }catch(err){
+            var noImage = path.join(__dirname,'../uploadFile/no-image-icon.png');
+            res.sendFile(noImage,{},function(err){
+                console.log("이미지 파일이 아닙니다.")
+                if(err)res.status(err.status).end();
+            })
+        }
     })
 
     app.post('/api/user/upload', upload.single('file'), async function(req, res){

@@ -14,7 +14,7 @@
   <select id="selectBoardList">
     select * 
     from (
-      select row_number() over(order by idx) as rownum, title, contents
+      select row_number() over(order by idx) as rownum, title, contents ,idx
       from T_CM_BBS
       where delyn = 'N'
           and upp_idx = 0

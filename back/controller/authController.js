@@ -32,13 +32,13 @@ module.exports = (app, winston, db) => {
   app.all('/api/user/*', requireLogin, function(req, res, next){
     next();
   });
-  app.post('/api/public/*', requireAdminLogin, function(req, res, next){
+  app.post('/api/public/*',  function(req, res, next){
       next();
   });
-  app.put('/api/public/*', requireAdminLogin, function(req, res, next){
+  app.put('/api/public/*',  function(req, res, next){
     next();
   });
-  app.delete('/api/public/*', requireAdminLogin, function(req, res, next){
+  app.delete('/api/public/*',  function(req, res, next){
     next();
   });
   app.all('/api/admin/*', requireAdminLogin, function(req, res, next){
