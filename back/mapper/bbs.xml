@@ -9,15 +9,17 @@
     left outer join T_CM_USER c on a.rgst_id = c.kakao_id
     where a.delyn = 'N'
     and a.upp_idx = 0
+    order by a.idx desc
   </select>
 
   <select id="selectBoardList">
     select * 
     from (
-      select row_number() over(order by idx) as rownum, title, contents ,idx
+      select row_number() over(order by idx desc) as rownum, title, contents ,idx
       from T_CM_BBS
       where delyn = 'N'
           and upp_idx = 0
+          
     ) as v
     where rownum <![CDATA[ < 5 ]]>
 
