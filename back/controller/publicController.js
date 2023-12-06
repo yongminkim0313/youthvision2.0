@@ -73,4 +73,13 @@ module.exports = (app, winston, db) => {
             res.status(200).json(row);
         })
     })
+    app.get('/api/public/board/detail', async(req,res)=>{
+        // console.log(req.query);
+        // res.status(200).end();
+        // return;
+        db.getData('bbs','selectBbsDetail',req.query)
+        .then((row)=>{
+            res.status(200).json(row);
+        })
+    })
 }

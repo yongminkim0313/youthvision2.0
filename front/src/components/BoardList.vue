@@ -3,14 +3,15 @@
         <v-card-title>공지사항</v-card-title>
         <v-container>
             <v-row>
-                <div v-for="board in boardList" class="pa-2" style="width:25%; height:220px; white-space: nowrap; overflow:hidden; ">
-                    <v-card max-height="200px" style="overflow: hidden;;">
-                        <v-card-subtitle style="display:inline"> {{ board.title }} </v-card-subtitle>
-                        <v-card-actions><v-btn @click="goBbs()">더보기</v-btn></v-card-actions>
-                        <v-card-text v-html="board.contents" style="text-overflow: ellipsis;  direction: ltr;"> </v-card-text>
+                <v-col cols="12" lg="3" md="6" sm="12" v-for="board in boardList">
+                    <v-card  class="pa-2" style="height:220px; white-space: nowrap; overflow:hidden; ">
+                        <div style="overflow: hidden; display: inline-block; ">
+                            <div style="display: inline-block;"> <p style="text-overflow: ellipsis; white-space: nowrap;">{{ board.title }}</p> </div>
+                            <v-card-actions><v-btn @click="goBbs(board.idx)">더보기</v-btn></v-card-actions>
+                            <v-card-text v-html="board.contents" style="text-overflow: ellipsis;  direction: ltr;"> </v-card-text>
+                        </div>
                     </v-card>
-                </div>
-                
+                </v-col>
             </v-row>
         </v-container>
     </v-card>
@@ -31,8 +32,11 @@ export default {
         });
     },
     methods:{
-        goBbs: function(){
-            this.$router.push('/board');
+        goBbs: function(idx){
+            this.$router.push({
+                name: "게시판상세",
+                query: { idx:idx },
+            });
         }
     }
 }

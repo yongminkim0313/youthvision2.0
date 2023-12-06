@@ -16,6 +16,7 @@ import Youthvision from './views/Youthvision.vue'
 import Admin from './views/admin/Admin.vue'
 import RandomLunch from './views/RandomLunch.vue'
 import TimeTable from './views/TimeTable.vue'
+import BoardDetail from './views/BoardDetail.vue'
 Vue.use(VueRouter);
 
 const routes = [
@@ -150,6 +151,16 @@ const routes = [
         name: "시간표",
         components: {
             default: TimeTable ,
+            footer: UserFooter
+        },
+        meta: { unauthorized: true }
+        ,props: true
+    },
+    {
+        path: "/boardDetail",
+        name: "게시판상세",
+        components: {
+            default: BoardDetail ,
             footer: UserFooter
         },
         meta: { unauthorized: true }
