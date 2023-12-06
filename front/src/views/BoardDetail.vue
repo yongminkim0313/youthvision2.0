@@ -37,6 +37,9 @@
         </v-container>
     </v-card-actions>
     <v-card-actions>
+        <v-btn @click="goHome();" class="mx-2" dark >
+            <v-icon dark> mdi-home </v-icon> 홈
+        </v-btn>
         <v-btn @click="goList();" class="mx-2" dark color="teal" >
             <v-icon dark> mdi-format-list-bulleted-square </v-icon> 목록
         </v-btn>
@@ -71,6 +74,11 @@ export default {
         goList:function(){
             this.$router.push({
                 name: "게시판",
+            });
+        },
+        goHome: function(){
+            this.$router.push({
+                name: "홈",
             });
         }
     }

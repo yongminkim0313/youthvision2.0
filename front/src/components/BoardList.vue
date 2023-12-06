@@ -1,14 +1,22 @@
 <template>
     <v-card>
-        <v-card-title>공지사항</v-card-title>
         <v-container>
             <v-row>
+                <v-card-title class="py-1">
+                    <v-icon class="mr-2">mdi-clipboard-text-outline</v-icon> 공지사항
+                </v-card-title>
+            </v-row>
+            <v-row>
                 <v-col cols="12" lg="3" md="6" sm="12" v-for="board in boardList">
-                    <v-card @click="goBbs(board.idx)" class="pa-2" style="height:220px; white-space: nowrap; overflow:hidden; ">
-                        <div style="overflow: hidden; display: inline-block; ">
-                            <div style="display: inline-block;"> <p style="text-overflow: ellipsis; white-space: nowrap;">{{ board.title }}</p> </div>
-                            <v-card-text v-html="board.contents" style="text-overflow: ellipsis;  direction: ltr;"> </v-card-text>
+                    <v-card class="pa-2" style="height:220px; white-space: nowrap; overflow:hidden; ">
+                        <div class="px-2 " style="display: inline-block; width:100%;"> 
+                            <h3 style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">{{ board.title }}</h3> 
                         </div>
+                        <v-divider></v-divider>
+                        <v-card-text class="board-contents" v-html="board.contents"> </v-card-text>
+                        <v-card-actions style="position:absolute; top:180px; right:0px;">
+                            <v-icon @click="goBbs(board)" >mdi-open-in-new</v-icon>
+                        </v-card-actions>
                     </v-card>
                 </v-col>
             </v-row>
@@ -31,12 +39,20 @@ export default {
         });
     },
     methods:{
-        goBbs: function(idx){
+        goBbs: function(item){
+            this.$axios.put('/api/public/bbs/cnt',item);
             this.$router.push({
                 name: "게시판상세",
-                query: { idx:idx },
+                query: { idx:item.idx },
             });
         }
     }
 }
 </script>
+<style>
+.board-contents > * {
+    text-overflow: ellipsis; 
+    white-space: nowrap; 
+    overflow: hidden;
+}
+</style>
