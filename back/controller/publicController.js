@@ -74,9 +74,12 @@ module.exports = (app, winston, db) => {
         })
     })
     app.get('/api/public/board/detail', async(req,res)=>{
+        var {idx} = req.query;
+        if(!idx){
+            res.status(200).end();
+            return;
+        }
         // console.log(req.query);
-        // res.status(200).end();
-        // return;
         db.getData('bbs','selectBbsDetail',req.query)
         .then((row)=>{
             res.status(200).json(row);
