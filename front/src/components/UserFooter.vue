@@ -17,7 +17,8 @@
         <v-card-text class="white--text text-center px-auto">
           장용성 선교사/목사  경기도 군포시 산본천로 211번길 13, 3층  <br />
           전화번호 : 070-7796-1009  <br />
-          이메일 : youthvision1009@naver.com
+          이메일 : youthvision1009@naver.com <br />
+          네이버 : <a href="https://youthvision.modoo.at">https://youthvision.modoo.at</a><br />
           {{ joinMember }}
         </v-card-text>
         

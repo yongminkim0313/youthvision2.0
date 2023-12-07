@@ -5,7 +5,7 @@ const { v4 } = require('uuid');
 const common = require('../services/commonService');
 const basicRoomId = "youthvision";
 
-module.exports = (server, app) => {
+module.exports = (server, app, db) => {
     var returnValue = [];
     const options = { 
         maxHttpBufferSize: 1e8, 
@@ -22,13 +22,14 @@ module.exports = (server, app) => {
         socket.join(basicRoomId); // 기본 room 입장;
         console.log('===========================')
         
-        app.get('/api/public/socket', (req, res) => {
+        app.get('/api/public/socket', async (req, res) => {
             try{
                 console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
                 var rooms = io.sockets.adapter.rooms; // Map
                 var arrUserIds = Array.from(rooms.get(basicRoomId)) //set
                 console.log(arrUserIds);
                 socket.to(basicRoomId).emit('welcome', arrUserIds);
+                //db.setData('common','updateMenu',body);
                 console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
                 res.status(200).json(arrUserIds)
             }catch(err){
@@ -56,10 +57,8 @@ module.exports = (server, app) => {
             try{
                 console.log("@ socket disconnect");
                 var rooms = io.sockets.adapter.rooms; // Map
-                console.log(rooms.size)
                 var arrUserIds = [];
                 if(rooms.size > 0) arrUserIds = Array.from(rooms.get(basicRoomId)) //set
-                console.log(arrUserIds);
                 socket.to(basicRoomId).emit('welcome', arrUserIds); 
             }catch(err){
                 console.error(err);

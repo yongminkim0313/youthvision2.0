@@ -11,6 +11,15 @@ const db = require('./modules/dbConnect');
 const common = require('./services/commonService');
 const fs = require('fs');
 const webpush = require("web-push");
+var MySQLStore = require("express-mysql-session")(session);
+var options = {
+    host: process.env.HOST,
+    port: process.env.PORT,
+    user: process.env.DATABASE_USER,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE,
+}
+var sessionStore = new MySQLStore(options);
 
 const publicVapidKey = 'BKr0X9xxLDeBlo9K-XVBj9RvR5NtO-0scX8J6uq5sNZEIWGIAgwsAOASnN7lIDOj33Ah3vr_PDYGvbhYaxgu8Hg';
 const privateVapidKey = 'VjzcL0KVNmwTLz669j4-12lFa-72rfNGHrdvFPnIxgc';
@@ -29,7 +38,8 @@ app.use(session({
     secret: 'youthvision-kr',
     resave: false,
     saveUninitialized: false, 
-    cookie: { secure: false, maxAge : 1000* 60 * 60 }
+    cookie: { secure: false, maxAge : 1000* 60 * 60 },
+    store: sessionStore,
 }));
 
 function logErrors(err, req, res, next) {
@@ -94,7 +104,7 @@ http.createServer(app).listen(process.env.HTTP_PORT, () =>{
 });
 var server = https.createServer(options, app)
         
-require('./modules/socketConfig')(server, app);
+require('./modules/socketConfig')(server, app, db);
 
 server.listen(process.env.HTTPS_PORT, ()=>{
     logger.info(`server start! port:${process.env.HTTPS_PORT}`)

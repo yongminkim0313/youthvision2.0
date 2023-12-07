@@ -180,18 +180,28 @@ module.exports = (app, winston, db) => {
             var ext;
             if(atchmnfl){
                 var filePath = path.join(__dirname, "../", atchmnfl.atchmnflPath);
-                const r = fs.createReadStream(filePath);
-                const ps = new stream.PassThrough();
-                stream.pipeline(
-                    r,
-                    ps, // <---- this makes a trick with stream error handling
-                    (err) => {
-                     if (err) {
-                       console.log(err) // No such file or any other kind of error
-                       return res.sendStatus(400); 
-                     }
-                   })
-                   ps.pipe(res);
+                if(fs.existsSync(filePath)){
+
+                    const r = fs.createReadStream(filePath);
+                    const ps = new stream.PassThrough();
+                    stream.pipeline(
+                        r,
+                        ps, // <---- this makes a trick with stream error handling
+                        (err) => {
+                            if (err) {
+                                console.log(err) // No such file or any other kind of error
+                                return res.sendStatus(400); 
+                            }
+                        })
+                        ps.pipe(res);
+                }else{
+                    console.log('DB에는 있으나 실제 파일이 없습니다.');
+                    var noImage = path.join(__dirname,'../uploadFile/no-image-icon.png');
+                    res.sendFile(noImage,{},function(err){
+                        if(err)res.status(err.status).end();
+                    })
+                    return;
+                }
             }else{
                 console.log("없는 파일 입니다.")
                 res.send('파일이 존재하지 않습니다.');

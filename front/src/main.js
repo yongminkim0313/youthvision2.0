@@ -106,11 +106,16 @@ Vue.nextTick(function(){
   Vue.prototype.$socket.on('connect', async function (data) { 
     console.log('연결되었습니다.');
     Vue.prototype.$axios.get('/api/public/socket')
+    .then(result =>{
+      Vue.prototype.$eventBus.$emit('joinMember',result.data);
+
+      Vue.prototype.$socket.on('welcome', async function(data){
+          Vue.prototype.$eventBus.$emit('joinMember',data);
+      });
+      
+    })
   });
   
-  Vue.prototype.$socket.on('welcome', async function(data){
-      Vue.prototype.$eventBus.$emit('joinMember',data);
-  });
 })
 
 Vue.prototype.navi = function (){

@@ -15,11 +15,14 @@
   <select id="selectBoardList">
     select * 
     from (
-      select row_number() over(order by idx desc) as rownum, title, contents ,idx
-      from T_CM_BBS
-      where delyn = 'N'
-          and upp_idx = 0
-          
+      select row_number() over(order by a.idx desc) as rownum,
+          a.idx, a.upp_idx, a.title, a.contents, a.click_cnt, a.delyn, a.rgst_dt, a.rgst_id,
+          b.atchmnfl_nm, b.atchmnfl_size, b.atchmnfl_id, c.thumbnail_image_url
+      from T_CM_BBS a
+      left outer join T_CM_ATCHMNFL b on a.atchmnfl_id = b.atchmnfl_id
+      left outer join T_CM_USER c on a.rgst_id = c.kakao_id
+      where a.delyn = 'N'
+      and a.upp_idx = 0
     ) as v
     where rownum <![CDATA[ < 5 ]]>
 
