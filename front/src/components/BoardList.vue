@@ -7,7 +7,7 @@
                 </v-card-title>
             </v-row>
             <v-row>
-                <v-col cols="12" lg="3" md="6" sm="12" v-for="board in boardList">
+                <v-col cols="12" lg="3" md="6" sm="12" v-for="board in boardList" :key="board.idx">
                     <v-card class="pa-2 my-2" style="height:220px; white-space: nowrap; overflow:hidden;" elevation="10">
                         <div class="px-2 " style="display: inline-block; width:100%;"> 
                             <h3 style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">{{ board.title }}</h3> 

@@ -11,7 +11,7 @@ const pool = mariadb.createPool({
     database: process.env.DATABASE,
     logger: {
         // network: (msg) => logger.silly(msg),
-        //query: (msg) => logger.info(msg),
+        // query: (msg) => logger.info(msg),
         error: (err) => logger.error(err),
       },
       bigIntAsNumber:true,

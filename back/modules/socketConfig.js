@@ -15,29 +15,47 @@ module.exports = (server, app, db) => {
         cleanupEmptyChildNamespaces: true,
     }; //1e6: 1MB
     const io = require('socket.io')(server, options);
-    io.on('connection', socket => {
+    io.on('connection', async (socket) => {
         console.log('@ connection');
         // io.sockets.adapter.rooms Map 자료형
         console.log('===========================')
         socket.join(basicRoomId); // 기본 room 입장;
         console.log('===========================')
         
-        app.get('/api/public/socket', async (req, res) => {
+        await app.get('/api/public/socket', async (req, res) => {
             try{
+                var map = socket.adapter.sids;
+                var vSocketId = map.keys().next().value;
                 console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+                //console.log(req.session);
+                req.session.socketId = vSocketId;
                 var rooms = io.sockets.adapter.rooms; // Map
                 var arrUserIds = Array.from(rooms.get(basicRoomId)) //set
-                console.log(arrUserIds);
-                socket.to(basicRoomId).emit('welcome', arrUserIds);
-                //db.setData('common','updateMenu',body);
+                var pSocket = {
+                    socketId: vSocketId, 
+                    nickname: req.session.nickname, 
+                    thumbnailImageUrl: req.session.thumbnailImageUrl , 
+                };
+                var result = await db.getData('common','selectSocketSession',pSocket);
+                console.log('@ selectSocketSession', result, pSocket);
+                if(result.cnt < 1){
+                    console.log('@ insertSocketSessions', pSocket);
+                    await db.setData('common','insertSocketSessions',pSocket);
+                }
+                
+                var socketIds = arrUserIds.join(',');
+                console.log('@ arrUserIds',socketIds);
+                var activeSocket = await db.getList('common','selectActiveSocket',{socketIds: socketIds})
+                console.log('@ selectActiveSocket', activeSocket);
                 console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-                res.status(200).json(arrUserIds)
+                socket.to(basicRoomId).emit('welcome', activeSocket);
+                res.status(200).json(activeSocket)
             }catch(err){
                 console.error(err);
                 res.status(200).json(err);
             }
         });
-            
+        
         socket.on('disconnecting', () => {
             socket.rooms.forEach((room) =>
             socket.to(room).emit('bye', socket.nickname)

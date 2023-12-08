@@ -105,4 +105,21 @@
   <select id="selectCampLive">
     select * from T_CM_YOUTUBE where type = #{type} order by seq
     </select>
+
+  <insert id="insertSocketSessions">
+  insert into T_CM_SOCKET_SESSIONS(
+    socket_id, nickname, thumbnail_image_url
+  ) values(
+    #{socketId}, #{nickname}, #{thumbnailImageUrl}
+  )
+  </insert>
+  <select id="selectSocketSession">
+  select count(1) as cnt
+  from T_CM_SOCKET_SESSIONS
+  where socket_id = #{socketId}
+  </select>
+  <select id="selectActiveSocket">
+  select * from T_CM_SOCKET_SESSIONS
+  where socket_id in (#{socketIds})
+  </select>
 </mapper>
