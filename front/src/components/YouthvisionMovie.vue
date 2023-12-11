@@ -1,31 +1,19 @@
 <template>
     <v-card>
-        <v-card-title>2023 여름 유스비전 홍보영상
+        <v-card-title>2024 겨울 유스비전 홍보영상
             <v-btn v-if="isAdmin" icon><v-icon @click="videoEditDialog=true;">mdi-image-multiple</v-icon></v-btn>
         </v-card-title>
         <video controls width="100%" class="justify-center" >
-            <source src="../assets/camps/youthvision_summer_ep2.mp4" type="video/mp4">
+            <source src="../assets/camps/youthvision_2024_winter.mp4" type="video/mp4">
             Download the
-            <a href="../assets/camps/youthvision.mp4">MP4</a>
+            <a href="../assets/camps/youthvision_2024_winter.mp4">MP4</a>
             video.
         </video>
-        <v-dialog v-model="videoEditDialog" max-width="700" class="d-print-none">
-        <v-card>
-          <v-card-title>MP4 등록</v-card-title>
-          <v-card-actions>
-            <!-- <v-btn @click="addCarousel">추가</v-btn> -->
-            <file-upload @after-upload="setAtchmnflId"></file-upload>
-          </v-card-actions>
-          <v-card-text>
-          </v-card-text>
-        </v-card>
-      </v-dialog>
     </v-card>
 </template>
 <script>
-import FileUpload from '../components/Upload.vue'
 export default {
-    components: {FileUpload },
+    components: {},
     props: { isAdmin: Boolean },
     data () {
         return {

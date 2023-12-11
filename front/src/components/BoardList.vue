@@ -13,7 +13,6 @@
                             <h3 style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">{{ board.title }}</h3> 
                         </div>
                         <v-divider></v-divider>
-                            {{ board.atchmnflId }}
                             <v-card-text class="board-contents" v-html="board.contents"> </v-card-text>
                             <v-img v-if="board.atchmnflId" :src="'/api/common/image/'+board.atchmnflId" height="50%" contain></v-img>
                         <v-card-actions style="position:absolute; top:180px; right:0px;">
