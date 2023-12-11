@@ -89,7 +89,6 @@ module.exports = (server, app, db) => {
         });
         socket.on('reconnecting'    , () => { console.log("@ socket reconnecting"); });
         socket.on('reconnection'    , () => { console.log("@ socket reconnection"); });
-        console.log(`@ socket connected`);
     });
     return io;
 }
