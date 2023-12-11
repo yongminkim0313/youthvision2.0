@@ -20,17 +20,22 @@ module.exports = (server, app, db) => {
         // io.sockets.adapter.rooms Map 자료형
         console.log('===========================')
         socket.join(basicRoomId); // 기본 room 입장;
+        var rooms = io.sockets.adapter.rooms; // Map
+        var arrUserIds = Array.from(rooms.get(basicRoomId)) //set
+        var map = socket.adapter.sids;
+        var vSocketId = map.keys().next().value;
         console.log('===========================')
         
         await app.get('/api/public/socket', async (req, res) => {
             try{
-                var map = socket.adapter.sids;
-                var vSocketId = map.keys().next().value;
+                
                 console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+                if(!req.session.nickname){
+                    res.status(200).end();
+                    return;
+                }
                 //console.log(req.session);
                 req.session.socketId = vSocketId;
-                var rooms = io.sockets.adapter.rooms; // Map
-                var arrUserIds = Array.from(rooms.get(basicRoomId)) //set
                 var pSocket = {
                     socketId: vSocketId, 
                     nickname: req.session.nickname, 
@@ -52,7 +57,7 @@ module.exports = (server, app, db) => {
                 res.status(200).json(activeSocket)
             }catch(err){
                 console.error(err);
-                res.status(200).json(err);
+                res.status(410).json(err);
             }
         });
         

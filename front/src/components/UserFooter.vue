@@ -19,13 +19,18 @@
           전화번호 : 070-7796-1009  <br />
           이메일 : youthvision1009@naver.com <br />
           네이버 : <a href="https://youthvision.modoo.at">https://youthvision.modoo.at</a><br />
-          {{ joinMember }}
         </v-card-text>
         
         <v-divider></v-divider>
         
         <v-card-text class="white--text text-center">
           <strong>유스비전 미니스트리 YOUTHVISION MINISTRY</strong>
+
+          <div class="mx-2" v-for="member in joinMember">
+            <v-avatar color="primary" size="56" >
+              <v-img width="30" :src="member.thumbnailImageUrl"></v-img>
+            </v-avatar>
+          </div>
         </v-card-text>
         
         <!-- <div class="v-btn--kakaomessage">
