@@ -6,3 +6,9 @@ back/public/*
 test/*
 front/.env
 back/.env
+back/SSL/www_jesusdream.kr_cert.crt
+back/SSL/www_jesusdream.kr_chain_cert.crt
+back/SSL/www_jesusdream.kr_root_cert.crt
+back/SSL/www_jesusdream.kr.key
+back/uploadsFile/*
+back/nohup.out
